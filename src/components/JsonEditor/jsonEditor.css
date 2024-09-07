@@ -1,0 +1,18 @@
+span[data-collapse="true"] ~ .collapsible-identifier {
+    display: none;
+}
+span[data-collapse="false"] ~ .collapsible-identifier {
+    display: block;
+    border-left: 2px solid #ccc;
+    margin-left: 5px;
+}
+
+span[data-collapse="true"].collapsible-icon:before {
+    content: '+';
+    font-weight: bold;
+}
+
+span[data-collapse="false"].collapsible-icon::before {
+    content: '-';
+    font-weight: bold;
+}
