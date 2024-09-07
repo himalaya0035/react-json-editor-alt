@@ -1,0 +1,1 @@
+export const DEBOUNCE_DELAY = 300 // 300ms seems the most optimal

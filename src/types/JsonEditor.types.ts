@@ -120,13 +120,15 @@ export type RenderObjectKeysProps = {
   isExpanded?: boolean;
 };
 
+export type HandleOnChange = (value : string,path : string) => void 
+
 export type RenderValueProps = {
   value: string | number | undefined | null;
   isEditing: boolean;
   path: string;
   jsonState: Record<string, any> | null;
   editJsonState: Record<string, any> | null;
-  handleOnChange: () => void;
+  handleOnChange: HandleOnChange;
   allFieldsEditable: boolean;
   editableFields?: EditableFielsdObjectType;
   nonEditableFields?: NonEditableFieldsObjectType;
@@ -137,6 +139,7 @@ export type DefaultInputField = {
   path: string;
   value: string;
   pathWithoutArrayIndices?: string;
+  onChange? : HandleOnChange
 };
 
 export type DefaultSelectElementProps = {

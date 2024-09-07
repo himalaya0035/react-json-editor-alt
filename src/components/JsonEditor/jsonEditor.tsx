@@ -1,9 +1,9 @@
 import { ReactNode, useEffect, useState } from "react";
-import { JsonEditorProps } from "../../types/JsonEditor.types";
+import { HandleOnChange, JsonEditorProps } from "../../types/JsonEditor.types";
 import RenderObject from "./renderElements/renderObject";
 import RenderArray from "./renderElements/renderArray";
 import RenderValue from "./renderElements/renderValue";
-import { deepEqual } from "../../functions/functions";
+import { deepCopy, deepEqual, updateValueByPath } from "../../functions/functions";
 import "./jsonEditor.css";
 import { cn } from "../../lib/utils";
 
@@ -16,20 +16,14 @@ function JsonEditor({
   allFieldsEditable = true,
   isExpanded = false
 }: JsonEditorProps) {
-  const [jsonState, setJsonState] = useState<Record<string, any> | null>({});
-  const [editJsonState, setEditJsonState] = useState<Record<
-    string,
-    any
-  > | null>({});
+  const [jsonState, setJsonState] = useState<Record<string, any> | null>(json);
+  const [editJsonState, setEditJsonState] = useState<Record<string, any> | null>(json);
 
-  useEffect(() => {
-    if (!deepEqual(json, jsonState)) {
-      setJsonState(json);
-      setEditJsonState(json);
-    }
-  }, [json]);
-
-  const handleOnChange = () => {};
+  const handleOnChange : HandleOnChange = (value,path) => {
+    const tempEditJsonState = deepCopy(editJsonState)
+    updateValueByPath(tempEditJsonState,path,value)
+    setEditJsonState(deepCopy(tempEditJsonState))
+  };
 
   const renderJson = (
     value: any,

@@ -1,4 +1,4 @@
-import { removeArrayIndexFromPropertyPath } from "../../../functions/functions";
+import { getValueByPath, removeArrayIndexFromPropertyPath } from "../../../functions/functions";
 import { RenderValueProps } from "../../../types/JsonEditor.types";
 import DefaultTextInput from "../defaultElements/defaultTextInput";
 import DefaultNumberInput from "../defaultElements/defaultNumberInput";
@@ -10,10 +10,12 @@ import DefaultTextAreaElement from "../defaultElements/defaultTextAreaInput";
 function RenderValue({
   value,
   path,
+  editJsonState,
   editableFields,
   nonEditableFields,
   allFieldsEditable,
   isEditing,
+  handleOnChange
 }: RenderValueProps) {
   // Ex: need to convert "a.1.b" => "a.b", because editable lookup does not account for indices
   const pathWithoutArrayIndices = removeArrayIndexFromPropertyPath(path);
@@ -27,14 +29,15 @@ function RenderValue({
   // Either all fields are editable or the field is in the editableFields lookup and,
   // The field is not present in the nonEditableFields lookup.  
   if (isEditing && (allFieldsEditable || isFieldPresentInEditabeLookup) && !isFieldPresentInNonEditableLookup) {
+    const editableValue = getValueByPath(editJsonState, path)
     if (isFieldPresentInEditabeLookup && editableFields[pathWithoutArrayIndices] !== true) {
       const editableField = editableFields[pathWithoutArrayIndices];
       switch (editableField.type) {
         case "string": {
-          return <DefaultTextInput path={path} value={value as string} />;
+          return <DefaultTextInput path={path} value={editableValue as string} onChange={handleOnChange} />;
         }
         case "number": {
-          return <DefaultNumberInput path={path} value={value as string} />;
+          return <DefaultNumberInput path={path} value={editableValue as string} onChange={handleOnChange} />;
         }
         case "select": {
           return (
@@ -47,20 +50,20 @@ function RenderValue({
           );
         }
         case "date": {
-          return <DefaultDateInput value={value as string} path={path} format={editableField.format} />;
+          return <DefaultDateInput value={editableValue as string} path={path} format={editableField.format} />;
         }
         case "radio": {
-          return <DefaultRadioInput value={value as string} path={path} options={editableField.options} />;
+          return <DefaultRadioInput value={editableValue as string} path={path} options={editableField.options} />;
         }
         case "textArea": {
-          return <DefaultTextAreaElement value={value as string} path={path} />;
+          return <DefaultTextAreaElement value={editableValue as string} path={path} onChange={handleOnChange} />;
         }
         default: {
-          return <DefaultTextInput path={path} value={value as string} />;
+          return <DefaultTextInput path={path} value={editableValue as string} onChange={handleOnChange} />;
         }
       }
     } else {
-      return <DefaultTextInput path={path} value={value as string} />;
+      return <DefaultTextInput path={path} value={editableValue as string} onChange={handleOnChange} />;
     }
   }
 

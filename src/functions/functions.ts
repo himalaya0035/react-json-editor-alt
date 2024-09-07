@@ -17,6 +17,8 @@ export const deepEqual = (obj1 : any, obj2 : any) => {
   return true;
 };
 
+export const deepCopy = (obj:any) => JSON.parse(JSON.stringify(obj))
+
 export const removeArrayIndexFromPropertyPath = (path: string): string => {
   const segments = path.split(".");
   const simplifiedSegments = segments.map((segment) => {
@@ -76,3 +78,50 @@ export const convertPatternIntoDate = (dateString: string, format: string): Date
 
   return new Date(year, month, day);
 }
+
+export const updateValueByPath = (obj: any, path: string, value: any): void => {
+  const keys: string[] = path.split(".");
+
+  let current: any = obj;
+  for (let i = 0; i < keys.length - 1; i++) {
+    let key: string | number = keys[i];
+    if (Array.isArray(current) && !isNaN(Number(key))) {
+      key = parseInt(key, 10);
+    }
+    if (current[key] === undefined) {
+      return;
+    }
+    current = current[key];
+  }
+  if (current) {
+    current[keys[keys.length - 1]] = value;
+  }
+};
+
+export const getValueByPath = (obj: any, path: string): any => {
+  const keys: string[] = path.split(".");
+
+  let current: any = obj;
+  for (let key of keys) {
+    if (Array.isArray(current) && !isNaN(Number(key))) {
+      current = current[parseInt(key, 10)];
+    } else {
+      current = current[key];
+    }
+    if (current === undefined) {
+      return undefined;
+    }
+  }
+
+  return current;
+};
+
+export const debounce = (func: (...args: any[]) => void, delay: number) => {
+  let timeout: NodeJS.Timeout;
+  return (...args: any[]) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
+};

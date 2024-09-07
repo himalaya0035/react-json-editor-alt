@@ -137,7 +137,7 @@ function App() {
         </Button>
       </div>
       <JsonEditor
-        allFieldsEditable={false}
+        allFieldsEditable={true}
         json={x}
         isEditing={isEditing}
         editableFields={editbaleFieldsObject}
