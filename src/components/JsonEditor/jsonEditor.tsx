@@ -1,8 +1,8 @@
 import { ReactNode, useState } from "react";
-import { HandleOnChange, HandleOnSubmit, JsonEditorProps } from "../../types/JsonEditor.types";
 import RenderObject from "./renderElements/renderObject";
 import RenderArray from "./renderElements/renderArray";
 import RenderValue from "./renderElements/renderValue";
+import { HandleOnChange, HandleOnSubmit, JsonEditorProps } from "../../types/JsonEditor.types";
 import { deepCopy, findJsonDiff, updateValueByPath } from "../../functions/functions";
 import "./jsonEditor.css";
 import { cn } from "../../lib/utils";
@@ -24,8 +24,8 @@ function JsonEditor({
   const handleOnChange : HandleOnChange = (value,path) => {
     const tempEditJsonState = deepCopy(editJsonState)
     updateValueByPath(tempEditJsonState,path,value)
-    if (onChange){
-      onChange({
+    if (onChange && editJsonState){
+      onChange({ // callback function exposed to lib consumer
         initialJson : deepCopy(editJsonState),
         updatedJson : tempEditJsonState,
         updatedKeys: findJsonDiff(editJsonState,tempEditJsonState)
@@ -37,8 +37,8 @@ function JsonEditor({
   const handleOnSubmit : HandleOnSubmit = (value,path) => {
     const tempJsonState = deepCopy(jsonState)
     updateValueByPath(tempJsonState,path,value)
-    if (onSubmit){
-      onSubmit({
+    if (onSubmit && jsonState){
+      onSubmit({ // callback function exposed to lib consumer
         initialJson : deepCopy(jsonState),
         updatedJson : tempJsonState,
         updatedKeys: findJsonDiff(jsonState,tempJsonState)

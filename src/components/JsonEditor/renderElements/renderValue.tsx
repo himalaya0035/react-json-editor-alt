@@ -1,11 +1,11 @@
-import { getValueByPath, removeArrayIndexFromPropertyPath } from "../../../functions/functions";
-import { RenderValueProps } from "../../../types/JsonEditor.types";
 import DefaultTextInput from "../defaultElements/defaultTextInput";
 import DefaultNumberInput from "../defaultElements/defaultNumberInput";
 import DefaultDateInput from "../defaultElements/defaultDateInput";
 import DefaultSelectInput from "../defaultElements/defaultSelectInput";
 import DefaultRadioInput from "../defaultElements/defaultRadioInput";
 import DefaultTextAreaElement from "../defaultElements/defaultTextAreaInput";
+import { getValueByPath, removeArrayIndexFromPropertyPath } from "../../../functions/functions";
+import { RenderValueProps } from "../../../types/JsonEditor.types";
 
 function RenderValue({
   value,

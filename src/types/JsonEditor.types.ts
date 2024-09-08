@@ -78,6 +78,8 @@ export type DiffKeyValues = {
   [key: string]: { initial: string; updated: string };
 }
 
+// Type definition for callback functions exposed to the library consumer.
+// The consumer receives initialJson, finalJson, and updatedKeys on events like onChange and onSubmit.      
 export type onSubmitorChangePropsType = {
   initialJson : Record<string, any>,
   updatedJson : Record<string, any>,

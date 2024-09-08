@@ -119,8 +119,8 @@ export const getValueByPath = (obj: any, path: string): any => {
 };
 
 export const findJsonDiff = (
-  obj1: any,
-  obj2: any,
+  obj1: Record<string,any>,
+  obj2: Record<string,any>,
   path: string = '',
   diffKeyValues: DiffKeyValues = {}
 ): DiffKeyValues  => {
