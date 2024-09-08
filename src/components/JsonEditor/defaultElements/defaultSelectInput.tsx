@@ -7,9 +7,15 @@ import {
   SelectValue,
 } from "../../ui/select";
 
-function DefaultSelectInput({ value, options }: DefaultSelectElementProps) {
+function DefaultSelectInput({ value,path,onChange,options }: DefaultSelectElementProps) {
+  const handleSelectInputChange = (selectedValue : string) => {
+    if (onChange){
+      onChange(selectedValue,path)
+    }
+  }
+
   return (
-    <Select value={value}>
+    <Select value={value} onValueChange={handleSelectInputChange}>
       <SelectTrigger className="w-[240px]">
         <SelectValue placeholder="Theme" />
       </SelectTrigger>

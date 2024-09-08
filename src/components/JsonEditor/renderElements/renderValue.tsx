@@ -34,36 +34,87 @@ function RenderValue({
       const editableField = editableFields[pathWithoutArrayIndices];
       switch (editableField.type) {
         case "string": {
-          return <DefaultTextInput path={path} value={editableValue as string} onChange={handleOnChange} />;
+          return (
+            <DefaultTextInput
+              path={path}
+              pathWithoutArrayIndices={pathWithoutArrayIndices}
+              value={editableValue as string}
+              onChange={handleOnChange}
+            />
+          );
         }
         case "number": {
-          return <DefaultNumberInput path={path} value={editableValue as string} onChange={handleOnChange} />;
+          return (
+            <DefaultNumberInput
+              path={path}
+              pathWithoutArrayIndices={pathWithoutArrayIndices}
+              value={editableValue as string}
+              onChange={handleOnChange}
+            />
+          );
         }
         case "select": {
           return (
             <DefaultSelectInput
               options={editableField.options}
-              value={value as string}
+              value={editableValue as string}
               path={path}
               pathWithoutArrayIndices={pathWithoutArrayIndices}
+              onChange={handleOnChange}
             />
           );
         }
         case "date": {
-          return <DefaultDateInput value={editableValue as string} path={path} format={editableField.format} />;
+          return (
+            <DefaultDateInput
+              value={editableValue as string}
+              path={path}
+              pathWithoutArrayIndices={pathWithoutArrayIndices}
+              format={editableField.format}
+            />
+          );
         }
         case "radio": {
-          return <DefaultRadioInput value={editableValue as string} path={path} options={editableField.options} />;
+          return (
+            <DefaultRadioInput
+              value={editableValue as string}
+              path={path}
+              pathWithoutArrayIndices={pathWithoutArrayIndices}
+              options={editableField.options}
+              onChange={handleOnChange}
+            />
+          );
         }
         case "textArea": {
-          return <DefaultTextAreaElement value={editableValue as string} path={path} onChange={handleOnChange} />;
+          return (
+            <DefaultTextAreaElement
+              value={editableValue as string}
+              path={path}
+              pathWithoutArrayIndices={pathWithoutArrayIndices}
+              onChange={handleOnChange}
+            />
+          );
         }
         default: {
-          return <DefaultTextInput path={path} value={editableValue as string} onChange={handleOnChange} />;
+          return (
+            <DefaultTextInput
+              path={path}
+              pathWithoutArrayIndices={pathWithoutArrayIndices}
+              value={editableValue as string}
+              onChange={handleOnChange}
+            />
+          );
         }
       }
     } else {
-      return <DefaultTextInput path={path} value={editableValue as string} onChange={handleOnChange} />;
+      return (
+        <DefaultTextInput
+          path={path}
+          pathWithoutArrayIndices={pathWithoutArrayIndices}
+          value={editableValue as string}
+          onChange={handleOnChange}
+        />
+      );
     }
   }
 

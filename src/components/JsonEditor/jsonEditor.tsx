@@ -1,9 +1,9 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 import { HandleOnChange, JsonEditorProps } from "../../types/JsonEditor.types";
 import RenderObject from "./renderElements/renderObject";
 import RenderArray from "./renderElements/renderArray";
 import RenderValue from "./renderElements/renderValue";
-import { deepCopy, deepEqual, updateValueByPath } from "../../functions/functions";
+import { deepCopy, updateValueByPath } from "../../functions/functions";
 import "./jsonEditor.css";
 import { cn } from "../../lib/utils";
 

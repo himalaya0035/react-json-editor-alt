@@ -14,6 +14,7 @@ function App() {
   const x: Record<string, any> = {
     name: "Himalaya",
     surname: "Gupta",
+    age : 23,
     dob: "03/12/2000",
     about: "Hello, I am a software developer",
     address: {
@@ -77,6 +78,9 @@ function App() {
     dob: {
       type: "date",
       format: "DD/MM/YYYY",
+    },
+    age : {
+      type : "number",
     },
     about: {
       type: "textArea",
