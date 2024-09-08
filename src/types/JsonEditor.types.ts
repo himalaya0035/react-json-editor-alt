@@ -95,7 +95,8 @@ export type JsonEditorProps = {
   nonEditableFields?: NonEditableFieldsObjectType;
   isExpanded? : boolean,
   onSubmit? : (props : onSubmitorChangePropsType) => void,
-  onChange? : (props : onSubmitorChangePropsType) => void
+  onChange? : (props : onSubmitorChangePropsType) => void,
+  allowSelectiveFieldEditing : boolean
 };
 
 export type RenderJsonFunctionType = (
@@ -149,7 +150,19 @@ export type RenderValueProps = {
   editableFields?: EditableFielsdObjectType;
   nonEditableFields?: NonEditableFieldsObjectType;
   searchText?: string;
+  allowSelectiveFieldEditing?: boolean,
+  selectedFieldsForEditing?: Record<string,any>,
+  setSelectedFieldsForEditing?: React.Dispatch<React.SetStateAction<Record<string, any>>>
 };
+
+export type DefaultValueElementProps = {
+  path: string;
+  value: string;
+  pathWithoutArrayIndices?: string;
+  allowSelectiveFieldEditing?: boolean,
+  selectedFieldsForEditing?: Record<string,any>,
+  setSelectedFieldsForEditing?: React.Dispatch<React.SetStateAction<Record<string, any>>>
+}
 
 export type DefaultInputField = {
   path: string;

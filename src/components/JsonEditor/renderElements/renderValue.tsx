@@ -6,6 +6,7 @@ import DefaultRadioInput from "../defaultElements/defaultRadioInput";
 import DefaultTextAreaElement from "../defaultElements/defaultTextAreaInput";
 import { getValueByPath, removeArrayIndexFromPropertyPath } from "../../../functions/functions";
 import { RenderValueProps } from "../../../types/JsonEditor.types";
+import DefaultValueElement from "../defaultElements/defaultValueElement";
 
 function RenderValue({
   value,
@@ -16,7 +17,10 @@ function RenderValue({
   allFieldsEditable,
   isEditing,
   handleOnChange,
-  handleOnSubmit
+  handleOnSubmit,
+  allowSelectiveFieldEditing,
+  selectedFieldsForEditing,
+  setSelectedFieldsForEditing
 }: RenderValueProps) {
   // Ex: need to convert "a.1.b" => "a.b", because editable lookup does not account for indices
   const pathWithoutArrayIndices = removeArrayIndexFromPropertyPath(path);
@@ -29,7 +33,10 @@ function RenderValue({
   // The editor is in editing mode and,
   // Either all fields are editable or the field is in the editableFields lookup and,
   // The field is not present in the nonEditableFields lookup.  
-  if (isEditing && (allFieldsEditable || isFieldPresentInEditabeLookup) && !isFieldPresentInNonEditableLookup) {
+  if ((isEditing && (allFieldsEditable || isFieldPresentInEditabeLookup) && !isFieldPresentInNonEditableLookup)
+    ||
+    (allowSelectiveFieldEditing && selectedFieldsForEditing && selectedFieldsForEditing[pathWithoutArrayIndices])
+  ) {
     const editableValue = getValueByPath(editJsonState, path)
     if (isFieldPresentInEditabeLookup && editableFields[pathWithoutArrayIndices] !== true) {
       const editableField = editableFields[pathWithoutArrayIndices];
@@ -133,7 +140,16 @@ function RenderValue({
     }
   }
 
-  return <span>{value}</span>;
+  return (
+    <DefaultValueElement
+      value={value as string}
+      path={path}
+      pathWithoutArrayIndices={pathWithoutArrayIndices}
+      allowSelectiveFieldEditing={allowSelectiveFieldEditing}
+      selectedFieldsForEditing={selectedFieldsForEditing}
+      setSelectedFieldsForEditing={setSelectedFieldsForEditing}
+    />
+  ) 
 }
 
 export default RenderValue;

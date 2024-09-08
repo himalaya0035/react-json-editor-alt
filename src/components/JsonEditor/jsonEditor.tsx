@@ -16,10 +16,12 @@ function JsonEditor({
   allFieldsEditable = true,
   isExpanded = false,
   onSubmit,
-  onChange
+  onChange,
+  allowSelectiveFieldEditing
 }: JsonEditorProps) {
   const [jsonState, setJsonState] = useState<Record<string, any> | null>(json);
   const [editJsonState, setEditJsonState] = useState<Record<string, any> | null>(json);
+  const [selectedFieldsForEditing, setSelectedFieldsForEditing] = useState<Record<string, any>>({})  
 
   const handleOnChange : HandleOnChange = (value,path) => {
     const tempEditJsonState = deepCopy(editJsonState)
@@ -88,6 +90,9 @@ function JsonEditor({
           allFieldsEditable={allFieldsEditable}
           editableFields={editableFields}
           nonEditableFields={nonEditableFields}
+          allowSelectiveFieldEditing={allowSelectiveFieldEditing}
+          selectedFieldsForEditing={selectedFieldsForEditing}
+          setSelectedFieldsForEditing={setSelectedFieldsForEditing}
           searchText={""}
         />
       );

@@ -150,14 +150,15 @@ function App() {
         </Button>
       </div>
       <JsonEditor
-        allFieldsEditable={true}
         json={x}
+        allFieldsEditable={true}
         isEditing={isEditing}
         editableFields={editbaleFieldsObject}
         nonEditableFields={nonEditbaleFieldObject}
         isExpanded={isExpanded}
         onSubmit={onSubmit}
         onChange={onChange}
+        allowSelectiveFieldEditing = {true}
       />
     </div>
   );
