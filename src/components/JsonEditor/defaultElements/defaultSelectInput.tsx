@@ -1,4 +1,6 @@
+import { Check } from "lucide-react";
 import { DefaultSelectElementProps } from "../../../types/JsonEditor.types";
+import { Button } from "../../ui/button";
 import {
   Select,
   SelectContent,
@@ -7,14 +9,30 @@ import {
   SelectValue,
 } from "../../ui/select";
 
-function DefaultSelectInput({ value,path,onChange,options }: DefaultSelectElementProps) {
-  const handleSelectInputChange = (selectedValue : string) => {
-    if (onChange){
-      onChange(selectedValue,path)
+function DefaultSelectInput({
+  value,
+  readModeValue,
+  path,
+  options,
+  onChange,
+  onSubmit,
+}: DefaultSelectElementProps) {
+  const handleSelectInputChange = (selectedValue: string) => {
+    if (onChange) {
+      onChange(selectedValue, path);
+    }
+  };
+
+  const handleSelectInputSubmit = () => {
+    if (onSubmit){
+      onSubmit(value,path)
     }
   }
 
+  let disabled = readModeValue === value
+
   return (
+    <>
     <Select value={value} onValueChange={handleSelectInputChange}>
       <SelectTrigger className="w-[240px]">
         <SelectValue placeholder="Theme" />
@@ -29,6 +47,17 @@ function DefaultSelectInput({ value,path,onChange,options }: DefaultSelectElemen
         })}
       </SelectContent>
     </Select>
+    <Button
+        variant={"outline"}
+        disabled={disabled}
+        size={"icon"}
+        className={`${disabled && 'hidden'}`}
+        title="Submit"
+        onClick={handleSelectInputSubmit}
+      >
+        <Check size={14} />
+      </Button>
+    </>
   );
 }
 

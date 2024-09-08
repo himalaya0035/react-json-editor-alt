@@ -3,6 +3,7 @@ import JsonEditor from "./components/JsonEditor/jsonEditor";
 import {
   EditableFielsdObjectType,
   NonEditableFieldsObjectType,
+  onSubmitorChangePropsType,
 } from "./types/JsonEditor.types";
 import { indianStatesOptions } from "./temp";
 import { Button } from "./components/ui/button";
@@ -129,6 +130,14 @@ function App() {
     name: true,
   };
 
+  const onSubmit = (props : onSubmitorChangePropsType) => {
+    console.info(props)
+  }
+
+  const onChange = (props : onSubmitorChangePropsType) => {
+    console.info(props)
+  }
+
   return (
     <div className="p-4">
       <h1 className="text-xl mb-5">Json Editor</h1>
@@ -147,6 +156,8 @@ function App() {
         editableFields={editbaleFieldsObject}
         nonEditableFields={nonEditbaleFieldObject}
         isExpanded={isExpanded}
+        onSubmit={onSubmit}
+        onChange={onChange}
       />
     </div>
   );

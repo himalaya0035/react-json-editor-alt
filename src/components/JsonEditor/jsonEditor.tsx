@@ -1,9 +1,9 @@
 import { ReactNode, useState } from "react";
-import { HandleOnChange, JsonEditorProps } from "../../types/JsonEditor.types";
+import { HandleOnChange, HandleOnSubmit, JsonEditorProps } from "../../types/JsonEditor.types";
 import RenderObject from "./renderElements/renderObject";
 import RenderArray from "./renderElements/renderArray";
 import RenderValue from "./renderElements/renderValue";
-import { deepCopy, updateValueByPath } from "../../functions/functions";
+import { deepCopy, findJsonDiff, updateValueByPath } from "../../functions/functions";
 import "./jsonEditor.css";
 import { cn } from "../../lib/utils";
 
@@ -14,7 +14,9 @@ function JsonEditor({
   nonEditableFields,
   className = '',
   allFieldsEditable = true,
-  isExpanded = false
+  isExpanded = false,
+  onSubmit,
+  onChange
 }: JsonEditorProps) {
   const [jsonState, setJsonState] = useState<Record<string, any> | null>(json);
   const [editJsonState, setEditJsonState] = useState<Record<string, any> | null>(json);
@@ -22,8 +24,28 @@ function JsonEditor({
   const handleOnChange : HandleOnChange = (value,path) => {
     const tempEditJsonState = deepCopy(editJsonState)
     updateValueByPath(tempEditJsonState,path,value)
-    setEditJsonState(deepCopy(tempEditJsonState))
+    if (onChange){
+      onChange({
+        initialJson : deepCopy(editJsonState),
+        updatedJson : tempEditJsonState,
+        updatedKeys: findJsonDiff(editJsonState,tempEditJsonState)
+      })
+    }
+    setEditJsonState(tempEditJsonState)
   };
+
+  const handleOnSubmit : HandleOnSubmit = (value,path) => {
+    const tempJsonState = deepCopy(jsonState)
+    updateValueByPath(tempJsonState,path,value)
+    if (onSubmit){
+      onSubmit({
+        initialJson : deepCopy(jsonState),
+        updatedJson : tempJsonState,
+        updatedKeys: findJsonDiff(jsonState,tempJsonState)
+      })
+    }
+    setJsonState(tempJsonState)
+  }
 
   const renderJson = (
     value: any,
@@ -62,6 +84,7 @@ function JsonEditor({
           jsonState={jsonState}
           editJsonState={editJsonState}
           handleOnChange={handleOnChange}
+          handleOnSubmit={handleOnSubmit}
           allFieldsEditable={allFieldsEditable}
           editableFields={editableFields}
           nonEditableFields={nonEditableFields}

@@ -15,7 +15,8 @@ function RenderValue({
   nonEditableFields,
   allFieldsEditable,
   isEditing,
-  handleOnChange
+  handleOnChange,
+  handleOnSubmit
 }: RenderValueProps) {
   // Ex: need to convert "a.1.b" => "a.b", because editable lookup does not account for indices
   const pathWithoutArrayIndices = removeArrayIndexFromPropertyPath(path);
@@ -39,7 +40,9 @@ function RenderValue({
               path={path}
               pathWithoutArrayIndices={pathWithoutArrayIndices}
               value={editableValue as string}
+              readModeValue={value as string}
               onChange={handleOnChange}
+              onSubmit={handleOnSubmit}
             />
           );
         }
@@ -49,18 +52,22 @@ function RenderValue({
               path={path}
               pathWithoutArrayIndices={pathWithoutArrayIndices}
               value={editableValue as string}
+              readModeValue={value as string}
               onChange={handleOnChange}
+              onSubmit={handleOnSubmit}
             />
           );
         }
         case "select": {
           return (
             <DefaultSelectInput
-              options={editableField.options}
-              value={editableValue as string}
               path={path}
               pathWithoutArrayIndices={pathWithoutArrayIndices}
+              value={editableValue as string}
+              readModeValue={value as string}
+              options={editableField.options}
               onChange={handleOnChange}
+              onSubmit={handleOnSubmit}
             />
           );
         }
@@ -77,21 +84,25 @@ function RenderValue({
         case "radio": {
           return (
             <DefaultRadioInput
-              value={editableValue as string}
               path={path}
               pathWithoutArrayIndices={pathWithoutArrayIndices}
+              value={editableValue as string}
+              readModeValue={value as string}
               options={editableField.options}
               onChange={handleOnChange}
+              onSubmit={handleOnSubmit}
             />
           );
         }
         case "textArea": {
           return (
             <DefaultTextAreaElement
-              value={editableValue as string}
               path={path}
               pathWithoutArrayIndices={pathWithoutArrayIndices}
+              value={editableValue as string}
+              readModeValue={value as string}
               onChange={handleOnChange}
+              onSubmit={handleOnSubmit}
             />
           );
         }
@@ -101,7 +112,9 @@ function RenderValue({
               path={path}
               pathWithoutArrayIndices={pathWithoutArrayIndices}
               value={editableValue as string}
+              readModeValue={value as string}
               onChange={handleOnChange}
+              onSubmit={handleOnSubmit}
             />
           );
         }
@@ -112,7 +125,9 @@ function RenderValue({
           path={path}
           pathWithoutArrayIndices={pathWithoutArrayIndices}
           value={editableValue as string}
+          readModeValue={value as string}
           onChange={handleOnChange}
+          onSubmit={handleOnSubmit}
         />
       );
     }

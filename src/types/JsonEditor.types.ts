@@ -74,6 +74,16 @@ export type NonEditableFieldsObjectType = {
   [path: string]: true | RootField;
 };
 
+export type DiffKeyValues = {
+  [key: string]: { initial: string; updated: string };
+}
+
+export type onSubmitorChangePropsType = {
+  initialJson : Record<string, any>,
+  updatedJson : Record<string, any>,
+  updatedKeys : DiffKeyValues
+}
+
 export type JsonEditorProps = {
   json: Record<string, any>;
   isEditing: boolean;
@@ -82,6 +92,8 @@ export type JsonEditorProps = {
   editableFields?: EditableFielsdObjectType;
   nonEditableFields?: NonEditableFieldsObjectType;
   isExpanded? : boolean,
+  onSubmit? : (props : onSubmitorChangePropsType) => void,
+  onChange? : (props : onSubmitorChangePropsType) => void
 };
 
 export type RenderJsonFunctionType = (
@@ -121,6 +133,7 @@ export type RenderObjectKeysProps = {
 };
 
 export type HandleOnChange = (value : string,path : string) => void 
+export type HandleOnSubmit = (value : string,path : string) => void
 
 export type RenderValueProps = {
   value: string | number | undefined | null;
@@ -129,6 +142,7 @@ export type RenderValueProps = {
   jsonState: Record<string, any> | null;
   editJsonState: Record<string, any> | null;
   handleOnChange: HandleOnChange;
+  handleOnSubmit: HandleOnSubmit;
   allFieldsEditable: boolean;
   editableFields?: EditableFielsdObjectType;
   nonEditableFields?: NonEditableFieldsObjectType;
@@ -138,8 +152,10 @@ export type RenderValueProps = {
 export type DefaultInputField = {
   path: string;
   value: string;
+  readModeValue ?: string,
   pathWithoutArrayIndices?: string;
-  onChange? : HandleOnChange
+  onChange? : HandleOnChange;
+  onSubmit? : HandleOnSubmit;
 };
 
 export type DefaultSelectElementProps = {
