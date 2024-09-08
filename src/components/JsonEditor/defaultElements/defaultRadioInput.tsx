@@ -3,25 +3,22 @@ import { Label } from "../../ui/label";
 import { DefaultRadioElementProps } from "../../../types/JsonEditor.types";
 import { Button } from "../../ui/button";
 import { Check } from "lucide-react";
+import { useJsonEditorContext } from "../jsonEditor";
 
 function DefaultRadioInput({
   value,
   readModeValue,
   path,
   options,
-  onChange,
-  onSubmit
 }: DefaultRadioElementProps) {
+  const { handleOnChange, handleOnSubmit } = useJsonEditorContext();
+
   const handleRadioInputChange = (selectedValue: string) => {
-    if (onChange) {
-      onChange(selectedValue, path);
-    }
+    handleOnChange(selectedValue, path);
   };
 
   const handleRadioInputSubmit = () => {
-    if (onSubmit) {
-      onSubmit(value, path);
-    }
+    handleOnSubmit(value, path);
   };
 
   let disabled = readModeValue === value;

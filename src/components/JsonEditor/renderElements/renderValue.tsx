@@ -7,21 +7,23 @@ import DefaultTextAreaElement from "../defaultElements/defaultTextAreaInput";
 import { getValueByPath, removeArrayIndexFromPropertyPath } from "../../../functions/functions";
 import { RenderValueProps } from "../../../types/JsonEditor.types";
 import DefaultValueElement from "../defaultElements/defaultValueElement";
+import { useJsonEditorContext } from "../jsonEditor";
 
 function RenderValue({
   value,
-  path,
-  editJsonState,
-  editableFields,
-  nonEditableFields,
-  allFieldsEditable,
-  isEditing,
-  handleOnChange,
-  handleOnSubmit,
-  allowSelectiveFieldEditing,
-  selectedFieldsForEditing,
-  setSelectedFieldsForEditing
+  path
 }: RenderValueProps) {
+
+  const {
+    isEditing,
+    editJsonState,
+    editableFields,
+    nonEditableFields,
+    allFieldsEditable,
+    allowSelectiveFieldEditing,
+    selectedFieldsForEditing,
+  } = useJsonEditorContext();
+  
   // Ex: need to convert "a.1.b" => "a.b", because editable lookup does not account for indices
   const pathWithoutArrayIndices = removeArrayIndexFromPropertyPath(path);
   const isFieldPresentInEditabeLookup =
@@ -48,8 +50,6 @@ function RenderValue({
               pathWithoutArrayIndices={pathWithoutArrayIndices}
               value={editableValue as string}
               readModeValue={value as string}
-              onChange={handleOnChange}
-              onSubmit={handleOnSubmit}
             />
           );
         }
@@ -60,8 +60,6 @@ function RenderValue({
               pathWithoutArrayIndices={pathWithoutArrayIndices}
               value={editableValue as string}
               readModeValue={value as string}
-              onChange={handleOnChange}
-              onSubmit={handleOnSubmit}
             />
           );
         }
@@ -73,8 +71,6 @@ function RenderValue({
               value={editableValue as string}
               readModeValue={value as string}
               options={editableField.options}
-              onChange={handleOnChange}
-              onSubmit={handleOnSubmit}
             />
           );
         }
@@ -96,8 +92,6 @@ function RenderValue({
               value={editableValue as string}
               readModeValue={value as string}
               options={editableField.options}
-              onChange={handleOnChange}
-              onSubmit={handleOnSubmit}
             />
           );
         }
@@ -108,8 +102,6 @@ function RenderValue({
               pathWithoutArrayIndices={pathWithoutArrayIndices}
               value={editableValue as string}
               readModeValue={value as string}
-              onChange={handleOnChange}
-              onSubmit={handleOnSubmit}
             />
           );
         }
@@ -120,8 +112,6 @@ function RenderValue({
               pathWithoutArrayIndices={pathWithoutArrayIndices}
               value={editableValue as string}
               readModeValue={value as string}
-              onChange={handleOnChange}
-              onSubmit={handleOnSubmit}
             />
           );
         }
@@ -133,8 +123,6 @@ function RenderValue({
           pathWithoutArrayIndices={pathWithoutArrayIndices}
           value={editableValue as string}
           readModeValue={value as string}
-          onChange={handleOnChange}
-          onSubmit={handleOnSubmit}
         />
       );
     }
@@ -145,9 +133,6 @@ function RenderValue({
       value={value as string}
       path={path}
       pathWithoutArrayIndices={pathWithoutArrayIndices}
-      allowSelectiveFieldEditing={allowSelectiveFieldEditing}
-      selectedFieldsForEditing={selectedFieldsForEditing}
-      setSelectedFieldsForEditing={setSelectedFieldsForEditing}
     />
   ) 
 }

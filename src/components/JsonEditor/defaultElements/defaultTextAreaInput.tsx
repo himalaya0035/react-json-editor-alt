@@ -5,15 +5,15 @@ import { debounce } from "../../../functions/functions";
 import { DEBOUNCE_DELAY } from "../../../constants/constants";
 import { Button } from "../../ui/button";
 import { Check } from "lucide-react";
+import { useJsonEditorContext } from "../jsonEditor";
 
 function DefaultTextAreaElement({
   value,
   readModeValue,
   path,
-  onChange,
-  onSubmit
 }: DefaultTextAreaElementProps) {
   const [textAreaInputValue, setTextAreaInputValue] = useState(value);
+  const { handleOnChange, handleOnSubmit } = useJsonEditorContext();
 
   const handleTextAreaInputChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>
@@ -27,17 +27,13 @@ function DefaultTextAreaElement({
   // This prevents stale closures and ensures the component uses the latest onChange.
   const debouncedOnChange = useCallback(
     debounce((value: string) => {
-      if (onChange) {
-        onChange(value, path);
-      }
+      handleOnChange(value, path);
     }, DEBOUNCE_DELAY),
-    [onChange]
+    [handleOnChange]
   );
 
   const handleTextAreaInputSubmit = () => {
-    if (onSubmit){
-      onSubmit(textAreaInputValue,path)
-    }
+    handleOnSubmit(textAreaInputValue,path)
   }
 
   let disabled = readModeValue === textAreaInputValue;

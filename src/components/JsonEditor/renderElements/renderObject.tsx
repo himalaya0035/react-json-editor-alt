@@ -2,6 +2,7 @@ import {
   RenderObjectKeysProps,
   RenderObjectProps,
 } from "../../../types/JsonEditor.types";
+import { useJsonEditorContext } from "../jsonEditor";
 
 // recursively renders a object, here object is neither an array nor null
 function RenderObject({
@@ -10,7 +11,6 @@ function RenderObject({
   renderJson,
   isRootLevelKey,
   searchText,
-  isExpanded,
 }: RenderObjectProps) {
   return (
     <ul
@@ -27,7 +27,6 @@ function RenderObject({
             val={val}
             key={index}
             searchText={searchText}
-            isExpanded={isExpanded}
           >
             {renderJson(val, path ? `${path}.${key}` : key, false)}
           </RenderObjectKeys>
@@ -39,7 +38,9 @@ function RenderObject({
 
 export default RenderObject;
 
-function RenderObjectKeys({ keyName, val, children, isExpanded }: RenderObjectKeysProps) {
+function RenderObjectKeys({ keyName, val, children }: RenderObjectKeysProps) {
+  const {isExpanded} = useJsonEditorContext();
+  
   const handleCollapsible = (
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>
   ) => {

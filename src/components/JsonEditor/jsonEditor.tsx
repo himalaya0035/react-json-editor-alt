@@ -1,11 +1,14 @@
-import { ReactNode, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 import RenderObject from "./renderElements/renderObject";
 import RenderArray from "./renderElements/renderArray";
 import RenderValue from "./renderElements/renderValue";
-import { HandleOnChange, HandleOnSubmit, JsonEditorProps } from "../../types/JsonEditor.types";
+import { HandleOnChange, HandleOnSubmit, JsonEditorContextType, JsonEditorProps } from "../../types/JsonEditor.types";
 import { deepCopy, findJsonDiff, updateValueByPath } from "../../functions/functions";
 import "./jsonEditor.css";
 import { cn } from "../../lib/utils";
+
+const JsonEditorContext = createContext<JsonEditorContextType>({} as JsonEditorContextType);
+export const useJsonEditorContext = () => useContext(JsonEditorContext);
 
 function JsonEditor({
   json,
@@ -62,7 +65,6 @@ function JsonEditor({
             path={path}
             isRootLevelKey={isRootLevelKey}
             renderJson={renderJson}
-            isExpanded={isExpanded}
           />
         );
       } else {
@@ -72,8 +74,6 @@ function JsonEditor({
             isRootLevelKey={isRootLevelKey}
             path={path}
             renderJson={renderJson}
-            isExpanded={isExpanded}
-            searchText={""}
           />
         );
       }
@@ -81,28 +81,33 @@ function JsonEditor({
       return (
         <RenderValue
           value={value}
-          isEditing={isEditing}
           path={path}
-          jsonState={jsonState}
-          editJsonState={editJsonState}
-          handleOnChange={handleOnChange}
-          handleOnSubmit={handleOnSubmit}
-          allFieldsEditable={allFieldsEditable}
-          editableFields={editableFields}
-          nonEditableFields={nonEditableFields}
-          allowSelectiveFieldEditing={allowSelectiveFieldEditing}
-          selectedFieldsForEditing={selectedFieldsForEditing}
-          setSelectedFieldsForEditing={setSelectedFieldsForEditing}
-          searchText={""}
         />
       );
     }
   };
 
   return (
-    <div className={cn("w-full h-auto border-black border-2 py-5",className)}>
-      {renderJson(jsonState)}
-    </div>
+    <JsonEditorContext.Provider
+      value={{
+        jsonState,
+        editJsonState,
+        isEditing,
+        allFieldsEditable,
+        allowSelectiveFieldEditing,
+        isExpanded,
+        editableFields,
+        nonEditableFields,
+        handleOnChange,
+        handleOnSubmit,
+        selectedFieldsForEditing,
+        setSelectedFieldsForEditing,
+      }}
+    >
+      <div className={cn("w-full h-auto border-black border-2 py-5", className)}>
+        {renderJson(jsonState)}
+      </div>
+    </JsonEditorContext.Provider>
   );
 }
 

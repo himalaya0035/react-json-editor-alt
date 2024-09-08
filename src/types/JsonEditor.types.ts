@@ -86,6 +86,21 @@ export type onSubmitorChangePropsType = {
   updatedKeys : DiffKeyValues
 }
 
+export type JsonEditorContextType = {
+  jsonState:  Record<string, any> | null,
+  editJsonState:  Record<string, any> | null,
+  isEditing: boolean;
+  allFieldsEditable: boolean;
+  editableFields?: EditableFielsdObjectType;
+  nonEditableFields?: NonEditableFieldsObjectType;
+  isExpanded : boolean,
+  handleOnChange: HandleOnChange;
+  handleOnSubmit: HandleOnSubmit;
+  allowSelectiveFieldEditing : boolean,
+  selectedFieldsForEditing: Record<string,any>,
+  setSelectedFieldsForEditing: React.Dispatch<React.SetStateAction<Record<string, any>>>
+}
+
 export type JsonEditorProps = {
   json: Record<string, any>;
   isEditing: boolean;
@@ -110,7 +125,6 @@ export type RenderArrayProps = {
   path: string;
   isRootLevelKey: boolean;
   renderJson: RenderJsonFunctionType;
-  isExpanded?: boolean;
 };
 
 export type RenderArrayItemsProp = {
@@ -124,7 +138,6 @@ export type RenderObjectProps = {
   renderJson: RenderJsonFunctionType;
   isRootLevelKey: boolean;
   searchText?: string;
-  isExpanded?: boolean;
 };
 
 export type RenderObjectKeysProps = {
@@ -132,7 +145,6 @@ export type RenderObjectKeysProps = {
   val: any;
   children: React.ReactNode;
   searchText?: string;
-  isExpanded?: boolean;
 };
 
 export type HandleOnChange = (value : string,path : string) => void 
@@ -140,28 +152,13 @@ export type HandleOnSubmit = (value : string,path : string) => void
 
 export type RenderValueProps = {
   value: string | number | undefined | null;
-  isEditing: boolean;
   path: string;
-  jsonState: Record<string, any> | null;
-  editJsonState: Record<string, any> | null;
-  handleOnChange: HandleOnChange;
-  handleOnSubmit: HandleOnSubmit;
-  allFieldsEditable: boolean;
-  editableFields?: EditableFielsdObjectType;
-  nonEditableFields?: NonEditableFieldsObjectType;
-  searchText?: string;
-  allowSelectiveFieldEditing?: boolean,
-  selectedFieldsForEditing?: Record<string,any>,
-  setSelectedFieldsForEditing?: React.Dispatch<React.SetStateAction<Record<string, any>>>
 };
 
 export type DefaultValueElementProps = {
   path: string;
   value: string;
   pathWithoutArrayIndices?: string;
-  allowSelectiveFieldEditing?: boolean,
-  selectedFieldsForEditing?: Record<string,any>,
-  setSelectedFieldsForEditing?: React.Dispatch<React.SetStateAction<Record<string, any>>>
 }
 
 export type DefaultInputField = {
@@ -169,8 +166,6 @@ export type DefaultInputField = {
   value: string;
   readModeValue ?: string,
   pathWithoutArrayIndices?: string;
-  onChange? : HandleOnChange;
-  onSubmit? : HandleOnSubmit;
 };
 
 export type DefaultSelectElementProps = {

@@ -5,15 +5,15 @@ import { debounce } from "../../../functions/functions";
 import { DEBOUNCE_DELAY } from "../../../constants/constants";
 import { Check } from "lucide-react";
 import { Button } from "../../ui/button";
+import { useJsonEditorContext } from "../jsonEditor";
 
 function DefaultTextInput({
   value,
   readModeValue,
   path,
-  onChange,
-  onSubmit
 }: DefaultTextElementProps) {
   const [textInputValue, setTextInputValue] = useState(value);
+  const { handleOnChange, handleOnSubmit } = useJsonEditorContext();
 
   const handleTextInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -25,19 +25,15 @@ function DefaultTextInput({
   // This prevents stale closures and ensures the component uses the latest onChange.
   const debouncedOnChange = useCallback(
     debounce((value: string) => {
-      if (onChange) {
-        onChange(value, path);
-      }
+      handleOnChange(value, path);
     }, DEBOUNCE_DELAY),
-    [onChange]
+    [handleOnChange]
   );
-  
+
   const handleTextInputSubmit = () => {
-    if (onSubmit){
-      onSubmit(textInputValue,path)
-    }
-  }
-  
+    handleOnSubmit(textInputValue, path);
+  };
+
   let disabled = readModeValue === textInputValue;
 
   return (
@@ -47,7 +43,7 @@ function DefaultTextInput({
         variant={"outline"}
         disabled={disabled}
         size={"icon"}
-        className={`${disabled && 'hidden'}`}
+        className={`${disabled && "hidden"}`}
         title="Submit"
         onClick={handleTextInputSubmit}
       >

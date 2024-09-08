@@ -8,25 +8,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select";
+import { useJsonEditorContext } from "../jsonEditor";
 
 function DefaultSelectInput({
   value,
   readModeValue,
   path,
   options,
-  onChange,
-  onSubmit,
 }: DefaultSelectElementProps) {
+  const {handleOnChange,handleOnSubmit} = useJsonEditorContext();
+
   const handleSelectInputChange = (selectedValue: string) => {
-    if (onChange) {
-      onChange(selectedValue, path);
-    }
+    handleOnChange(selectedValue, path);
   };
 
   const handleSelectInputSubmit = () => {
-    if (onSubmit){
-      onSubmit(value,path)
-    }
+    handleOnSubmit(value,path)
   }
 
   let disabled = readModeValue === value

@@ -2,14 +2,15 @@ import {
   RenderArrayItemsProp,
   RenderArrayProps,
 } from "../../../types/JsonEditor.types";
+import { useJsonEditorContext } from "../jsonEditor";
 
 function RenderArray({
   arr,
   path,
   isRootLevelKey,
-  isExpanded,
   renderJson,
 }: RenderArrayProps) {
+  const {isExpanded} = useJsonEditorContext();
   const handleCollapsible = (
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>
   ) => {

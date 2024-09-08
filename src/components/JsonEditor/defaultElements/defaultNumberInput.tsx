@@ -5,16 +5,16 @@ import { debounce } from "../../../functions/functions";
 import { DEBOUNCE_DELAY } from "../../../constants/constants";
 import { Button } from "../../ui/button";
 import { Check } from "lucide-react";
+import { useJsonEditorContext } from "../jsonEditor";
 
 function DefaultNumberInput({
   value,
   readModeValue,
   path,
-  onChange,
-  onSubmit
 }: DefaultNumberElementProps) {
   const [numberInputValue, setNumberInputValue] = useState(value);
-
+  const {handleOnChange,handleOnSubmit} = useJsonEditorContext();
+  
   const handleNumberInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setNumberInputValue(value);
@@ -25,17 +25,13 @@ function DefaultNumberInput({
   // This prevents stale closures and ensures the component uses the latest onChange.
   const debouncedOnChange = useCallback(
     debounce((value: string) => {
-      if (onChange) {
-        onChange(value, path);
-      }
+      handleOnChange(value, path);
     }, DEBOUNCE_DELAY),
-    [onChange]
+    [handleOnChange]
   );
 
   const handleNumberInputSubmit = () => {
-    if (onSubmit){
-      onSubmit(numberInputValue,path)
-    }
+    handleOnSubmit(numberInputValue,path)
   }
 
   let disabled = readModeValue === numberInputValue;
