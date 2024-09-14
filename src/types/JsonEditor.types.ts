@@ -160,8 +160,8 @@ export type RenderObjectKeysProps = {
   searchText?: string;
 };
 
-export type HandleOnChange = (value : string,path : string) => void 
-export type HandleOnSubmit = (value : string,path : string) => void
+export type HandleOnChange = (value : string | number,path : string) => void 
+export type HandleOnSubmit = (value : string | number,path : string) => void
 
 export type RenderValueProps = {
   value: string | number | undefined | null;
@@ -188,7 +188,10 @@ export type DefaultSelectElementProps = {
 
 export type DefaultTextElementProps = {} & DefaultInputField;
 
-export type DefaultNumberElementProps = {} & DefaultInputField;
+export type DefaultNumberElementProps = Omit<DefaultInputField, 'value' | 'readModeValue'> & {
+  value: number; // Override value to be of type number,
+  readModeValue? : number
+};
 
 export type DefaultTextAreaElementProps = {} & DefaultInputField;
 

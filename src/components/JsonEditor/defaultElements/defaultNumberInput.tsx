@@ -13,7 +13,7 @@ function DefaultNumberInput({
   readModeValue,
   path,
 }: DefaultNumberElementProps) {
-  const [numberInputValue, setNumberInputValue] = useState(value);
+  const [numberInputValue, setNumberInputValue] = useState<number| string>(value);
   const {
     handleOnChange,
     handleOnSubmit,
@@ -31,13 +31,13 @@ function DefaultNumberInput({
   // This prevents stale closures and ensures the component uses the latest onChange.
   const debouncedOnChange = useCallback(
     debounce((value: string) => {
-      handleOnChange(value, path);
+      handleOnChange(Number(value), path);
     }, DEBOUNCE_DELAY),
     [handleOnChange]
   );
 
   const handleNumberInputSubmit = () => {
-    handleOnSubmit(numberInputValue, path);
+    handleOnSubmit(Number(numberInputValue), path);
     if (editingMode === "inline") {
       setSelectedFieldsForEditing((prev) => {
         return {
@@ -48,7 +48,7 @@ function DefaultNumberInput({
     }
   };
 
-  let disabled = readModeValue === numberInputValue;
+  let disabled = readModeValue === Number(numberInputValue);
 
   return (
     <>

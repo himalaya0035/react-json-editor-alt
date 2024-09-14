@@ -68,8 +68,8 @@ function RenderValue({
             <DefaultNumberInput
               path={path}
               pathWithoutArrayIndices={pathWithoutArrayIndices}
-              value={editableValue as string}
-              readModeValue={value as string}
+              value={editableValue as number}
+              readModeValue={value as number}
             />
           );
         }
