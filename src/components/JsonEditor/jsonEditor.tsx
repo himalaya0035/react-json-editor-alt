@@ -12,19 +12,22 @@ export const useJsonEditorContext = () => useContext(JsonEditorContext);
 
 function JsonEditor({
   json,
-  isEditing,
-  editableFields,
-  nonEditableFields,
   className = '',
-  allFieldsEditable = true,
   isExpanded = false,
   onSubmit,
   onChange,
-  allowSelectiveFieldEditing
+  editingConfig = {
+    isEditing: false,
+    editingMode : 'global-individual',
+    allFieldsEditable : true,
+    editableFields : {},
+    nonEditableFields : {}
+  }
 }: JsonEditorProps) {
   const [jsonState, setJsonState] = useState<Record<string, any> | null>(json);
   const [editJsonState, setEditJsonState] = useState<Record<string, any> | null>(json);
   const [selectedFieldsForEditing, setSelectedFieldsForEditing] = useState<Record<string, any>>({})  
+  const {editingMode,isEditing,allFieldsEditable,editableFields,nonEditableFields} = editingConfig
 
   const handleOnChange : HandleOnChange = (value,path) => {
     const tempEditJsonState = deepCopy(editJsonState)
@@ -90,11 +93,11 @@ function JsonEditor({
   return (
     <JsonEditorContext.Provider
       value={{
+        editingMode,
         jsonState,
         editJsonState,
         isEditing,
         allFieldsEditable,
-        allowSelectiveFieldEditing,
         isExpanded,
         editableFields,
         nonEditableFields,

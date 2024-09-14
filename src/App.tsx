@@ -151,14 +151,16 @@ function App() {
       </div>
       <JsonEditor
         json={x}
-        allFieldsEditable={true}
-        isEditing={isEditing}
-        editableFields={editbaleFieldsObject}
-        nonEditableFields={nonEditbaleFieldObject}
         isExpanded={isExpanded}
         onSubmit={onSubmit}
         onChange={onChange}
-        allowSelectiveFieldEditing = {true}
+        editingConfig={{
+          editingMode : 'global-individual',
+          isEditing : isEditing,
+          allFieldsEditable: true,
+          editableFields : editbaleFieldsObject,
+          nonEditableFields: nonEditbaleFieldObject
+        }}
       />
     </div>
   );

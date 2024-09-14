@@ -90,28 +90,41 @@ export type JsonEditorContextType = {
   jsonState:  Record<string, any> | null,
   editJsonState:  Record<string, any> | null,
   isEditing: boolean;
-  allFieldsEditable: boolean;
+  editingMode?: 'global' | 'individual' | 'global-individual' | 'inline';
+  allFieldsEditable?: boolean;
   editableFields?: EditableFielsdObjectType;
   nonEditableFields?: NonEditableFieldsObjectType;
   isExpanded : boolean,
   handleOnChange: HandleOnChange;
   handleOnSubmit: HandleOnSubmit;
-  allowSelectiveFieldEditing : boolean,
   selectedFieldsForEditing: Record<string,any>,
   setSelectedFieldsForEditing: React.Dispatch<React.SetStateAction<Record<string, any>>>
 }
 
-export type JsonEditorProps = {
-  json: Record<string, any>;
+// type InlineEditingConfig = {
+//   editingMode: 'inline';
+//   allFieldsEditable?: boolean;
+//   editableFields?: EditableFielsdObjectType;
+//   nonEditableFields?: NonEditableFieldsObjectType;
+// }
+
+type StandardEditingConfig = {
   isEditing: boolean;
-  className?: string;
+  editingMode?: 'global' | 'individual' | 'global-individual' | 'inline';
   allFieldsEditable?: boolean;
   editableFields?: EditableFielsdObjectType;
   nonEditableFields?: NonEditableFieldsObjectType;
-  isExpanded? : boolean,
-  onSubmit? : (props : onSubmitorChangePropsType) => void,
-  onChange? : (props : onSubmitorChangePropsType) => void,
-  allowSelectiveFieldEditing : boolean
+}
+
+export type EditingConfig = StandardEditingConfig;
+
+export type JsonEditorProps = {
+  json: Record<string, any>;
+  className?: string;
+  isExpanded? : boolean;
+  onSubmit? : (props : onSubmitorChangePropsType) => void;
+  onChange? : (props : onSubmitorChangePropsType) => void;
+  editingConfig?: EditingConfig;
 };
 
 export type RenderJsonFunctionType = (
