@@ -12,7 +12,12 @@ function DefaultRadioInput({
   path,
   options,
 }: DefaultRadioElementProps) {
-  const { handleOnChange, handleOnSubmit, editingMode, setSelectedFieldsForEditing } = useJsonEditorContext();
+  const {
+    handleOnChange,
+    handleOnSubmit,
+    editingMode,
+    setSelectedFieldsForEditing,
+  } = useJsonEditorContext();
 
   const handleRadioInputChange = (selectedValue: string) => {
     handleOnChange(selectedValue, path);
@@ -20,13 +25,13 @@ function DefaultRadioInput({
 
   const handleRadioInputSubmit = () => {
     handleOnSubmit(value, path);
-    if (editingMode === "inline"){
-      setSelectedFieldsForEditing(prev => {
+    if (editingMode === "inline") {
+      setSelectedFieldsForEditing((prev) => {
         return {
           ...prev,
-          [path] : false
-        }
-      })
+          [path]: false,
+        };
+      });
     }
   };
 
@@ -34,31 +39,31 @@ function DefaultRadioInput({
 
   return (
     <>
-    <RadioGroup
-      value={value}
-      onValueChange={handleRadioInputChange}
-      defaultValue={value}
-    >
-      {options.map((option) => (
-        <div key={option.key} className="flex items-center space-x-2">
-          <RadioGroupItem value={option.value} id={option.key} />
-          <Label htmlFor={option.key}>{option.value}</Label>
-        </div>
-      ))}
-    </RadioGroup>
-    <Button
-        variant={"outline"}
-        disabled={disabled}
-        size={"icon"}
-        className={`${disabled && 'hidden'}`}
-        title="Submit"
-        onClick={handleRadioInputSubmit}
+      <RadioGroup
+        value={value}
+        onValueChange={handleRadioInputChange}
+        defaultValue={value}
       >
-        <Check size={14} />
-      </Button>
-      {editingMode === "inline" && (
-        <InlineCancelButton path={path}/>
+        {options.map((option) => (
+          <div key={option.key} className="flex items-center space-x-2">
+            <RadioGroupItem value={option.value} id={option.key} />
+            <Label htmlFor={option.key}>{option.value}</Label>
+          </div>
+        ))}
+      </RadioGroup>
+      {editingMode !== "global" && (
+        <Button
+          variant={"outline"}
+          disabled={disabled}
+          size={"icon"}
+          className={`${disabled && "hidden"}`}
+          title="Submit"
+          onClick={handleRadioInputSubmit}
+        >
+          <Check size={14} />
+        </Button>
       )}
+      {editingMode === "inline" && <InlineCancelButton path={path} />}
     </>
   );
 }

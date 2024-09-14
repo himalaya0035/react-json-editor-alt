@@ -156,8 +156,8 @@ function App() {
         onSubmit={onSubmit}
         onChange={onChange}
         editingConfig={{
-          editingMode : 'inline',
-          isEditing : false,
+          editingMode : 'global',
+          isEditing : isEditing,
           allFieldsEditable: true,
           editableFields : editbaleFieldsObject,
           nonEditableFields: nonEditbaleFieldObject

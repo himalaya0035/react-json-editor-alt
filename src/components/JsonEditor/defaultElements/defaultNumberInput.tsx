@@ -14,8 +14,13 @@ function DefaultNumberInput({
   path,
 }: DefaultNumberElementProps) {
   const [numberInputValue, setNumberInputValue] = useState(value);
-  const {handleOnChange,handleOnSubmit,editingMode, setSelectedFieldsForEditing} = useJsonEditorContext();
-  
+  const {
+    handleOnChange,
+    handleOnSubmit,
+    editingMode,
+    setSelectedFieldsForEditing,
+  } = useJsonEditorContext();
+
   const handleNumberInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setNumberInputValue(value);
@@ -32,16 +37,16 @@ function DefaultNumberInput({
   );
 
   const handleNumberInputSubmit = () => {
-    handleOnSubmit(numberInputValue,path)
-    if (editingMode === "inline"){
-      setSelectedFieldsForEditing(prev => {
+    handleOnSubmit(numberInputValue, path);
+    if (editingMode === "inline") {
+      setSelectedFieldsForEditing((prev) => {
         return {
           ...prev,
-          [path] : false
-        }
-      })
+          [path]: false,
+        };
+      });
     }
-  }
+  };
 
   let disabled = readModeValue === numberInputValue;
 
@@ -52,19 +57,19 @@ function DefaultNumberInput({
         value={numberInputValue}
         onChange={handleNumberInputChange}
       />
-      <Button
-        variant={"outline"}
-        disabled={disabled}
-        size={"icon"}
-        className={`${disabled && "hidden"}`}
-        title="Submit"
-        onClick={handleNumberInputSubmit}
-      >
-        <Check size={14} />
-      </Button>
-      {editingMode === "inline" && (
-        <InlineCancelButton path={path}/>
+      {editingMode !== "global" && (
+        <Button
+          variant={"outline"}
+          disabled={disabled}
+          size={"icon"}
+          className={`${disabled && "hidden"}`}
+          title="Submit"
+          onClick={handleNumberInputSubmit}
+        >
+          <Check size={14} />
+        </Button>
       )}
+      {editingMode === "inline" && <InlineCancelButton path={path} />}
     </>
   );
 }

@@ -14,7 +14,12 @@ function DefaultTextInput({
   path,
 }: DefaultTextElementProps) {
   const [textInputValue, setTextInputValue] = useState(value);
-  const { handleOnChange, handleOnSubmit, editingMode, setSelectedFieldsForEditing } = useJsonEditorContext();
+  const {
+    handleOnChange,
+    handleOnSubmit,
+    editingMode,
+    setSelectedFieldsForEditing,
+  } = useJsonEditorContext();
 
   const handleTextInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -33,13 +38,13 @@ function DefaultTextInput({
 
   const handleTextInputSubmit = () => {
     handleOnSubmit(textInputValue, path);
-    if (editingMode === "inline"){
-      setSelectedFieldsForEditing(prev => {
+    if (editingMode === "inline") {
+      setSelectedFieldsForEditing((prev) => {
         return {
           ...prev,
-          [path] : false
-        }
-      })
+          [path]: false,
+        };
+      });
     }
   };
 
@@ -48,21 +53,21 @@ function DefaultTextInput({
   return (
     <>
       <Input value={textInputValue} onChange={handleTextInputChange} />
-      <Button
-        variant={"outline"}
-        disabled={disabled}
-        size={"icon"}
-        className={`${disabled && "hidden"}`}
-        title="Submit"
-        onClick={handleTextInputSubmit}
-      >
-        <Check size={14} />
-      </Button>
-      {editingMode === "inline" && (
-        <InlineCancelButton path={path}/>
+      {editingMode !== "global" && (
+        <Button
+          variant={"outline"}
+          disabled={disabled}
+          size={"icon"}
+          className={`${disabled && "hidden"}`}
+          title="Submit"
+          onClick={handleTextInputSubmit}
+        >
+          <Check size={14} />
+        </Button>
       )}
+      {editingMode === "inline" && <InlineCancelButton path={path} />}
     </>
   );
 }
 
-export default DefaultTextInput; 
+export default DefaultTextInput;
