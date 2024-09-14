@@ -128,6 +128,7 @@ function App() {
 
   const nonEditbaleFieldObject: NonEditableFieldsObjectType = {
     name: true,
+    dob : true
   };
 
   const onSubmit = (props : onSubmitorChangePropsType) => {
@@ -155,8 +156,8 @@ function App() {
         onSubmit={onSubmit}
         onChange={onChange}
         editingConfig={{
-          editingMode : 'global-individual',
-          isEditing : isEditing,
+          editingMode : 'inline',
+          isEditing : false,
           allFieldsEditable: true,
           editableFields : editbaleFieldsObject,
           nonEditableFields: nonEditbaleFieldObject

@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from "../../ui/select";
 import { useJsonEditorContext } from "../jsonEditor";
+import InlineCancelButton from "../inlineElements/inlineCancelButton";
 
 function DefaultSelectInput({
   value,
@@ -16,7 +17,7 @@ function DefaultSelectInput({
   path,
   options,
 }: DefaultSelectElementProps) {
-  const {handleOnChange,handleOnSubmit} = useJsonEditorContext();
+  const {handleOnChange,handleOnSubmit, editingMode, setSelectedFieldsForEditing} = useJsonEditorContext();
 
   const handleSelectInputChange = (selectedValue: string) => {
     handleOnChange(selectedValue, path);
@@ -24,6 +25,14 @@ function DefaultSelectInput({
 
   const handleSelectInputSubmit = () => {
     handleOnSubmit(value,path)
+    if (editingMode === "inline"){
+      setSelectedFieldsForEditing(prev => {
+        return {
+          ...prev,
+          [path] : false
+        }
+      })
+    }
   }
 
   let disabled = readModeValue === value
@@ -54,6 +63,9 @@ function DefaultSelectInput({
       >
         <Check size={14} />
       </Button>
+      {editingMode === "inline" && (
+        <InlineCancelButton path={path}/>
+      )}
     </>
   );
 }

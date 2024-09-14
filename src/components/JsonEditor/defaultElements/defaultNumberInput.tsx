@@ -6,6 +6,7 @@ import { DEBOUNCE_DELAY } from "../../../constants/constants";
 import { Button } from "../../ui/button";
 import { Check } from "lucide-react";
 import { useJsonEditorContext } from "../jsonEditor";
+import InlineCancelButton from "../inlineElements/inlineCancelButton";
 
 function DefaultNumberInput({
   value,
@@ -13,7 +14,7 @@ function DefaultNumberInput({
   path,
 }: DefaultNumberElementProps) {
   const [numberInputValue, setNumberInputValue] = useState(value);
-  const {handleOnChange,handleOnSubmit} = useJsonEditorContext();
+  const {handleOnChange,handleOnSubmit,editingMode, setSelectedFieldsForEditing} = useJsonEditorContext();
   
   const handleNumberInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -32,6 +33,14 @@ function DefaultNumberInput({
 
   const handleNumberInputSubmit = () => {
     handleOnSubmit(numberInputValue,path)
+    if (editingMode === "inline"){
+      setSelectedFieldsForEditing(prev => {
+        return {
+          ...prev,
+          [path] : false
+        }
+      })
+    }
   }
 
   let disabled = readModeValue === numberInputValue;
@@ -53,6 +62,9 @@ function DefaultNumberInput({
       >
         <Check size={14} />
       </Button>
+      {editingMode === "inline" && (
+        <InlineCancelButton path={path}/>
+      )}
     </>
   );
 }

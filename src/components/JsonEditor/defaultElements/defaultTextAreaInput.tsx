@@ -6,6 +6,7 @@ import { DEBOUNCE_DELAY } from "../../../constants/constants";
 import { Button } from "../../ui/button";
 import { Check } from "lucide-react";
 import { useJsonEditorContext } from "../jsonEditor";
+import InlineCancelButton from "../inlineElements/inlineCancelButton";
 
 function DefaultTextAreaElement({
   value,
@@ -13,7 +14,7 @@ function DefaultTextAreaElement({
   path,
 }: DefaultTextAreaElementProps) {
   const [textAreaInputValue, setTextAreaInputValue] = useState(value);
-  const { handleOnChange, handleOnSubmit } = useJsonEditorContext();
+  const { handleOnChange, handleOnSubmit, editingMode, setSelectedFieldsForEditing } = useJsonEditorContext();
 
   const handleTextAreaInputChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>
@@ -34,6 +35,14 @@ function DefaultTextAreaElement({
 
   const handleTextAreaInputSubmit = () => {
     handleOnSubmit(textAreaInputValue,path)
+    if (editingMode === "inline"){
+      setSelectedFieldsForEditing(prev => {
+        return {
+          ...prev,
+          [path] : false
+        }
+      })
+    }
   }
 
   let disabled = readModeValue === textAreaInputValue;
@@ -54,6 +63,9 @@ function DefaultTextAreaElement({
       >
         <Check size={14} />
       </Button>
+      {editingMode === "inline" && (
+        <InlineCancelButton path={path}/>
+      )}
     </>
   );
 }

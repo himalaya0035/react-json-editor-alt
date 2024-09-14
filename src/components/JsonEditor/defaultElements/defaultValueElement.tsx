@@ -1,51 +1,18 @@
 import { DefaultValueElementProps } from "../../../types/JsonEditor.types";
-function DefaultValueElement({
-  value,
-}: DefaultValueElementProps) {
+import { useJsonEditorContext } from "../jsonEditor";
+import InlineEditButton from "../inlineElements/inlineEditButton";
+
+function DefaultValueElement({ value, path, isFieldPresentInNonEditableLookup}: DefaultValueElementProps) {
+  const { editingMode} = useJsonEditorContext();
+
   return (
     <>
       <span>{value}</span>
+      {(editingMode === "inline" && !isFieldPresentInNonEditableLookup) && (
+        <InlineEditButton path={path} />
+      )}
     </>
   );
 }
 
 export default DefaultValueElement;
-
-/*
-function DefaultValueElement({
-  value,
-  allowSelectiveFieldEditing,
-  path,
-  selectedFieldsForEditing,
-  setSelectedFieldsForEditing,
-}: DefaultValueElementProps) {
-  return (
-    <>
-      <span>{value}</span>
-      {allowSelectiveFieldEditing && (
-        <Button
-          variant={"outline"}
-          size={"icon"}
-          title="Edit"
-          onClick={() => {
-            if (
-              selectedFieldsForEditing &&
-              setSelectedFieldsForEditing &&
-              !selectedFieldsForEditing.hasOwnProperty(path)
-            ) {
-              setSelectedFieldsForEditing((prev) => {
-                return {
-                  ...prev,
-                  [path]: true,
-                };
-              });
-            }
-          }}
-        >
-          <Edit2Icon size={14} />
-        </Button>
-      )}
-    </>
-  );
-}
-*/

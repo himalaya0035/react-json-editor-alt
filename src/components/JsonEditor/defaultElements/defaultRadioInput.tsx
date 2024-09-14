@@ -4,6 +4,7 @@ import { DefaultRadioElementProps } from "../../../types/JsonEditor.types";
 import { Button } from "../../ui/button";
 import { Check } from "lucide-react";
 import { useJsonEditorContext } from "../jsonEditor";
+import InlineCancelButton from "../inlineElements/inlineCancelButton";
 
 function DefaultRadioInput({
   value,
@@ -11,7 +12,7 @@ function DefaultRadioInput({
   path,
   options,
 }: DefaultRadioElementProps) {
-  const { handleOnChange, handleOnSubmit } = useJsonEditorContext();
+  const { handleOnChange, handleOnSubmit, editingMode, setSelectedFieldsForEditing } = useJsonEditorContext();
 
   const handleRadioInputChange = (selectedValue: string) => {
     handleOnChange(selectedValue, path);
@@ -19,6 +20,14 @@ function DefaultRadioInput({
 
   const handleRadioInputSubmit = () => {
     handleOnSubmit(value, path);
+    if (editingMode === "inline"){
+      setSelectedFieldsForEditing(prev => {
+        return {
+          ...prev,
+          [path] : false
+        }
+      })
+    }
   };
 
   let disabled = readModeValue === value;
@@ -47,6 +56,9 @@ function DefaultRadioInput({
       >
         <Check size={14} />
       </Button>
+      {editingMode === "inline" && (
+        <InlineCancelButton path={path}/>
+      )}
     </>
   );
 }

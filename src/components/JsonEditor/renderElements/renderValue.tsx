@@ -16,10 +16,12 @@ function RenderValue({
 
   const {
     isEditing,
+    editingMode,
     editJsonState,
     editableFields,
     nonEditableFields,
     allFieldsEditable,
+    selectedFieldsForEditing
   } = useJsonEditorContext();
   
   // Ex: need to convert "a.1.b" => "a.b", because editable lookup does not account for indices
@@ -33,9 +35,22 @@ function RenderValue({
   // The editor is in editing mode and,
   // Either all fields are editable or the field is in the editableFields lookup and,
   // The field is not present in the nonEditableFields lookup.  
-  if ((isEditing && (allFieldsEditable || isFieldPresentInEditabeLookup) && !isFieldPresentInNonEditableLookup)) {
-    const editableValue = getValueByPath(editJsonState, path)
-    if (isFieldPresentInEditabeLookup && editableFields[pathWithoutArrayIndices] !== true) {
+  if (
+    (
+      isEditing &&
+      (allFieldsEditable || isFieldPresentInEditabeLookup) &&
+      !isFieldPresentInNonEditableLookup && editingMode !== "inline"
+    ) 
+    || 
+    (
+      editingMode === 'inline' && selectedFieldsForEditing[path] && !isFieldPresentInNonEditableLookup
+    )
+   ){
+    const editableValue = getValueByPath(editJsonState, path);
+    if (
+      isFieldPresentInEditabeLookup &&
+      editableFields[pathWithoutArrayIndices] !== true
+    ) {
       const editableField = editableFields[pathWithoutArrayIndices];
       switch (editableField.type) {
         case "string": {
@@ -128,6 +143,7 @@ function RenderValue({
       value={value as string}
       path={path}
       pathWithoutArrayIndices={pathWithoutArrayIndices}
+      isFieldPresentInNonEditableLookup={isFieldPresentInNonEditableLookup}
     />
   ) 
 }

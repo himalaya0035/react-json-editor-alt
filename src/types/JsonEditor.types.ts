@@ -101,22 +101,23 @@ export type JsonEditorContextType = {
   setSelectedFieldsForEditing: React.Dispatch<React.SetStateAction<Record<string, any>>>
 }
 
-// type InlineEditingConfig = {
-//   editingMode: 'inline';
-//   allFieldsEditable?: boolean;
-//   editableFields?: EditableFielsdObjectType;
-//   nonEditableFields?: NonEditableFieldsObjectType;
-// }
-
-type StandardEditingConfig = {
-  isEditing: boolean;
-  editingMode?: 'global' | 'individual' | 'global-individual' | 'inline';
+type InlineEditingConfig = {
+  editingMode: 'inline';
+  isEditing : false,
   allFieldsEditable?: boolean;
   editableFields?: EditableFielsdObjectType;
   nonEditableFields?: NonEditableFieldsObjectType;
 }
 
-export type EditingConfig = StandardEditingConfig;
+type StandardEditingConfig = {
+  isEditing: boolean;
+  editingMode?: 'global' | 'individual' | 'global-individual';
+  allFieldsEditable?: boolean;
+  editableFields?: EditableFielsdObjectType;
+  nonEditableFields?: NonEditableFieldsObjectType;
+}
+
+export type EditingConfig = StandardEditingConfig | InlineEditingConfig;
 
 export type JsonEditorProps = {
   json: Record<string, any>;
@@ -172,6 +173,7 @@ export type DefaultValueElementProps = {
   path: string;
   value: string;
   pathWithoutArrayIndices?: string;
+  isFieldPresentInNonEditableLookup?: boolean
 }
 
 export type DefaultInputField = {

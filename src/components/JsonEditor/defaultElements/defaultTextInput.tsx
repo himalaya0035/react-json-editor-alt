@@ -6,6 +6,7 @@ import { DEBOUNCE_DELAY } from "../../../constants/constants";
 import { Check } from "lucide-react";
 import { Button } from "../../ui/button";
 import { useJsonEditorContext } from "../jsonEditor";
+import InlineCancelButton from "../inlineElements/inlineCancelButton";
 
 function DefaultTextInput({
   value,
@@ -13,7 +14,7 @@ function DefaultTextInput({
   path,
 }: DefaultTextElementProps) {
   const [textInputValue, setTextInputValue] = useState(value);
-  const { handleOnChange, handleOnSubmit } = useJsonEditorContext();
+  const { handleOnChange, handleOnSubmit, editingMode, setSelectedFieldsForEditing } = useJsonEditorContext();
 
   const handleTextInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -32,6 +33,14 @@ function DefaultTextInput({
 
   const handleTextInputSubmit = () => {
     handleOnSubmit(textInputValue, path);
+    if (editingMode === "inline"){
+      setSelectedFieldsForEditing(prev => {
+        return {
+          ...prev,
+          [path] : false
+        }
+      })
+    }
   };
 
   let disabled = readModeValue === textInputValue;
@@ -49,8 +58,11 @@ function DefaultTextInput({
       >
         <Check size={14} />
       </Button>
+      {editingMode === "inline" && (
+        <InlineCancelButton path={path}/>
+      )}
     </>
   );
 }
 
-export default DefaultTextInput;
+export default DefaultTextInput; 
