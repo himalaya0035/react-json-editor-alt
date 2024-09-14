@@ -157,6 +157,7 @@ function App() {
         onChange={onChange}
         editingConfig={{
           editingMode : 'global',
+          isEditing : isEditing,
           editableFields : editbaleFieldsObject,
           nonEditableFields: nonEditbaleFieldObject
         }}

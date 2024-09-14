@@ -118,6 +118,13 @@ type StandardEditingConfig = {
 
 export type EditingConfig = StandardEditingConfig | InlineEditingConfig;
 
+export type GlobalSubmitButtonConfigs = {
+  variant?: "secondary" | "outline" | 'ghost' | "link" | 'destructive';
+  className?: string; 
+  buttonText?: string;
+  children?: React.ReactNode; 
+}
+
 export type JsonEditorProps = {
   json: Record<string, any>;
   className?: string;
@@ -125,6 +132,7 @@ export type JsonEditorProps = {
   onSubmit? : (props : onSubmitorChangePropsType) => void;
   onChange? : (props : onSubmitorChangePropsType) => void;
   editingConfig?: EditingConfig;
+  globalSubmitButtonConfigs? : GlobalSubmitButtonConfigs
 };
 
 export type RenderJsonFunctionType = (

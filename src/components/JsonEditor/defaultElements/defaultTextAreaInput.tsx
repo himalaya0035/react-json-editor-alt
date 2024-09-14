@@ -58,7 +58,7 @@ function DefaultTextAreaElement({
         value={textAreaInputValue}
         onChange={handleTextAreaInputChange}
       />
-      {editingMode !== "individual" && (
+      {editingMode !== "global" && (
         <Button
           variant={"outline"}
           disabled={disabled}

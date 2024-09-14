@@ -2,10 +2,11 @@ import { createContext, ReactNode, useContext, useState } from "react";
 import RenderObject from "./renderElements/renderObject";
 import RenderArray from "./renderElements/renderArray";
 import RenderValue from "./renderElements/renderValue";
-import { EditingConfig, HandleOnChange, HandleOnSubmit, JsonEditorContextType, JsonEditorProps } from "../../types/JsonEditor.types";
+import { EditingConfig, GlobalSubmitButtonConfigs, HandleOnChange, HandleOnSubmit, JsonEditorContextType, JsonEditorProps } from "../../types/JsonEditor.types";
 import { deepCopy, findJsonDiff, updateValueByPath } from "../../functions/functions";
 import "./jsonEditor.css";
 import { cn } from "../../lib/utils";
+import { Button } from "../ui/button";
 
 const JsonEditorContext = createContext<JsonEditorContextType>({} as JsonEditorContextType);
 export const useJsonEditorContext = () => useContext(JsonEditorContext);
@@ -16,7 +17,8 @@ function JsonEditor({
   isExpanded = false,
   onSubmit,
   onChange,
-  editingConfig = {} as EditingConfig
+  editingConfig = {} as EditingConfig,
+  globalSubmitButtonConfigs = {} as GlobalSubmitButtonConfigs
 }: JsonEditorProps) {
   const [jsonState, setJsonState] = useState<Record<string, any> | null>(json);
   const [editJsonState, setEditJsonState] = useState<Record<string, any> | null>(json);
@@ -60,6 +62,18 @@ function JsonEditor({
     setJsonState(tempJsonState)
   }
 
+  const handleGlobalSubmit = () => {
+    const tempEditJsonState = deepCopy(editJsonState)
+    if (onSubmit && jsonState){
+      onSubmit({ // callback function exposed to lib consumer
+        initialJson : deepCopy(editJsonState),
+        updatedJson : tempEditJsonState,
+        updatedKeys: findJsonDiff(jsonState,tempEditJsonState)
+      })
+    }
+    setJsonState(tempEditJsonState)
+  }
+
   const renderJson = (
     value: any,
     path = "",
@@ -78,7 +92,7 @@ function JsonEditor({
       } else {
         return (
           <RenderObject
-            obj={value}
+            obj={value} 
             isRootLevelKey={isRootLevelKey}
             path={path}
             renderJson={renderJson}
@@ -112,9 +126,19 @@ function JsonEditor({
         setSelectedFieldsForEditing,
       }}
     >
-      <div className={cn("w-full h-auto border-black border-2 py-5", className)}>
-        {renderJson(jsonState)}
-      </div>
+    <div className={cn("w-full h-auto b border-2 py-5", className)}>
+      {renderJson(jsonState)}
+      {["global","global-individual"].includes(editingMode) && isEditing && (
+        <Button
+          variant={globalSubmitButtonConfigs?.variant || "secondary"}
+          className={cn("ml-5 mt-2",globalSubmitButtonConfigs?.className)}
+          onClick={handleGlobalSubmit}
+        >
+          {globalSubmitButtonConfigs?.buttonText || "Submit"}
+          {globalSubmitButtonConfigs?.children}
+        </Button>
+      ) }
+    </div>
     </JsonEditorContext.Provider>
   );
 }
