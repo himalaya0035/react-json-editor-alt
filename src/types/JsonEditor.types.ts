@@ -102,15 +102,14 @@ export type JsonEditorContextType = {
 }
 
 type InlineEditingConfig = {
-  editingMode: 'inline';
-  isEditing?: false,
+  editingMode?: 'inline';
   allFieldsEditable?: boolean;
   editableFields?: EditableFielsdObjectType;
   nonEditableFields?: NonEditableFieldsObjectType;
 }
 
 type StandardEditingConfig = {
-  isEditing: boolean;
+  isEditing?: boolean;
   editingMode?: 'global' | 'individual' | 'global-individual';
   allFieldsEditable?: boolean;
   editableFields?: EditableFielsdObjectType;

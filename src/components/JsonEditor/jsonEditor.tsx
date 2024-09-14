@@ -2,7 +2,7 @@ import { createContext, ReactNode, useContext, useState } from "react";
 import RenderObject from "./renderElements/renderObject";
 import RenderArray from "./renderElements/renderArray";
 import RenderValue from "./renderElements/renderValue";
-import { HandleOnChange, HandleOnSubmit, JsonEditorContextType, JsonEditorProps } from "../../types/JsonEditor.types";
+import { EditingConfig, HandleOnChange, HandleOnSubmit, JsonEditorContextType, JsonEditorProps } from "../../types/JsonEditor.types";
 import { deepCopy, findJsonDiff, updateValueByPath } from "../../functions/functions";
 import "./jsonEditor.css";
 import { cn } from "../../lib/utils";
@@ -16,18 +16,23 @@ function JsonEditor({
   isExpanded = false,
   onSubmit,
   onChange,
-  editingConfig = {
-    isEditing: false,
-    editingMode : 'global-individual',
-    allFieldsEditable : true,
-    editableFields : {},
-    nonEditableFields : {}
-  }
+  editingConfig = {} as EditingConfig
 }: JsonEditorProps) {
   const [jsonState, setJsonState] = useState<Record<string, any> | null>(json);
   const [editJsonState, setEditJsonState] = useState<Record<string, any> | null>(json);
   const [selectedFieldsForEditing, setSelectedFieldsForEditing] = useState<Record<string, any>>({})  
-  const {editingMode,isEditing,allFieldsEditable,editableFields,nonEditableFields} = editingConfig
+
+  const {
+    editingMode = 'global-individual',
+    allFieldsEditable = true,
+    editableFields = {}, 
+    nonEditableFields = {}
+  } = editingConfig;
+
+  let isEditing = false;
+  if ("isEditing" in editingConfig){
+    isEditing = editingConfig.isEditing || false
+  }
 
   const handleOnChange : HandleOnChange = (value,path) => {
     const tempEditJsonState = deepCopy(editJsonState)
