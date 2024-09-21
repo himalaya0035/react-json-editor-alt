@@ -8,6 +8,7 @@ import { getValueByPath, removeArrayIndexFromPropertyPath } from "../../../funct
 import { RenderValueProps } from "../../../types/JsonEditor.types";
 import DefaultValueElement from "../defaultElements/defaultValueElement";
 import { useJsonEditorContext } from "../jsonEditor";
+import { INLINE_EDITING_MODE } from "../../../constants/constants";
 
 function RenderValue({
   value,
@@ -39,11 +40,11 @@ function RenderValue({
     (
       isEditing &&
       (allFieldsEditable || isFieldPresentInEditabeLookup) &&
-      !isFieldPresentInNonEditableLookup && editingMode !== "inline"
+      !isFieldPresentInNonEditableLookup && editingMode !== INLINE_EDITING_MODE
     ) 
     || 
     (
-      editingMode === 'inline' && selectedFieldsForEditing[path] && !isFieldPresentInNonEditableLookup
+      editingMode === INLINE_EDITING_MODE && selectedFieldsForEditing[path] && !isFieldPresentInNonEditableLookup
     )
    ){
     const editableValue = getValueByPath(editJsonState, path);

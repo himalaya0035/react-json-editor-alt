@@ -1,3 +1,4 @@
+import { INLINE_EDITING_MODE } from "../../../constants/constants";
 import { Button } from "../../ui/button";
 import { useJsonEditorContext } from "../jsonEditor";
 import { Cross1Icon } from "@radix-ui/react-icons";
@@ -12,7 +13,7 @@ const InlineCancelButton = ({ path }: InlineCancelButtonProps) => {
   const { editingMode, selectedFieldsForEditing, setSelectedFieldsForEditing } =
     useJsonEditorContext();
 
-  if (editingMode !== "inline") {
+  if (editingMode !== INLINE_EDITING_MODE) {
     return null;
   }
 

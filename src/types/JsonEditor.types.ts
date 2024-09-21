@@ -1,4 +1,10 @@
 import { CSSProperties } from "react";
+import {
+  GLOBAL_EDITING_MODE,
+  GLOBAL_INDIVIDUAL_EDITING_MODE,
+  INDIVIDUAL_EDITING_MODE,
+  INLINE_EDITING_MODE,
+} from "../constants/constants";
 
 type Validations = {
   minLength?: number;
@@ -109,9 +115,8 @@ export type JsonEditorContextType = {
   selectedFieldsForEditing: Record<string,any>,
   setSelectedFieldsForEditing: React.Dispatch<React.SetStateAction<Record<string, any>>>
 }
-
 type InlineEditingConfig = {
-  editingMode?: 'inline';
+  editingMode?: typeof INLINE_EDITING_MODE;
   allFieldsEditable?: boolean;
   editableFields?: EditableFielsdObjectType;
   nonEditableFields?: NonEditableFieldsObjectType;
@@ -119,7 +124,7 @@ type InlineEditingConfig = {
 
 type StandardEditingConfig = {
   isEditing?: boolean;
-  editingMode?: 'global' | 'individual' | 'global-individual';
+  editingMode?: typeof GLOBAL_EDITING_MODE | typeof INDIVIDUAL_EDITING_MODE | typeof GLOBAL_INDIVIDUAL_EDITING_MODE;
   allFieldsEditable?: boolean;
   editableFields?: EditableFielsdObjectType;
   nonEditableFields?: NonEditableFieldsObjectType;

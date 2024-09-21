@@ -2,12 +2,28 @@ import { createContext, CSSProperties, ReactNode, useContext, useState } from "r
 import RenderObject from "./renderElements/renderObject";
 import RenderArray from "./renderElements/renderArray";
 import RenderValue from "./renderElements/renderValue";
-import { EditingConfig, GlobalSubmitButtonConfigs, HandleOnChange, HandleOnSubmit, JsonEditorContextType, JsonEditorProps } from "../../types/JsonEditor.types";
-import { deepCopy, findJsonDiff, updateValueByPath } from "../../functions/functions";
-import "./jsonEditor.css";
+import {
+  EditingConfig,
+  GlobalSubmitButtonConfigs,
+  HandleOnChange,
+  HandleOnSubmit,
+  JsonEditorContextType,
+  JsonEditorProps,
+} from "../../types/JsonEditor.types";
+import {
+  deepCopy,
+  findJsonDiff,
+  updateValueByPath,
+} from "../../functions/functions";
 import { cn } from "../../lib/utils";
 import { Button } from "../ui/button";
-import { GLOBAL_EDITING_MODE, GLOBAL_INDIVIDUAL_EDITING_MODE, INDIVIDUAL_EDITING_MODE, INLINE_EDITING_MODE } from "../../constants/constants";
+import {
+  GLOBAL_EDITING_MODE,
+  GLOBAL_INDIVIDUAL_EDITING_MODE,
+  INDIVIDUAL_EDITING_MODE,
+  INLINE_EDITING_MODE,
+} from "../../constants/constants";
+import "./jsonEditor.css";
 
 const JsonEditorContext = createContext<JsonEditorContextType>({} as JsonEditorContextType);
 export const useJsonEditorContext = () => useContext(JsonEditorContext);
