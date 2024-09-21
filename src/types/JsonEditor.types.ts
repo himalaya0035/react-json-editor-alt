@@ -66,7 +66,7 @@ export type EditableFielsdObjectType = {
     | SelectField
     | RadioField
     | TextAreaField
-    | DateField
+    | DateField<DateFormat>
     | RootField;
 };
 

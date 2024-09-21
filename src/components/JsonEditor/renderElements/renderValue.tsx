@@ -88,6 +88,7 @@ function RenderValue({
           return (
             <DefaultDateInput
               value={editableValue as string}
+              readModeValue={value as string}
               path={path}
               pathWithoutArrayIndices={pathWithoutArrayIndices}
               format={editableField.format}

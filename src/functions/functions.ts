@@ -31,7 +31,7 @@ export const removeArrayIndexFromPropertyPath = (path: string): string => {
 };
 
 
-export const convertPatternIntoDate = (dateString: string, format: string): Date => {
+export const convertPatternIntoDate = (dateString: string, format: string): Date | null => {
   const formatPatterns: { [key: string]: RegExp } = {
       'DD/MM/YYYY': /^(\d{2})\/(\d{2})\/(\d{4})$/,
       'YYYY/MM/DD': /^(\d{4})\/(\d{2})\/(\d{2})$/,
@@ -43,12 +43,14 @@ export const convertPatternIntoDate = (dateString: string, format: string): Date
 
   const pattern = formatPatterns[format];
   if (!pattern) {
-      throw new Error('Unsupported format');
+    console.warn('Unsupported format. Returning null.');
+    return null;
   }
 
   const match = dateString.match(pattern);
   if (!match) {
-      throw new Error('Invalid date string for the provided format');
+    console.warn('Invalid date string for the provided format. Returning null.');
+    return null;
   }
 
   const [, part1, part2, part3] = match;
@@ -75,11 +77,39 @@ export const convertPatternIntoDate = (dateString: string, format: string): Date
           year = parseInt(part3, 10);
           break;
       default:
-          throw new Error('Unsupported format');
+        console.warn('Unsupported format. Returning null.');
+        return null;
   }
 
   return new Date(year, month, day);
 }
+
+export const convertDateIntoPattern = (date: Date, format: string): string | null => {
+  const padZero = (num: number): string => num.toString().padStart(2, '0'); 
+
+  const day = padZero(date.getDate());
+  const month = padZero(date.getMonth() + 1);
+  const year = date.getFullYear();
+
+  switch (format) {
+    case 'DD/MM/YYYY':
+      return `${day}/${month}/${year}`;
+    case 'YYYY/MM/DD':
+      return `${year}/${month}/${day}`;
+    case 'MM/DD/YYYY':
+      return `${month}/${day}/${year}`;
+    case 'DD-MM-YYYY':
+      return `${day}-${month}-${year}`;
+    case 'YYYY-MM-DD':
+      return `${year}-${month}-${day}`;
+    case 'MM-DD-YYYY':
+      return `${month}-${day}-${year}`;
+    default:
+      console.warn('Unsupported format. Returning null');
+      return null;
+  }
+};
+
 
 export const updateValueByPath = (obj: any, path: string, value: any): void => {
   const keys: string[] = path.split(".");
