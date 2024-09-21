@@ -7,6 +7,7 @@ import { deepCopy, findJsonDiff, updateValueByPath } from "../../functions/funct
 import "./jsonEditor.css";
 import { cn } from "../../lib/utils";
 import { Button } from "../ui/button";
+import { GLOBAL_EDITING_MODE, GLOBAL_INDIVIDUAL_EDITING_MODE, INDIVIDUAL_EDITING_MODE, INLINE_EDITING_MODE } from "../../constants/constants";
 
 const JsonEditorContext = createContext<JsonEditorContextType>({} as JsonEditorContextType);
 export const useJsonEditorContext = () => useContext(JsonEditorContext);
@@ -25,7 +26,7 @@ function JsonEditor({
   const [selectedFieldsForEditing, setSelectedFieldsForEditing] = useState<Record<string, any>>({})  
 
   const {
-    editingMode = 'global-individual',
+    editingMode = INLINE_EDITING_MODE,
     allFieldsEditable = true,
     editableFields = {}, 
     nonEditableFields = {}
@@ -59,7 +60,7 @@ function JsonEditor({
         updatedJson : tempJsonState,
         updatedKeys: findJsonDiff(jsonState,tempJsonState),
         editorMode : editingMode,
-        submitType : editingMode === "global-individual" ? "individual" : editingMode
+        submitType : editingMode === GLOBAL_INDIVIDUAL_EDITING_MODE ? INDIVIDUAL_EDITING_MODE : editingMode
       })
     }
     setJsonState(tempJsonState)
@@ -73,7 +74,7 @@ function JsonEditor({
         updatedJson : tempEditJsonState,
         updatedKeys: findJsonDiff(jsonState,tempEditJsonState),
         editorMode : editingMode,
-        submitType : editingMode === "global-individual" ? "global" : editingMode
+        submitType : editingMode === GLOBAL_INDIVIDUAL_EDITING_MODE ? INDIVIDUAL_EDITING_MODE : editingMode
       })
     }
     setJsonState(tempEditJsonState)
@@ -133,7 +134,7 @@ function JsonEditor({
     >
     <div className={cn("w-full h-auto b border-2 py-5", className)}>
       {renderJson(jsonState)}
-      {["global","global-individual"].includes(editingMode) && isEditing && (
+      {[GLOBAL_EDITING_MODE,GLOBAL_INDIVIDUAL_EDITING_MODE].includes(editingMode) && isEditing && (
         <Button
           variant={globalSubmitButtonConfigs?.variant || "secondary"}
           className={cn("ml-5 mt-2",globalSubmitButtonConfigs?.className)}

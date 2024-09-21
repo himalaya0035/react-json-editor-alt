@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { DefaultTextAreaElementProps } from "../../../types/JsonEditor.types";
 import { Textarea } from "../../ui/textarea";
 import { debounce } from "../../../functions/functions";
-import { DEBOUNCE_DELAY } from "../../../constants/constants";
+import { DEBOUNCE_DELAY, GLOBAL_EDITING_MODE, INLINE_EDITING_MODE } from "../../../constants/constants";
 import { Button } from "../../ui/button";
 import { Check } from "lucide-react";
 import { useJsonEditorContext } from "../jsonEditor";
@@ -40,7 +40,7 @@ function DefaultTextAreaElement({
 
   const handleTextAreaInputSubmit = () => {
     handleOnSubmit(textAreaInputValue, path);
-    if (editingMode === "inline") {
+    if (editingMode === INLINE_EDITING_MODE) {
       setSelectedFieldsForEditing((prev) => {
         return {
           ...prev,
@@ -58,7 +58,7 @@ function DefaultTextAreaElement({
         value={textAreaInputValue}
         onChange={handleTextAreaInputChange}
       />
-      {editingMode !== "global" && (
+      {editingMode !== GLOBAL_EDITING_MODE && (
         <Button
           variant={"outline"}
           disabled={disabled}
@@ -70,7 +70,7 @@ function DefaultTextAreaElement({
           <Check size={14} />
         </Button>
       )}
-      {editingMode === "inline" && <InlineCancelButton path={path} />}
+      {editingMode === INLINE_EDITING_MODE && <InlineCancelButton path={path} />}
     </>
   );
 }

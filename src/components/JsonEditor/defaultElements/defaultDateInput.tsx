@@ -5,6 +5,7 @@ import { Button } from "../../ui/button";
 import { DatePicker } from "../../ui/datePicker";
 import { useJsonEditorContext } from "../jsonEditor";
 import InlineCancelButton from "../inlineElements/inlineCancelButton";
+import { GLOBAL_EDITING_MODE, INLINE_EDITING_MODE } from "../../../constants/constants";
 
 function DefaultDateInput({value,readModeValue,path,format}: DefaultDateElementProps) {
   const {
@@ -28,7 +29,7 @@ function DefaultDateInput({value,readModeValue,path,format}: DefaultDateElementP
 
   const handleDateInputSubmit = () => {
     handleOnSubmit(value, path);
-    if (editingMode === "inline") {
+    if (editingMode === INLINE_EDITING_MODE) {
       setSelectedFieldsForEditing((prev) => {
         return {
           ...prev,
@@ -43,7 +44,7 @@ function DefaultDateInput({value,readModeValue,path,format}: DefaultDateElementP
   return (
     <>
       <DatePicker dateValue={dateValue} onChange={handleDateInputChange} />
-      {editingMode !== "global" && (
+      {editingMode !== GLOBAL_EDITING_MODE && (
         <Button
           variant={"outline"}
           disabled={disabled}
@@ -55,7 +56,7 @@ function DefaultDateInput({value,readModeValue,path,format}: DefaultDateElementP
           <Check size={14} />
         </Button>
       )}
-      {editingMode === "inline" && <InlineCancelButton path={path} />}
+      {editingMode === INLINE_EDITING_MODE && <InlineCancelButton path={path} />}
     </>
   );
   

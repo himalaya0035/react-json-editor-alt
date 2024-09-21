@@ -8,6 +8,7 @@ import {
 } from "./types/JsonEditor.types";
 import { indianStatesOptions } from "./temp";
 import { Button } from "./components/ui/button";
+import { GLOBAL_EDITING_MODE } from "./constants/constants";
 
 function App() {
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -133,7 +134,7 @@ function App() {
 
   const onSubmit = (props : OnSubmitPropsType) => {
     console.info(props)
-    if (props.submitType === "global"){
+    if (props.submitType === GLOBAL_EDITING_MODE){
       setIsEditing(false)
     }
   }
