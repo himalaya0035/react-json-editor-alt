@@ -41,19 +41,16 @@ export default RenderObject;
 function RenderObjectKeys({ keyName, val, children }: RenderObjectKeysProps) {
   const {isExpanded} = useJsonEditorContext();
   
-  const handleCollapsible = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
-  ) => {
-    const spanElement = e.target as HTMLElement;
-    const isCollapsed = spanElement.getAttribute("data-collapse") === "true";
+  const toggleCollapsible = (element : HTMLElement) => {
+    const isCollapsed = element.getAttribute("data-collapse") === "true";
     if (!isCollapsed) {
-      spanElement.setAttribute("data-collapse", "true");
-      spanElement.setAttribute("title", "Expand");
+      element.setAttribute("data-collapse", "true");
+      element.setAttribute("title", "Expand");
     } else {
-      spanElement.setAttribute("data-collapse", "false");
-      spanElement.setAttribute("title", "Collapse");
+      element.setAttribute("data-collapse", "false");
+      element.setAttribute("title", "Collapse");
     }
-  };
+  }
 
   if (typeof val === "object" && val !== null) {
     return (
@@ -61,8 +58,16 @@ function RenderObjectKeys({ keyName, val, children }: RenderObjectKeysProps) {
         <span
           data-collapse={!isExpanded}
           title="Expand"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter"){
+              toggleCollapsible(e.target as HTMLElement)
+            }
+          }}
           className="cursor-pointer inline-block w-5 h-5 leading-5 text-center mr-1.5 bg-gray-200 rounded-full transition-transform duration-300 collapsible-icon"
-          onClick={handleCollapsible}
+          onClick={(e) => {
+            toggleCollapsible(e.target as HTMLElement)
+          }}
         ></span>
         <strong>
           {keyName}:{Array.isArray(val) ? " [ " : " { "}

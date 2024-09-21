@@ -40,7 +40,7 @@ function DefaultTextAreaElement({
 
   const handleTextAreaInputSubmit = () => {
     handleOnSubmit(textAreaInputValue, path);
-    if (editingMode === "global") {
+    if (editingMode === "inline") {
       setSelectedFieldsForEditing((prev) => {
         return {
           ...prev,

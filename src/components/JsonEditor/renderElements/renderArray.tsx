@@ -11,19 +11,17 @@ function RenderArray({
   renderJson,
 }: RenderArrayProps) {
   const {isExpanded} = useJsonEditorContext();
-  const handleCollapsible = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
-  ) => {
-    const spanElement = e.target as HTMLElement;
-    const isCollapsed = spanElement.getAttribute("data-collapse") === "true";
+
+  const toggleCollapsible = (element : HTMLElement) => {
+    const isCollapsed = element.getAttribute("data-collapse") === "true";
     if (!isCollapsed) {
-      spanElement.setAttribute("data-collapse", "true");
-      spanElement.setAttribute("title", "Expand");
+      element.setAttribute("data-collapse", "true");
+      element.setAttribute("title", "Expand");
     } else {
-      spanElement.setAttribute("data-collapse", "false");
-      spanElement.setAttribute("title", "Collapse");
+      element.setAttribute("data-collapse", "false");
+      element.setAttribute("title", "Collapse");
     }
-  };
+  }
 
   return (
     <ul
@@ -39,7 +37,15 @@ function RenderArray({
             <span
               data-collapse={!isExpanded}
               title="Expand"
-              onClick={handleCollapsible}
+              onClick={(e) => {
+                toggleCollapsible(e.target as HTMLElement)
+              }}
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter"){
+                  toggleCollapsible(e.target as HTMLElement)
+                }
+              }}
               className="cursor-pointer float-left min-w-2.5 px-2 rounded-sm mr-2 text-[0.9em] text-center bg-gray-200"
             >
               {index}:
