@@ -1,4 +1,4 @@
-import { DiffKeyValues } from "../types/JsonEditor.types";
+import { DiffKeyValues, NumberFieldValidations, Validations } from "../types/JsonEditor.types";
 
 export const deepEqual = (obj1 : any, obj2 : any) => {
   if (obj1 === obj2) return true;
@@ -171,7 +171,6 @@ export const findJsonDiff = (
   return diffKeyValues;
 }
 
-
 export const debounce = (func: (...args: any[]) => void, delay: number) => {
   let timeout: NodeJS.Timeout;
   return (...args: any[]) => {
@@ -180,4 +179,31 @@ export const debounce = (func: (...args: any[]) => void, delay: number) => {
       func(...args);
     }, delay);
   };
+};
+
+export const validateValue = (value: string, validations: Validations & NumberFieldValidations): string | null => {
+  if (validations.minLength && value.length < validations.minLength) {
+    return validations.validationMessage || `Value must be at least ${validations.minLength} characters long.`;
+  }
+
+  if (validations.maxLength && value.length > validations.maxLength) {
+    return validations.validationMessage || `Value must be no more than ${validations.maxLength} characters long.`;
+  }
+
+  if (validations.maxValue && Number(value) > validations.maxValue) {
+    return validations.validationMessage || `Value must be less than ${validations.maxValue}.`;
+  }
+
+  if (validations.minValue && Number(value) < validations.minValue) {
+    return validations.validationMessage || `Value must be greater than ${validations.minValue}.`;
+  }
+
+  if (validations.regex) {
+    const regex = new RegExp(validations.regex);
+    if (!regex.test(value)) {
+      return validations.regexValidationMessage || "Value does not match the required pattern.";
+    }
+  }
+
+  return null;
 };

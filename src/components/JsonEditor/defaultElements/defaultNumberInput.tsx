@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { DefaultNumberElementProps } from "../../../types/JsonEditor.types";
 import { Input } from "../../ui/input";
-import { debounce } from "../../../functions/functions";
+import { debounce, validateValue } from "../../../functions/functions";
 import { DEBOUNCE_DELAY, GLOBAL_EDITING_MODE, INLINE_EDITING_MODE } from "../../../constants/constants";
 import { Button } from "../../ui/button";
 import { Check } from "lucide-react";
@@ -12,26 +12,43 @@ function DefaultNumberInput({
   value,
   readModeValue,
   path,
+  fieldValidations
 }: DefaultNumberElementProps) {
   const [numberInputValue, setNumberInputValue] = useState<number| string>(value);
+  const [localValidationError, setLocalValidationError] = useState('')
   const {
     handleOnChange,
     handleOnSubmit,
     editingMode,
     setSelectedFieldsForEditing,
+    validations,
+    setValidations
   } = useJsonEditorContext();
 
   const handleNumberInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    let result = null;
+    if (fieldValidations){
+      result = validateValue(value,fieldValidations)
+      setLocalValidationError(result || '')
+    }
     setNumberInputValue(value);
-    debouncedOnChange(value);
+    debouncedOnChange(value,result || "");
   };
 
   // Memoize debounced onChange with useCallback, recreating when onChange updates.
   // This prevents stale closures and ensures the component uses the latest onChange.
   const debouncedOnChange = useCallback(
-    debounce((value: string) => {
+    debounce((value: string,validationMessage? : string) => {
       handleOnChange(Number(value), path);
+      if (fieldValidations){
+        setValidations(prev => {
+          return {
+            ...prev,
+            [path] :  validationMessage
+          }
+        })
+      }
     }, DEBOUNCE_DELAY),
     [handleOnChange]
   );
@@ -48,7 +65,8 @@ function DefaultNumberInput({
     }
   };
 
-  let disabled = readModeValue === Number(numberInputValue);
+  const disabled = readModeValue === Number(numberInputValue);
+  const validationMessage = localValidationError || validations[path]
 
   return (
     <>
@@ -57,7 +75,7 @@ function DefaultNumberInput({
         value={numberInputValue}
         onChange={handleNumberInputChange}
       />
-      {editingMode !== GLOBAL_EDITING_MODE && (
+      {editingMode !== GLOBAL_EDITING_MODE && !validationMessage && (
         <Button
           variant={"outline"}
           disabled={disabled}
@@ -70,6 +88,7 @@ function DefaultNumberInput({
         </Button>
       )}
       {editingMode === INLINE_EDITING_MODE && <InlineCancelButton path={path} />}
+      <span className="text-sm">{validationMessage}</span>
     </>
   );
 }

@@ -41,6 +41,7 @@ function JsonEditor({
   const [jsonState, setJsonState] = useState<Record<string, any> | null>(json);
   const [editJsonState, setEditJsonState] = useState<Record<string, any> | null>(json);
   const [selectedFieldsForEditing, setSelectedFieldsForEditing] = useState<Record<string, any>>({})  
+  const [validations, setValidations] = useState<Record<string, any>>({})  
 
   const {
     editingMode = INLINE_EDITING_MODE,
@@ -91,7 +92,7 @@ function JsonEditor({
         updatedJson : tempEditJsonState,
         updatedKeys: findJsonDiff(jsonState,tempEditJsonState),
         editorMode : editingMode,
-        submitType : editingMode === GLOBAL_INDIVIDUAL_EDITING_MODE ? INDIVIDUAL_EDITING_MODE : editingMode
+        submitType : editingMode === GLOBAL_INDIVIDUAL_EDITING_MODE ? GLOBAL_EDITING_MODE : editingMode
       })
     }
     setJsonState(tempEditJsonState)
@@ -131,6 +132,9 @@ function JsonEditor({
       );
     }
   };
+  const noOfValidationErrors = Object.values(validations).reduce((count, value) => {
+    return value !== "" ? count + 1 : count;
+  }, 0);
 
   return (
     <JsonEditorContext.Provider
@@ -147,21 +151,29 @@ function JsonEditor({
         handleOnSubmit,
         selectedFieldsForEditing,
         setSelectedFieldsForEditing,
+        validations,
+        setValidations,
       }}
     >
-    <div style={styles} className={cn("w-full h-auto b border-2 py-5", className)}>
-      {renderJson(jsonState)}
-      {[GLOBAL_EDITING_MODE,GLOBAL_INDIVIDUAL_EDITING_MODE].includes(editingMode) && isEditing && (
-        <Button
-          variant={globalSubmitButtonConfigs?.variant || "secondary"}
-          className={cn("ml-5 mt-2",globalSubmitButtonConfigs?.className)}
-          onClick={handleGlobalSubmit}
-        >
-          {globalSubmitButtonConfigs?.buttonText || "Submit"}
-          {globalSubmitButtonConfigs?.children}
-        </Button>
-      ) }
-    </div>
+      <div
+        style={styles}
+        className={cn("w-full h-auto b border-2 py-5", className)}
+      >
+        {renderJson(jsonState)}
+        {[GLOBAL_EDITING_MODE, GLOBAL_INDIVIDUAL_EDITING_MODE].includes(editingMode) 
+        && isEditing 
+        && noOfValidationErrors === 0 
+        && (
+            <Button
+              variant={globalSubmitButtonConfigs?.variant || "secondary"}
+              className={cn("ml-5 mt-2", globalSubmitButtonConfigs?.className)}
+              onClick={handleGlobalSubmit}
+            >
+              {globalSubmitButtonConfigs?.buttonText || "Submit"}
+              {globalSubmitButtonConfigs?.children}
+            </Button>
+          )}
+      </div>
     </JsonEditorContext.Provider>
   );
 }

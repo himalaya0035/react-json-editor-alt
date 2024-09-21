@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { DefaultTextElementProps } from "../../../types/JsonEditor.types";
 import { Input } from "../../ui/input";
-import { debounce } from "../../../functions/functions";
+import { debounce, validateValue } from "../../../functions/functions";
 import { DEBOUNCE_DELAY, GLOBAL_EDITING_MODE, INLINE_EDITING_MODE } from "../../../constants/constants";
 import { Check } from "lucide-react";
 import { Button } from "../../ui/button";
@@ -12,26 +12,43 @@ function DefaultTextInput({
   value,
   readModeValue,
   path,
+  fieldValidations
 }: DefaultTextElementProps) {
   const [textInputValue, setTextInputValue] = useState(value);
+  const [localValidationError, setLocalValidationError] = useState('')
   const {
     handleOnChange,
     handleOnSubmit,
     editingMode,
     setSelectedFieldsForEditing,
+    validations,
+    setValidations
   } = useJsonEditorContext();
 
   const handleTextInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    let result = null;
+    if (fieldValidations){
+      result = validateValue(value,fieldValidations)
+      setLocalValidationError(result || '')
+    }
     setTextInputValue(value);
-    debouncedOnChange(value);
+    debouncedOnChange(value,result || "");
   };
 
   // Memoize debounced onChange with useCallback, recreating when onChange updates.
   // This prevents stale closures and ensures the component uses the latest onChange.
   const debouncedOnChange = useCallback(
-    debounce((value: string) => {
+    debounce((value: string,validationMessage? : string) => {
       handleOnChange(value, path);
+      if (fieldValidations){
+        setValidations(prev => {
+          return {
+            ...prev,
+            [path] :  validationMessage
+          }
+        })
+      }
     }, DEBOUNCE_DELAY),
     [handleOnChange]
   );
@@ -48,12 +65,13 @@ function DefaultTextInput({
     }
   };
 
-  let disabled = readModeValue === textInputValue;
+  const disabled = readModeValue === textInputValue;
+  const validationMessage = localValidationError || validations[path]
 
   return (
     <>
       <Input value={textInputValue} onChange={handleTextInputChange} />
-      {editingMode !== GLOBAL_EDITING_MODE && (
+      {editingMode !== GLOBAL_EDITING_MODE && !validationMessage && (
         <Button
           variant={"outline"}
           disabled={disabled}
@@ -66,6 +84,7 @@ function DefaultTextInput({
         </Button>
       )}
       {editingMode === INLINE_EDITING_MODE && <InlineCancelButton path={path} />}
+      <span className="text-sm">{validationMessage}</span>
     </>
   );
 }

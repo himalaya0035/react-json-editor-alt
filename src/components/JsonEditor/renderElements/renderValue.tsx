@@ -55,22 +55,26 @@ function RenderValue({
       const editableField = editableFields[pathWithoutArrayIndices];
       switch (editableField.type) {
         case "string": {
+          const fieldValidations = editableField?.validations
           return (
             <DefaultTextInput
               path={path}
               pathWithoutArrayIndices={pathWithoutArrayIndices}
               value={editableValue as string}
               readModeValue={value as string}
+              fieldValidations={fieldValidations}
             />
           );
         }
         case "number": {
+          const fieldValidations = editableField?.validations
           return (
             <DefaultNumberInput
               path={path}
               pathWithoutArrayIndices={pathWithoutArrayIndices}
               value={editableValue as number}
               readModeValue={value as number}
+              fieldValidations={fieldValidations}
             />
           );
         }
@@ -108,12 +112,14 @@ function RenderValue({
           );
         }
         case "textArea": {
+          const fieldValidations = editableField?.validations
           return (
             <DefaultTextAreaElement
               path={path}
               pathWithoutArrayIndices={pathWithoutArrayIndices}
               value={editableValue as string}
               readModeValue={value as string}
+              fieldValidations={fieldValidations}
             />
           );
         }

@@ -82,23 +82,36 @@ function App() {
       type: "date",
       format: "DD/MM/YYYY",
     },
+    surname : {
+      type : "string",
+      validations : {
+        maxLength: 12
+      }
+    },
     age : {
       type : "number",
+      validations : {
+        minValue:1,
+        maxValue: 50,
+      }
     },
     about: {
       type: "textArea",
+      validations : {
+        minLength : 1,
+      }
     },
     "address.state": {
       type: "select",
       options: indianStatesOptions,
     },
     "address.key.phone": {
-      type: "number",
+      type: "number"
     },
     "sampleData.email": {
       type: "string",
       validations: {
-        regex: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+        regex: /^[^@]+@[^@]+\.[^@]+$/,
         regexValidationMessage: "Please enter a valid email address.",
       },
     },

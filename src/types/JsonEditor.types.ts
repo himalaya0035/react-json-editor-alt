@@ -6,17 +6,31 @@ import {
   INLINE_EDITING_MODE,
 } from "../constants/constants";
 
-type Validations = {
+type LengthValidations = {
   minLength?: number;
   maxLength?: number;
-  isZeroAllowed?: boolean;
-  regex?: string;
+  validationMessage? : string;
+  regex?: never; 
+  regexValidationMessage?: never; 
+};
+
+type RegexValidations = {
+  regex: RegExp;
   regexValidationMessage?: string;
+  minLength?: never; 
+  maxLength?: never; 
+  validationMessage? : never;
+};
+
+export type Validations = LengthValidations | RegexValidations;
+export type NumberFieldValidations = Validations & {
+  minValue? : number,
+  maxValue? : number
 };
 
 type NumberField = {
   type: "number";
-  validations?: Validations;
+  validations?: NumberFieldValidations
 };
 
 type StringField = {
@@ -112,8 +126,10 @@ export type JsonEditorContextType = {
   isExpanded : boolean,
   handleOnChange: HandleOnChange;
   handleOnSubmit: HandleOnSubmit;
-  selectedFieldsForEditing: Record<string,any>,
-  setSelectedFieldsForEditing: React.Dispatch<React.SetStateAction<Record<string, any>>>
+  selectedFieldsForEditing: Record<string,any>;
+  setSelectedFieldsForEditing: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  validations: Record<string,any>;
+  setValidations: React.Dispatch<React.SetStateAction<Record<string, any>>>;
 }
 type InlineEditingConfig = {
   editingMode?: typeof INLINE_EDITING_MODE;
@@ -195,7 +211,7 @@ export type DefaultValueElementProps = {
   path: string;
   value: string;
   pathWithoutArrayIndices?: string;
-  isFieldPresentInNonEditableLookup?: boolean
+  isFieldPresentInNonEditableLookup?: boolean;
 }
 
 export type DefaultInputField = {
@@ -203,6 +219,7 @@ export type DefaultInputField = {
   value: string;
   readModeValue ?: string,
   pathWithoutArrayIndices?: string;
+  fieldValidations?: Validations
 };
 
 export type DefaultSelectElementProps = {
