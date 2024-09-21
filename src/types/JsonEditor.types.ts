@@ -78,19 +78,22 @@ export type DiffKeyValues = {
   [key: string]: { initial: string; updated: string };
 }
 
+type EditorMode = 'global' | 'individual' | 'global-individual' | 'inline'
+
 // Type definition for callback functions exposed to the library consumer.
 // The consumer receives initialJson, finalJson, and updatedKeys on events like onChange and onSubmit.      
 export type onSubmitorChangePropsType = {
   initialJson : Record<string, any>,
   updatedJson : Record<string, any>,
-  updatedKeys : DiffKeyValues
+  updatedKeys : DiffKeyValues,
+  editorMode: EditorMode
 }
 
 export type JsonEditorContextType = {
   jsonState:  Record<string, any> | null,
   editJsonState:  Record<string, any> | null,
   isEditing: boolean;
-  editingMode?: 'global' | 'individual' | 'global-individual' | 'inline';
+  editingMode?: EditorMode;
   allFieldsEditable?: boolean;
   editableFields?: EditableFielsdObjectType;
   nonEditableFields?: NonEditableFieldsObjectType;

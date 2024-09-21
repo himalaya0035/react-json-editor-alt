@@ -133,6 +133,9 @@ function App() {
 
   const onSubmit = (props : onSubmitorChangePropsType) => {
     console.info(props)
+    if (props.editorMode === "global"){
+      setIsEditing(false)
+    }
   }
 
   const onChange = (props : onSubmitorChangePropsType) => {
@@ -156,8 +159,7 @@ function App() {
         onSubmit={onSubmit}
         onChange={onChange}
         editingConfig={{
-          editingMode : 'global',
-          isEditing : isEditing,
+          editingMode : 'inline',
           editableFields : editbaleFieldsObject,
           nonEditableFields: nonEditbaleFieldObject
         }}

@@ -43,7 +43,8 @@ function JsonEditor({
       onChange({ // callback function exposed to lib consumer
         initialJson : deepCopy(editJsonState),
         updatedJson : tempEditJsonState,
-        updatedKeys: findJsonDiff(editJsonState,tempEditJsonState)
+        updatedKeys: findJsonDiff(editJsonState,tempEditJsonState),
+        editorMode : editingMode
       })
     }
     setEditJsonState(tempEditJsonState)
@@ -56,7 +57,8 @@ function JsonEditor({
       onSubmit({ // callback function exposed to lib consumer
         initialJson : deepCopy(jsonState),
         updatedJson : tempJsonState,
-        updatedKeys: findJsonDiff(jsonState,tempJsonState)
+        updatedKeys: findJsonDiff(jsonState,tempJsonState),
+        editorMode : editingMode
       })
     }
     setJsonState(tempJsonState)
@@ -68,7 +70,8 @@ function JsonEditor({
       onSubmit({ // callback function exposed to lib consumer
         initialJson : deepCopy(editJsonState),
         updatedJson : tempEditJsonState,
-        updatedKeys: findJsonDiff(jsonState,tempEditJsonState)
+        updatedKeys: findJsonDiff(jsonState,tempEditJsonState),
+        editorMode : editingMode
       })
     }
     setJsonState(tempEditJsonState)
