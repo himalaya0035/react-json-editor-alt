@@ -82,12 +82,16 @@ type EditorMode = 'global' | 'individual' | 'global-individual' | 'inline'
 
 // Type definition for callback functions exposed to the library consumer.
 // The consumer receives initialJson, finalJson, and updatedKeys on events like onChange and onSubmit.      
-export type onSubmitorChangePropsType = {
+export type onChangePropsType = {
   initialJson : Record<string, any>,
   updatedJson : Record<string, any>,
   updatedKeys : DiffKeyValues,
-  editorMode: EditorMode
+  editorMode: EditorMode,
 }
+
+export type OnSubmitPropsType = {
+  submitType : Exclude<EditorMode,'global-individual'>
+} & onChangePropsType
 
 export type JsonEditorContextType = {
   jsonState:  Record<string, any> | null,
@@ -132,8 +136,8 @@ export type JsonEditorProps = {
   json: Record<string, any>;
   className?: string;
   isExpanded? : boolean;
-  onSubmit? : (props : onSubmitorChangePropsType) => void;
-  onChange? : (props : onSubmitorChangePropsType) => void;
+  onSubmit? : (props : OnSubmitPropsType) => void;
+  onChange? : (props : onChangePropsType) => void;
   editingConfig?: EditingConfig;
   globalSubmitButtonConfigs? : GlobalSubmitButtonConfigs
 };

@@ -3,7 +3,8 @@ import JsonEditor from "./components/JsonEditor/jsonEditor";
 import {
   EditableFielsdObjectType,
   NonEditableFieldsObjectType,
-  onSubmitorChangePropsType,
+  onChangePropsType,
+  OnSubmitPropsType,
 } from "./types/JsonEditor.types";
 import { indianStatesOptions } from "./temp";
 import { Button } from "./components/ui/button";
@@ -131,14 +132,14 @@ function App() {
     dob : true
   };
 
-  const onSubmit = (props : onSubmitorChangePropsType) => {
+  const onSubmit = (props : OnSubmitPropsType) => {
     console.info(props)
-    if (props.editorMode === "global"){
+    if (props.submitType === "global"){
       setIsEditing(false)
     }
   }
 
-  const onChange = (props : onSubmitorChangePropsType) => {
+  const onChange = (props : onChangePropsType) => {
     console.info(props)
   }
 
@@ -159,7 +160,8 @@ function App() {
         onSubmit={onSubmit}
         onChange={onChange}
         editingConfig={{
-          editingMode : 'inline',
+          editingMode : 'global-individual',
+          isEditing : isEditing,
           editableFields : editbaleFieldsObject,
           nonEditableFields: nonEditbaleFieldObject
         }}

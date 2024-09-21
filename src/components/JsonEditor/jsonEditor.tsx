@@ -44,7 +44,7 @@ function JsonEditor({
         initialJson : deepCopy(editJsonState),
         updatedJson : tempEditJsonState,
         updatedKeys: findJsonDiff(editJsonState,tempEditJsonState),
-        editorMode : editingMode
+        editorMode : editingMode,
       })
     }
     setEditJsonState(tempEditJsonState)
@@ -58,7 +58,8 @@ function JsonEditor({
         initialJson : deepCopy(jsonState),
         updatedJson : tempJsonState,
         updatedKeys: findJsonDiff(jsonState,tempJsonState),
-        editorMode : editingMode
+        editorMode : editingMode,
+        submitType : editingMode === "global-individual" ? "individual" : editingMode
       })
     }
     setJsonState(tempJsonState)
@@ -71,7 +72,8 @@ function JsonEditor({
         initialJson : deepCopy(editJsonState),
         updatedJson : tempEditJsonState,
         updatedKeys: findJsonDiff(jsonState,tempEditJsonState),
-        editorMode : editingMode
+        editorMode : editingMode,
+        submitType : editingMode === "global-individual" ? "global" : editingMode
       })
     }
     setJsonState(tempEditJsonState)
