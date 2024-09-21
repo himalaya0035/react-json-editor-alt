@@ -1,3 +1,5 @@
+import { CSSProperties } from "react";
+
 type Validations = {
   minLength?: number;
   maxLength?: number;
@@ -139,7 +141,8 @@ export type JsonEditorProps = {
   onSubmit? : (props : OnSubmitPropsType) => void;
   onChange? : (props : onChangePropsType) => void;
   editingConfig?: EditingConfig;
-  globalSubmitButtonConfigs? : GlobalSubmitButtonConfigs
+  globalSubmitButtonConfigs? : GlobalSubmitButtonConfigs,
+  styles?: CSSProperties
 };
 
 export type RenderJsonFunctionType = (

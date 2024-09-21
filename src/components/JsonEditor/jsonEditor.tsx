@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, CSSProperties, ReactNode, useContext, useState } from "react";
 import RenderObject from "./renderElements/renderObject";
 import RenderArray from "./renderElements/renderArray";
 import RenderValue from "./renderElements/renderValue";
@@ -19,7 +19,8 @@ function JsonEditor({
   onSubmit,
   onChange,
   editingConfig = {} as EditingConfig,
-  globalSubmitButtonConfigs = {} as GlobalSubmitButtonConfigs
+  globalSubmitButtonConfigs = {} as GlobalSubmitButtonConfigs,
+  styles = {} as CSSProperties
 }: JsonEditorProps) {
   const [jsonState, setJsonState] = useState<Record<string, any> | null>(json);
   const [editJsonState, setEditJsonState] = useState<Record<string, any> | null>(json);
@@ -132,7 +133,7 @@ function JsonEditor({
         setSelectedFieldsForEditing,
       }}
     >
-    <div className={cn("w-full h-auto b border-2 py-5", className)}>
+    <div style={styles} className={cn("w-full h-auto b border-2 py-5", className)}>
       {renderJson(jsonState)}
       {[GLOBAL_EDITING_MODE,GLOBAL_INDIVIDUAL_EDITING_MODE].includes(editingMode) && isEditing && (
         <Button
