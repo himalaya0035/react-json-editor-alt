@@ -4,8 +4,8 @@ import DefaultDateInput from "../defaultElements/defaultDateInput";
 import DefaultSelectInput from "../defaultElements/defaultSelectInput";
 import DefaultRadioInput from "../defaultElements/defaultRadioInput";
 import DefaultTextAreaElement from "../defaultElements/defaultTextAreaInput";
-import { getValueByPath } from "../../../functions/functions";
-import { RenderValueProps } from "../../../types/JsonEditor.types";
+import { containsArrayIndex, getValueByPath, testPathAgainstRegex } from "../../../functions/functions";
+import { FieldsType, RenderValueProps } from "../../../types/JsonEditor.types";
 import DefaultValueElement from "../defaultElements/defaultValueElement";
 import { useJsonEditorContext } from "../jsonEditor";
 import { INLINE_EDITING_MODE } from "../../../constants/constants";
@@ -22,13 +22,23 @@ function RenderValue({
     editableFields,
     nonEditableFields,
     allFieldsEditable,
-    selectedFieldsForEditing
+    selectedFieldsForEditing,
+    regexPatternsTrie
   } = useJsonEditorContext();
   
+  let resolvedPath = null
+  if (containsArrayIndex(path)){
+    // resolving paths like sample.1.name to sample.[].name
+    resolvedPath = testPathAgainstRegex(regexPatternsTrie.current,path)
+  }
+  if (!resolvedPath){
+    resolvedPath = path
+  }
+
   const isFieldPresentInEditabeLookup =
-    editableFields && editableFields.hasOwnProperty(path);
+    editableFields && editableFields.hasOwnProperty(resolvedPath);
   const isFieldPresentInNonEditableLookup =
-    nonEditableFields && nonEditableFields.hasOwnProperty(path);
+    nonEditableFields && nonEditableFields.hasOwnProperty(resolvedPath);
 
   // render a editable input field when:
   // The editor is in editing mode and,
@@ -48,9 +58,9 @@ function RenderValue({
     const editableValue = getValueByPath(editJsonState, path);
     if (
       isFieldPresentInEditabeLookup &&
-      editableFields[path] !== true
+      editableFields[resolvedPath] !== true
     ) {
-      const editableField = editableFields[path];
+      const editableField = editableFields[resolvedPath] as FieldsType;
       switch (editableField.type) {
         case "string": {
           const fieldValidations = editableField?.validations

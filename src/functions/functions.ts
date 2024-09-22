@@ -1,3 +1,4 @@
+import { RegexTrie } from "../utils/regexTrie";
 import { DiffKeyValues, NumberFieldValidations, Validations } from "../types/JsonEditor.types";
 
 export const deepEqual = (obj1 : any, obj2 : any) => {
@@ -206,4 +207,28 @@ export const validateValue = (value: string, validations: Validations & NumberFi
   }
 
   return null;
+};
+
+export const pathToRegex = (path: string): RegExp => {
+  const regexString = path
+    .replace(/\[\]/g, '\\d+')
+    .replace(/\./g, '\\.')
+    .replace(/\*/g, '.*');
+  return new RegExp(`^${regexString}$`);
+};
+
+// Function to test a path against stored regex patterns (in trie) and return the matching path
+export const testPathAgainstRegex = (trie: RegexTrie, newPath: string): string | null => {
+  const { regexPatterns, paths } = trie.findMatchingRegex(newPath);
+  for (let i = 0; i < regexPatterns.length; i++) {
+    if (regexPatterns[i].test(newPath)) {
+      return paths[i]; // Return the matching original path
+    }
+  }
+  return null; 
+};
+
+export const containsArrayIndex = (path: string): boolean => {
+  const segments = path.split('.');
+  return segments.some(segment => !isNaN(Number(segment)));
 };

@@ -1,4 +1,4 @@
-import { createContext, CSSProperties, ReactNode, useContext, useState } from "react";
+import { createContext, CSSProperties, ReactNode, useContext, useRef, useState } from "react";
 import RenderObject from "./renderElements/renderObject";
 import RenderArray from "./renderElements/renderArray";
 import RenderValue from "./renderElements/renderValue";
@@ -12,18 +12,22 @@ import {
 } from "../../types/JsonEditor.types";
 import {
   deepCopy,
+  deepEqual,
   findJsonDiff,
+  pathToRegex,
   updateValueByPath,
 } from "../../functions/functions";
 import { cn } from "../../lib/utils";
 import { Button } from "../ui/button";
 import {
+  ARRAY_PATH_IDENTIFIER,
   GLOBAL_EDITING_MODE,
   GLOBAL_INDIVIDUAL_EDITING_MODE,
   INDIVIDUAL_EDITING_MODE,
   INLINE_EDITING_MODE,
 } from "../../constants/constants";
 import "./jsonEditor.css";
+import { RegexTrie } from "../../utils/regexTrie";
 
 const JsonEditorContext = createContext<JsonEditorContextType>({} as JsonEditorContextType);
 export const useJsonEditorContext = () => useContext(JsonEditorContext);
@@ -42,7 +46,6 @@ function JsonEditor({
   const [editJsonState, setEditJsonState] = useState<Record<string, any> | null>(json);
   const [selectedFieldsForEditing, setSelectedFieldsForEditing] = useState<Record<string, any>>({})  
   const [validations, setValidations] = useState<Record<string, any>>({})  
-
   const {
     editingMode = INLINE_EDITING_MODE,
     allFieldsEditable = true,
@@ -50,6 +53,23 @@ function JsonEditor({
     nonEditableFields = {},
     debouncing = true
   } = editingConfig;
+  
+  const regexPatternsTrie = useRef(new RegexTrie())
+  const editableFieldsRef = useRef({})
+  
+  // only create/update regex paths trie when there is a change in editableFields
+  if (!deepEqual(editableFieldsRef.current,editableFields)){
+    for (let editableFieldPath in editableFields){
+      // convert any paths in editableFields that includes [] into regex and store it in trie
+      // example sample.[].name is stored as regex in trie
+      // trie is used for efficient retrieval of regex later on
+      if (editableFieldPath.includes(ARRAY_PATH_IDENTIFIER)){
+        const regex = pathToRegex(editableFieldPath)
+        regexPatternsTrie.current.insert(editableFieldPath,regex)
+      }
+    };
+    editableFieldsRef.current = deepCopy(editableFields)
+  }
 
   let isEditing = false;
   if ("isEditing" in editingConfig){
@@ -154,7 +174,8 @@ function JsonEditor({
         setSelectedFieldsForEditing,
         validations,
         setValidations,
-        debouncing
+        debouncing,
+        regexPatternsTrie
       }}
     >
       <div

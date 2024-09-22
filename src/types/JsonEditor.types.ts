@@ -5,6 +5,7 @@ import {
   INDIVIDUAL_EDITING_MODE,
   INLINE_EDITING_MODE,
 } from "../constants/constants";
+import { RegexTrie } from "../utils/regexTrie";
 
 type LengthValidations = {
   minLength?: number;
@@ -80,16 +81,18 @@ type DateField<F extends DateFormat = "DD/MM/YYYY"> = {
     : never;
 };
 
+export type FieldsType = | StringField
+| NumberField
+| SelectField
+| RadioField
+| TextAreaField
+| DateField<DateFormat>
+| RootField;
+
 export type EditableFielsdObjectType = {
   [path: string]:
     | true
-    | StringField
-    | NumberField
-    | SelectField
-    | RadioField
-    | TextAreaField
-    | DateField<DateFormat>
-    | RootField;
+    | FieldsType
 };
 
 export type NonEditableFieldsObjectType = {
@@ -131,6 +134,7 @@ export type JsonEditorContextType = {
   validations: Record<string,any>;
   setValidations: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   debouncing: boolean;
+  regexPatternsTrie: React.MutableRefObject<RegexTrie>;
 }
 type InlineEditingConfig = {
   editingMode?: typeof INLINE_EDITING_MODE;

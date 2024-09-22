@@ -131,7 +131,7 @@ function App() {
         { key: "others", value: "others" },
       ],
     },
-    "sampleData.0.secondKey.gender": {
+    "sampleData.[].secondKey.gender": {
       type: "radio",
       options: [
         { key: "male", value: "male" },
@@ -139,7 +139,21 @@ function App() {
         { key: "other", value: "other" },
       ],
     },
-    "hobbies.0" : {
+    "sampleData.[].gender" : {
+      type : "radio",
+      options: [
+        { key: "male", value: "male" },
+        { key: "female", value: "female" },
+        { key: "other", value: "other" },
+      ],
+    },
+    "sampleData.[].name" : {
+      type : "textArea",
+      validations : {
+        maxLength : 12
+      }
+    },
+    "hobbies.1" : {
       type : "textArea",
     },
   };
