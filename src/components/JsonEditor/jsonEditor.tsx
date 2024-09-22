@@ -47,7 +47,8 @@ function JsonEditor({
     editingMode = INLINE_EDITING_MODE,
     allFieldsEditable = true,
     editableFields = {}, 
-    nonEditableFields = {}
+    nonEditableFields = {},
+    debouncing = true
   } = editingConfig;
 
   let isEditing = false;
@@ -58,11 +59,11 @@ function JsonEditor({
   const handleOnChange : HandleOnChange = (value,path) => {
     const tempEditJsonState = deepCopy(editJsonState)
     updateValueByPath(tempEditJsonState,path,value)
-    if (onChange && editJsonState){
+    if (onChange && jsonState){
       onChange({ // callback function exposed to lib consumer
         initialJson : deepCopy(editJsonState),
         updatedJson : tempEditJsonState,
-        updatedKeys: findJsonDiff(editJsonState,tempEditJsonState),
+        updatedKeys: findJsonDiff(jsonState,tempEditJsonState),
         editorMode : editingMode,
       })
     }
@@ -153,6 +154,7 @@ function JsonEditor({
         setSelectedFieldsForEditing,
         validations,
         setValidations,
+        debouncing
       }}
     >
       <div

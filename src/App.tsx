@@ -174,6 +174,7 @@ function App() {
         onChange={onChange}
         editingConfig={{
           editingMode : 'inline',
+          debouncing : true,
           editableFields : editbaleFieldsObject,
           nonEditableFields: nonEditbaleFieldObject
         }}

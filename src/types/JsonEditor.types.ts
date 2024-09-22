@@ -120,9 +120,9 @@ export type JsonEditorContextType = {
   editJsonState:  Record<string, any> | null,
   isEditing: boolean;
   editingMode?: EditorMode;
-  allFieldsEditable?: boolean;
-  editableFields?: EditableFielsdObjectType;
-  nonEditableFields?: NonEditableFieldsObjectType;
+  allFieldsEditable: boolean;
+  editableFields: EditableFielsdObjectType;
+  nonEditableFields: NonEditableFieldsObjectType;
   isExpanded : boolean,
   handleOnChange: HandleOnChange;
   handleOnSubmit: HandleOnSubmit;
@@ -130,12 +130,14 @@ export type JsonEditorContextType = {
   setSelectedFieldsForEditing: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   validations: Record<string,any>;
   setValidations: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  debouncing: boolean;
 }
 type InlineEditingConfig = {
   editingMode?: typeof INLINE_EDITING_MODE;
   allFieldsEditable?: boolean;
   editableFields?: EditableFielsdObjectType;
   nonEditableFields?: NonEditableFieldsObjectType;
+  debouncing? : boolean;
 }
 
 type StandardEditingConfig = {
@@ -144,6 +146,7 @@ type StandardEditingConfig = {
   allFieldsEditable?: boolean;
   editableFields?: EditableFielsdObjectType;
   nonEditableFields?: NonEditableFieldsObjectType;
+  debouncing? : boolean;
 }
 
 export type EditingConfig = StandardEditingConfig | InlineEditingConfig;

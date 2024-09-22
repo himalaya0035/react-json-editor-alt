@@ -22,7 +22,8 @@ function DefaultTextInput({
     editingMode,
     setSelectedFieldsForEditing,
     validations,
-    setValidations
+    setValidations,
+    debouncing
   } = useJsonEditorContext();
 
   const handleTextInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +50,7 @@ function DefaultTextInput({
           }
         })
       }
-    }, DEBOUNCE_DELAY),
+    }, debouncing ? DEBOUNCE_DELAY : 0),
     [handleOnChange]
   );
 

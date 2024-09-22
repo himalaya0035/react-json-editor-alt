@@ -22,7 +22,8 @@ function DefaultNumberInput({
     editingMode,
     setSelectedFieldsForEditing,
     validations,
-    setValidations
+    setValidations,
+    debouncing
   } = useJsonEditorContext();
 
   const handleNumberInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +50,7 @@ function DefaultNumberInput({
           }
         })
       }
-    }, DEBOUNCE_DELAY),
+    }, debouncing ? DEBOUNCE_DELAY : 0),
     [handleOnChange]
   );
 

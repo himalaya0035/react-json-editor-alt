@@ -22,7 +22,8 @@ function DefaultTextAreaElement({
     editingMode,
     setSelectedFieldsForEditing,
     validations,
-    setValidations
+    setValidations,
+    debouncing
   } = useJsonEditorContext();
 
   const handleTextAreaInputChange = (
@@ -51,7 +52,7 @@ function DefaultTextAreaElement({
           }
         })
       }
-    }, DEBOUNCE_DELAY),
+    }, debouncing ? DEBOUNCE_DELAY : 0),
     [handleOnChange]
   );
 
