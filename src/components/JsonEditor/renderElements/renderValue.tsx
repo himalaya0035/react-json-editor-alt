@@ -4,7 +4,7 @@ import DefaultDateInput from "../defaultElements/defaultDateInput";
 import DefaultSelectInput from "../defaultElements/defaultSelectInput";
 import DefaultRadioInput from "../defaultElements/defaultRadioInput";
 import DefaultTextAreaElement from "../defaultElements/defaultTextAreaInput";
-import { getValueByPath, removeArrayIndexFromPropertyPath } from "../../../functions/functions";
+import { getValueByPath } from "../../../functions/functions";
 import { RenderValueProps } from "../../../types/JsonEditor.types";
 import DefaultValueElement from "../defaultElements/defaultValueElement";
 import { useJsonEditorContext } from "../jsonEditor";
@@ -25,12 +25,10 @@ function RenderValue({
     selectedFieldsForEditing
   } = useJsonEditorContext();
   
-  // Ex: need to convert "a.1.b" => "a.b", because editable lookup does not account for indices
-  const pathWithoutArrayIndices = removeArrayIndexFromPropertyPath(path);
   const isFieldPresentInEditabeLookup =
-    editableFields && editableFields.hasOwnProperty(pathWithoutArrayIndices);
+    editableFields && editableFields.hasOwnProperty(path);
   const isFieldPresentInNonEditableLookup =
-    nonEditableFields && nonEditableFields.hasOwnProperty(pathWithoutArrayIndices);
+    nonEditableFields && nonEditableFields.hasOwnProperty(path);
 
   // render a editable input field when:
   // The editor is in editing mode and,
@@ -50,16 +48,15 @@ function RenderValue({
     const editableValue = getValueByPath(editJsonState, path);
     if (
       isFieldPresentInEditabeLookup &&
-      editableFields[pathWithoutArrayIndices] !== true
+      editableFields[path] !== true
     ) {
-      const editableField = editableFields[pathWithoutArrayIndices];
+      const editableField = editableFields[path];
       switch (editableField.type) {
         case "string": {
           const fieldValidations = editableField?.validations
           return (
             <DefaultTextInput
               path={path}
-              pathWithoutArrayIndices={pathWithoutArrayIndices}
               value={editableValue as string}
               readModeValue={value as string}
               fieldValidations={fieldValidations}
@@ -71,7 +68,6 @@ function RenderValue({
           return (
             <DefaultNumberInput
               path={path}
-              pathWithoutArrayIndices={pathWithoutArrayIndices}
               value={editableValue as number}
               readModeValue={value as number}
               fieldValidations={fieldValidations}
@@ -82,7 +78,6 @@ function RenderValue({
           return (
             <DefaultSelectInput
               path={path}
-              pathWithoutArrayIndices={pathWithoutArrayIndices}
               value={editableValue as string}
               readModeValue={value as string}
               options={editableField.options}
@@ -95,7 +90,6 @@ function RenderValue({
               value={editableValue as string}
               readModeValue={value as string}
               path={path}
-              pathWithoutArrayIndices={pathWithoutArrayIndices}
               format={editableField.format}
             />
           );
@@ -104,7 +98,6 @@ function RenderValue({
           return (
             <DefaultRadioInput
               path={path}
-              pathWithoutArrayIndices={pathWithoutArrayIndices}
               value={editableValue as string}
               readModeValue={value as string}
               options={editableField.options}
@@ -116,7 +109,6 @@ function RenderValue({
           return (
             <DefaultTextAreaElement
               path={path}
-              pathWithoutArrayIndices={pathWithoutArrayIndices}
               value={editableValue as string}
               readModeValue={value as string}
               fieldValidations={fieldValidations}
@@ -127,7 +119,6 @@ function RenderValue({
           return (
             <DefaultTextInput
               path={path}
-              pathWithoutArrayIndices={pathWithoutArrayIndices}
               value={editableValue as string}
               readModeValue={value as string}
             />
@@ -138,7 +129,6 @@ function RenderValue({
       return (
         <DefaultTextInput
           path={path}
-          pathWithoutArrayIndices={pathWithoutArrayIndices}
           value={editableValue as string}
           readModeValue={value as string}
         />
@@ -150,7 +140,6 @@ function RenderValue({
     <DefaultValueElement
       value={value as string}
       path={path}
-      pathWithoutArrayIndices={pathWithoutArrayIndices}
       isFieldPresentInNonEditableLookup={isFieldPresentInNonEditableLookup}
     />
   ) 

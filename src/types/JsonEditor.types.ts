@@ -213,7 +213,6 @@ export type RenderValueProps = {
 export type DefaultValueElementProps = {
   path: string;
   value: string;
-  pathWithoutArrayIndices?: string;
   isFieldPresentInNonEditableLookup?: boolean;
 }
 
@@ -221,7 +220,6 @@ export type DefaultInputField = {
   path: string;
   value: string;
   readModeValue ?: string,
-  pathWithoutArrayIndices?: string;
   fieldValidations?: Validations
 };
 

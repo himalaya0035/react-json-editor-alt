@@ -131,13 +131,16 @@ function App() {
         { key: "others", value: "others" },
       ],
     },
-    "sampleData.secondKey.gender": {
+    "sampleData.0.secondKey.gender": {
       type: "radio",
       options: [
-        { key: "male", value: "Male" },
-        { key: "female", value: "Female" },
-        { key: "other", value: "Other" },
+        { key: "male", value: "male" },
+        { key: "female", value: "female" },
+        { key: "other", value: "other" },
       ],
+    },
+    "hobbies.0" : {
+      type : "textArea",
     },
   };
 
