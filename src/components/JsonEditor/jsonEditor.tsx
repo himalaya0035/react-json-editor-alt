@@ -119,6 +119,22 @@ function JsonEditor({
     setJsonState(tempEditJsonState)
   }
 
+  const handleInlneFieldReset = (path: string) => {
+    if (jsonState){
+      const fieldOriginalValue = jsonState[path]
+      const tempEditJsonState = deepCopy(editJsonState)
+      updateValueByPath(tempEditJsonState,path,fieldOriginalValue)
+      setEditJsonState(tempEditJsonState)
+      // clear out any validation error for that field
+      setValidations(prev => {
+        return {
+          ...prev,
+          [path] : ""
+        }
+      })
+    }
+  }
+
   const renderJson = (
     value: any,
     path = "",
@@ -175,7 +191,8 @@ function JsonEditor({
         validations,
         setValidations,
         debouncing,
-        regexPatternsTrie
+        regexPatternsTrie,
+        handleInlneFieldReset
       }}
     >
       <div

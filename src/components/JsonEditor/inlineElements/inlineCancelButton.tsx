@@ -10,8 +10,12 @@ type InlineCancelButtonProps = {
 // Implemented dedicated cancel button for each input type to ensure plug-and-play functionality.
 // This avoids repetitive function definitions and simplifies adding new input types.
 const InlineCancelButton = ({ path }: InlineCancelButtonProps) => {
-  const { editingMode, selectedFieldsForEditing, setSelectedFieldsForEditing } =
-    useJsonEditorContext();
+  const {
+    editingMode,
+    selectedFieldsForEditing,
+    setSelectedFieldsForEditing,
+    handleInlneFieldReset,
+  } = useJsonEditorContext();
 
   if (editingMode !== INLINE_EDITING_MODE) {
     return null;
@@ -23,6 +27,7 @@ const InlineCancelButton = ({ path }: InlineCancelButtonProps) => {
         ...prev,
         [path]: false,
       }));
+      handleInlneFieldReset(path)
     }
   };
 
