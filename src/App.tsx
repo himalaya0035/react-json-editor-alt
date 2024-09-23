@@ -153,9 +153,15 @@ function App() {
         maxLength : 12
       }
     },
+    "hobbies.[]" : {
+      type: "string",
+      validations: {
+        maxLength : 20
+      }
+    },
     "hobbies.1" : {
       type : "textArea",
-    },
+    }
   };
 
   const nonEditbaleFieldObject: NonEditableFieldsObjectType = {

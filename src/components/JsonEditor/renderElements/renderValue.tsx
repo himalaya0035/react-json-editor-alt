@@ -27,7 +27,7 @@ function RenderValue({
   } = useJsonEditorContext();
   
   let resolvedPath = null
-  if (containsArrayIndex(path)){
+  if (containsArrayIndex(path) && !editableFields[path]){
     // resolving paths like sample.1.name to sample.[].name
     resolvedPath = testPathAgainstRegex(regexPatternsTrie.current,path)
   }

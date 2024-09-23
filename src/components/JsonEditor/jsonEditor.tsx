@@ -62,7 +62,7 @@ function JsonEditor({
     for (let editableFieldPath in editableFields){
       // convert any paths in editableFields that includes [] into regex and store it in trie
       // example sample.[].name is stored as regex in trie
-      // trie is used for efficient retrieval of regex later on
+      // trie is used for efficient retrieval of regex later on in renderValue
       if (editableFieldPath.includes(ARRAY_PATH_IDENTIFIER)){
         const regex = pathToRegex(editableFieldPath)
         regexPatternsTrie.current.insert(editableFieldPath,regex)
