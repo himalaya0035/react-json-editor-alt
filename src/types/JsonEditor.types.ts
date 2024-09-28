@@ -58,6 +58,10 @@ type RootField = {
   type: "root";
 };
 
+type BooleanTypeField = {
+  type: "boolean";
+};
+
 type DateFormat =
   | "DD/MM/YYYY"
   | "YYYY/MM/DD"
@@ -87,7 +91,8 @@ export type FieldsType = | StringField
 | RadioField
 | TextAreaField
 | DateField<DateFormat>
-| RootField;
+| RootField
+| BooleanTypeField;
 
 export type EditableFielsdObjectType = {
   [path: string]:
@@ -207,17 +212,17 @@ export type RenderObjectKeysProps = {
   searchText?: string;
 };
 
-export type HandleOnChange = (value : string | number,path : string) => void 
-export type HandleOnSubmit = (value : string | number,path : string) => void
+export type HandleOnChange = (value : string | number | boolean,path : string) => void 
+export type HandleOnSubmit = (value : string | number | boolean,path : string) => void
 
 export type RenderValueProps = {
-  value: string | number | undefined | null;
+  value: string | number | boolean | undefined | null;
   path: string;
 };
 
 export type DefaultValueElementProps = {
   path: string;
-  value: string;
+  value: string | number | boolean | null | undefined;
   isFieldPresentInNonEditableLookup?: boolean;
 }
 
@@ -240,6 +245,11 @@ export type DefaultNumberElementProps = Omit<DefaultInputField, 'value' | 'readM
 };
 
 export type DefaultTextAreaElementProps = {} & DefaultInputField;
+
+export type DefaultBooleanElementProps = Omit<DefaultInputField, 'value' | 'readModeValue'> & {
+  value: boolean; // Override value to be of type boolean,
+  readModeValue? : boolean
+};
 
 export type DefaultRadioElementProps = {
   options: Array<{ key: string; value: string }>;

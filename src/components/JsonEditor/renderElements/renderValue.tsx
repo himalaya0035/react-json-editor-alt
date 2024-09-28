@@ -4,6 +4,7 @@ import DefaultDateInput from "../defaultElements/defaultDateInput";
 import DefaultSelectInput from "../defaultElements/defaultSelectInput";
 import DefaultRadioInput from "../defaultElements/defaultRadioInput";
 import DefaultTextAreaElement from "../defaultElements/defaultTextAreaInput";
+import DefaultBooleanInput from "../defaultElements/defaultBooleanInput";
 import { containsArrayIndex, getValueByPath, testPathAgainstRegex } from "../../../functions/functions";
 import { FieldsType, RenderValueProps } from "../../../types/JsonEditor.types";
 import DefaultValueElement from "../defaultElements/defaultValueElement";
@@ -122,6 +123,15 @@ function RenderValue({
               value={editableValue as string}
               readModeValue={value as string}
               fieldValidations={fieldValidations}
+            />
+          );
+        }
+        case "boolean": {
+          return (
+            <DefaultBooleanInput
+              path={path}
+              value={editableValue}
+              readModeValue={value as any}
             />
           );
         }

@@ -16,7 +16,7 @@ function App() {
 
   const x: Record<string, any> = {
     name: "Himalaya",
-    surname: "Gupta",
+    surname: true,
     age : 23,
     dob: "03/12/2000",
     about: "Hello, I am a software developer",
@@ -83,10 +83,7 @@ function App() {
       format: "DD/MM/YYYY",
     },
     surname : {
-      type : "string",
-      validations : {
-        maxLength: 12
-      }
+      type : "boolean",
     },
     age : {
       type : "number",
