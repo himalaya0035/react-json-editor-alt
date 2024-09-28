@@ -43,20 +43,26 @@ function RenderValue({
     nonEditableFields && nonEditableFields.hasOwnProperty(resolvedPath);
 
   // render a editable input field when:
-  // The editor is in editing mode and,
-  // Either all fields are editable or the field is in the editableFields lookup and,
-  // The field is not present in the nonEditableFields lookup.  
-  if (
-    (
-      isEditing &&
-      (allFieldsEditable || isFieldPresentInEditabeLookup) &&
-      !isFieldPresentInNonEditableLookup && editingMode !== INLINE_EDITING_MODE
-    ) 
-    || 
-    (
-      editingMode === INLINE_EDITING_MODE && selectedFieldsForEditing[path] && !isFieldPresentInNonEditableLookup
-    )
-   ){
+  // the editor is in editing mode and,
+  // either all fields are editable or the field is in the editableFields lookup and,
+  // the field is not present in the nonEditableFields lookup
+  // editingMode is not inline
+  const canEditField =
+    isEditing &&
+    (allFieldsEditable || isFieldPresentInEditabeLookup) &&
+    !isFieldPresentInNonEditableLookup &&
+    editingMode !== INLINE_EDITING_MODE;
+
+  // render a editable input field when:
+  // the editingMode is inline and,
+  // and the field is requested by user to be editable and,
+  // the field is not present in the nonEditableFields lookup.  
+  const canEditInlineField =
+    editingMode === INLINE_EDITING_MODE &&
+    selectedFieldsForEditing[path] &&
+    !isFieldPresentInNonEditableLookup;
+
+  if (canEditField || canEditInlineField){
     let editableValue = getValueByPath(editJsonState, path);
     if (editableValue === null || editableValue === undefined){
       editableValue = ''
@@ -169,7 +175,6 @@ function RenderValue({
           )
         }
       }
-
       return (
         <DefaultTextInput
           path={path}
