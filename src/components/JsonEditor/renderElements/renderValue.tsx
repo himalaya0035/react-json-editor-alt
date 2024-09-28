@@ -24,7 +24,8 @@ function RenderValue({
     nonEditableFields,
     allFieldsEditable,
     selectedFieldsForEditing,
-    regexPatternsTrie
+    regexPatternsTrie,
+    enableTypeBasedRendering
   } = useJsonEditorContext();
   
   let resolvedPath = null
@@ -146,6 +147,26 @@ function RenderValue({
         }
       }
     } else {
+      if (enableTypeBasedRendering){
+        if (typeof value === "number"){
+          return (
+            <DefaultNumberInput
+                path={path}
+                value={editableValue as number}
+                readModeValue={value}
+             />
+          )
+        }else if (typeof value === "boolean"){
+          return (
+            <DefaultBooleanInput
+              path={path}
+              value={editableValue}
+              readModeValue={value}
+            />
+          )
+        }
+      }
+
       return (
         <DefaultTextInput
           path={path}

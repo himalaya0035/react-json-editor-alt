@@ -18,6 +18,7 @@ function App() {
     name: "Himalaya",
     surname: true,
     age : 23,
+    testNumberField: 2292,
     dob: "03/12/2000",
     about: "Hello, I am a software developer",
     address: {
@@ -81,9 +82,6 @@ function App() {
     dob: {
       type: "date",
       format: "DD/MM/YYYY",
-    },
-    surname : {
-      type : "boolean",
     },
     age : {
       type : "number",
@@ -196,7 +194,7 @@ function App() {
           editingMode : 'inline',
           debouncing : true,
           editableFields : editbaleFieldsObject,
-          nonEditableFields: nonEditbaleFieldObject
+          nonEditableFields: nonEditbaleFieldObject,
         }}
       />
     </div>

@@ -51,7 +51,8 @@ function JsonEditor({
     allFieldsEditable = true,
     editableFields = {}, 
     nonEditableFields = {},
-    debouncing = true
+    debouncing = true,
+    enableTypeBasedRendering = true
   } = editingConfig;
   
   const regexPatternsTrie = useRef(new RegexTrie())
@@ -192,7 +193,8 @@ function JsonEditor({
         setValidations,
         debouncing,
         regexPatternsTrie,
-        handleInlneFieldReset
+        handleInlneFieldReset,
+        enableTypeBasedRendering
       }}
     >
       <div

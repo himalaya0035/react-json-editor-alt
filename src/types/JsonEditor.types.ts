@@ -140,7 +140,8 @@ export type JsonEditorContextType = {
   setValidations: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   debouncing: boolean;
   regexPatternsTrie: React.MutableRefObject<RegexTrie>;
-  handleInlneFieldReset : (path: string) => void
+  handleInlneFieldReset : (path: string) => void;
+  enableTypeBasedRendering : boolean;
 }
 type InlineEditingConfig = {
   editingMode?: typeof INLINE_EDITING_MODE;
@@ -148,6 +149,7 @@ type InlineEditingConfig = {
   editableFields?: EditableFielsdObjectType;
   nonEditableFields?: NonEditableFieldsObjectType;
   debouncing? : boolean;
+  enableTypeBasedRendering? : boolean;
 }
 
 type StandardEditingConfig = {
@@ -157,6 +159,7 @@ type StandardEditingConfig = {
   editableFields?: EditableFielsdObjectType;
   nonEditableFields?: NonEditableFieldsObjectType;
   debouncing? : boolean;
+  enableTypeBasedRendering? : boolean;
 }
 
 export type EditingConfig = StandardEditingConfig | InlineEditingConfig;
