@@ -19,6 +19,7 @@ function App() {
     surname: true,
     age : 23,
     testNumberField: 2292,
+    testNullField: null,
     dob: "03/12/2000",
     about: "Hello, I am a software developer",
     address: {

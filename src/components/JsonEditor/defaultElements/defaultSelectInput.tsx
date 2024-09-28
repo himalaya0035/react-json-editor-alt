@@ -47,7 +47,7 @@ function DefaultSelectInput({
     <>
       <Select value={value} onValueChange={handleSelectInputChange}>
         <SelectTrigger className="w-[240px]">
-          <SelectValue placeholder="Theme" />
+          <SelectValue placeholder="Select" />
         </SelectTrigger>
         <SelectContent>
           {options?.map((option, index) => {

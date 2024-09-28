@@ -57,7 +57,10 @@ function RenderValue({
       editingMode === INLINE_EDITING_MODE && selectedFieldsForEditing[path] && !isFieldPresentInNonEditableLookup
     )
    ){
-    const editableValue = getValueByPath(editJsonState, path);
+    let editableValue = getValueByPath(editJsonState, path);
+    if (editableValue === null || editableValue === undefined){
+      editableValue = ''
+    }
     if (
       isFieldPresentInEditabeLookup &&
       editableFields[resolvedPath] !== true
