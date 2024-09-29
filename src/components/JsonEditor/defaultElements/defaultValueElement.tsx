@@ -1,10 +1,7 @@
 import { DefaultValueElementProps } from "../../../types/JsonEditor.types";
-import { useJsonEditorContext } from "../jsonEditor";
 import InlineEditButton from "../inlineElements/inlineEditButton";
-import { INLINE_EDITING_MODE } from "../../../constants/constants";
 
-function DefaultValueElement({ value, path, isFieldPresentInNonEditableLookup}: DefaultValueElementProps) {
-  const { editingMode} = useJsonEditorContext();
+function DefaultValueElement({ value, path, canEditInline}: DefaultValueElementProps) {
 
   const getFormattedContent = () => {
     if (value === undefined) {
@@ -29,12 +26,8 @@ function DefaultValueElement({ value, path, isFieldPresentInNonEditableLookup}: 
 
   return (
     <>
-      <span className={`${style}`}>
-        {text}
-      </span>
-      {(editingMode === INLINE_EDITING_MODE && !isFieldPresentInNonEditableLookup) && (
-        <InlineEditButton path={path} />
-      )}
+      <span className={`${style}`}>{text}</span>
+      {canEditInline && <InlineEditButton path={path} />}
     </>
   );
 }

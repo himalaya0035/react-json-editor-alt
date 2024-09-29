@@ -185,11 +185,15 @@ function RenderValue({
     }
   }
 
+  const canEditInline =
+    editingMode === INLINE_EDITING_MODE &&
+    (allFieldsEditable || isFieldPresentInEditabeLookup) &&
+    !isFieldPresentInNonEditableLookup;
   return (
     <DefaultValueElement
       value={value as string}
       path={path}
-      isFieldPresentInNonEditableLookup={isFieldPresentInNonEditableLookup}
+      canEditInline={canEditInline}
     />
   ) 
 }
