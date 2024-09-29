@@ -57,9 +57,10 @@ function JsonEditor({
   
   const regexPatternsTrie = useRef(new RegexTrie())
   const editableFieldsRef = useRef({})
+  const nonEditableFieldsRef = useRef({})
   
-  // only create/update regex paths trie when there is a change in editableFields
-  if (!deepEqual(editableFieldsRef.current,editableFields)){
+  // only create/update regex paths trie when there is a change in editableFields or nonEditableFields
+  if (!deepEqual(editableFieldsRef.current,editableFields) || !deepEqual(nonEditableFieldsRef.current,nonEditableFields)){
     for (let editableFieldPath in editableFields){
       // convert any paths in editableFields that includes [] into regex and store it in trie
       // example sample.[].name is stored as regex in trie
@@ -69,7 +70,14 @@ function JsonEditor({
         regexPatternsTrie.current.insert(editableFieldPath,regex)
       }
     };
+    for (let nonEditableFieldPath in nonEditableFields){
+      if (nonEditableFieldPath.includes(ARRAY_PATH_IDENTIFIER)){
+        const regex = pathToRegex(nonEditableFieldPath)
+        regexPatternsTrie.current.insert(nonEditableFieldPath,regex)
+      }
+    };
     editableFieldsRef.current = deepCopy(editableFields)
+    nonEditableFieldsRef.current = deepCopy(nonEditableFields)
   }
 
   let isEditing = false;
