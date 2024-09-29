@@ -54,9 +54,9 @@ type RadioField = {
   options: Array<{ key: string; value: string }>;
 };
 
-type RootField = {
-  type: "root";
-};
+// type RootField = {
+//   type: "root/*" | "root/**";
+// };
 
 type BooleanTypeField = {
   type: "boolean";
@@ -91,7 +91,7 @@ export type FieldsType = | StringField
 | RadioField
 | TextAreaField
 | DateField<DateFormat>
-| RootField
+// | RootField
 | BooleanTypeField;
 
 export type EditableFielsdObjectType = {
@@ -101,7 +101,8 @@ export type EditableFielsdObjectType = {
 };
 
 export type NonEditableFieldsObjectType = {
-  [path: string]: true | RootField;
+  [path: string]: true
+  // | RootField;
 };
 
 export type DiffKeyValues = {
