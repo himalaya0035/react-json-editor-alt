@@ -24,14 +24,14 @@ type RegexValidations = {
 };
 
 export type Validations = LengthValidations | RegexValidations;
-export type NumberFieldValidations = Validations & {
+export type NumberFieldValidations = LengthValidations & {
   minValue? : number,
   maxValue? : number
 };
 
 type NumberField = {
   type: "number";
-  validations?: NumberFieldValidations
+  validations?: RegexValidations | NumberFieldValidations
 };
 
 type StringField = {
@@ -227,7 +227,7 @@ export type RenderValueProps = {
 export type DefaultValueElementProps = {
   path: string;
   value: string | number | boolean | null | undefined;
-  isFieldPresentInNonEditableLookup?: boolean;
+  canEditInline?:boolean
 }
 
 export type DefaultInputField = {
