@@ -58,7 +58,15 @@ function JsonEditor({
   const regexPatternsTrie = useRef(new RegexTrie())
   const editableFieldsRef = useRef({})
   const nonEditableFieldsRef = useRef({})
-  
+
+  // update jsonState when json changes
+  if (!deepEqual(json,jsonState)){ // to prevent infinite rerenders, 
+    // Calculating deepEqual on every render maybe costly, but necessary to update json state on changes. 
+    // In the future, we can offer users an option to enable or disable state updates on json changes.
+    setJsonState(json) 
+    setEditJsonState(json)
+  }
+
   // only create/update regex paths trie when there is a change in editableFields or nonEditableFields
   if (!deepEqual(editableFieldsRef.current,editableFields) || !deepEqual(nonEditableFieldsRef.current,nonEditableFields)){
     for (let editableFieldPath in editableFields){
