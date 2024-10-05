@@ -1,5 +1,5 @@
 import { RegexTrie } from "../utils/regexTrie";
-import { DiffKeyValues, NumberFieldValidations, Validations } from "../types/JsonEditor.types";
+import { DiffKeyValues, isNumberFieldValidations, NumberFieldValidations, TextFieldValidations } from "../types/JsonEditor.types";
 
 export const deepEqual = (obj1 : any, obj2 : any) => {
   if (obj1 === obj2) return true;
@@ -182,7 +182,7 @@ export const debounce = (func: (...args: any[]) => void, delay: number) => {
   };
 };
 
-export const validateValue = (value: string, validations: Validations & NumberFieldValidations): string | null => {
+export const validateValue = (value: string, validations: TextFieldValidations | NumberFieldValidations): string | null => {
   if (validations.minLength && value.length < validations.minLength) {
     return validations.validationMessage || `Value must be at least ${validations.minLength} characters long.`;
   }
@@ -191,12 +191,14 @@ export const validateValue = (value: string, validations: Validations & NumberFi
     return validations.validationMessage || `Value must be no more than ${validations.maxLength} characters long.`;
   }
 
-  if (validations.maxValue && Number(value) > validations.maxValue) {
-    return validations.validationMessage || `Value must be less than ${validations.maxValue}.`;
-  }
-
-  if (validations.minValue && Number(value) < validations.minValue) {
-    return validations.validationMessage || `Value must be greater than ${validations.minValue}.`;
+  if (isNumberFieldValidations(validations)){
+    if (validations.maxValue && Number(value) > validations.maxValue) {
+      return validations.validationMessage || `Value must be less than ${validations.maxValue}.`;
+    }
+  
+    if (validations.minValue && Number(value) < validations.minValue) {
+      return validations.validationMessage || `Value must be greater than ${validations.minValue}.`;
+    }
   }
 
   if (validations.regex) {

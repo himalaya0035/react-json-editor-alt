@@ -14,6 +14,7 @@ import {
   deepCopy,
   deepEqual,
   findJsonDiff,
+  getValueByPath,
   pathToRegex,
   updateValueByPath,
 } from "../../functions/functions";
@@ -44,6 +45,7 @@ function JsonEditor({
 }: JsonEditorProps) {
   const [jsonState, setJsonState] = useState<Record<string, any> | null>(json);
   const [editJsonState, setEditJsonState] = useState<Record<string, any> | null>(json);
+  const jsonRef = useRef(json)
   const [selectedFieldsForEditing, setSelectedFieldsForEditing] = useState<Record<string, any>>({})  
   const [validations, setValidations] = useState<Record<string, any>>({})  
   const {
@@ -51,14 +53,23 @@ function JsonEditor({
     allFieldsEditable = true,
     editableFields = {}, 
     nonEditableFields = {},
-    debouncing = true,
+    debouncing = false,
     enableTypeBasedRendering = true
   } = editingConfig;
   
   const regexPatternsTrie = useRef(new RegexTrie())
   const editableFieldsRef = useRef({})
   const nonEditableFieldsRef = useRef({})
-  
+
+  // // update jsonState when json changes
+  if (!deepEqual(json,jsonRef.current)){ // to prevent infinite rerenders, 
+    // Calculating deepEqual on every render maybe costly, but necessary to update json state on changes. 
+    // In the future, we can offer users an option to enable or disable state updates on json changes.
+    setJsonState(json) 
+    setEditJsonState(json)
+    jsonRef.current = json
+  }
+
   // only create/update regex paths trie when there is a change in editableFields or nonEditableFields
   if (!deepEqual(editableFieldsRef.current,editableFields) || !deepEqual(nonEditableFieldsRef.current,nonEditableFields)){
     for (let editableFieldPath in editableFields){
@@ -85,7 +96,7 @@ function JsonEditor({
     isEditing = editingConfig.isEditing || false
   }
 
-  const handleOnChange : HandleOnChange = (value,path) => {
+  const handleOnChange : HandleOnChange = (value,path, updatedValidations = validations) => {
     const tempEditJsonState = deepCopy(editJsonState)
     updateValueByPath(tempEditJsonState,path,value)
     if (onChange && jsonState){
@@ -94,6 +105,7 @@ function JsonEditor({
         updatedJson : tempEditJsonState,
         updatedKeys: findJsonDiff(jsonState,tempEditJsonState),
         editorMode : editingMode,
+        validations: updatedValidations
       })
     }
     setEditJsonState(tempEditJsonState)
@@ -130,7 +142,7 @@ function JsonEditor({
 
   const handleInlneFieldReset = (path: string) => {
     if (jsonState){
-      const fieldOriginalValue = jsonState[path]
+      const fieldOriginalValue = getValueByPath(jsonState,path)
       const tempEditJsonState = deepCopy(editJsonState)
       updateValueByPath(tempEditJsonState,path,fieldOriginalValue)
       setEditJsonState(tempEditJsonState)

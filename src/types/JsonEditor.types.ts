@@ -24,24 +24,32 @@ type RegexValidations = {
 };
 
 export type Validations = LengthValidations | RegexValidations;
-export type NumberFieldValidations = LengthValidations & {
+export type TextFieldValidations = Validations
+export type NumberFieldValidations = Validations & {
   minValue? : number,
   maxValue? : number
 };
 
+export function isNumberFieldValidations(validations: any): validations is NumberFieldValidations {
+  return (
+    typeof validations.minValue === 'number' ||
+    typeof validations.maxValue === 'number'
+  );
+}
+
 type NumberField = {
   type: "number";
-  validations?: RegexValidations | NumberFieldValidations
+  validations?: NumberFieldValidations
 };
 
 type StringField = {
   type: "string";
-  validations?: Validations;
+  validations?: TextFieldValidations;
 };
 
 type TextAreaField = {
   type: "textArea";
-  validations?: Validations;
+  validations?: TextFieldValidations;
 };
 
 type SelectField = {
@@ -118,11 +126,12 @@ export type onChangePropsType = {
   updatedJson : Record<string, any>,
   updatedKeys : DiffKeyValues,
   editorMode: EditorMode,
+  validations: Record<string,any>
 }
 
 export type OnSubmitPropsType = {
   submitType : Exclude<EditorMode,'global-individual'>
-} & onChangePropsType
+} & Omit<onChangePropsType,'validations'>
 
 export type JsonEditorContextType = {
   jsonState:  Record<string, any> | null,
@@ -216,7 +225,7 @@ export type RenderObjectKeysProps = {
   searchText?: string;
 };
 
-export type HandleOnChange = (value : string | number | boolean,path : string) => void 
+export type HandleOnChange = (value : string | number | boolean,path : string, validations?: Record<string,any>) => void 
 export type HandleOnSubmit = (value : string | number | boolean,path : string) => void
 
 export type RenderValueProps = {
@@ -234,7 +243,7 @@ export type DefaultInputField = {
   path: string;
   value: string;
   readModeValue ?: string,
-  fieldValidations?: Validations
+  fieldValidations?: TextFieldValidations | NumberFieldValidations
 };
 
 export type DefaultSelectElementProps = {
