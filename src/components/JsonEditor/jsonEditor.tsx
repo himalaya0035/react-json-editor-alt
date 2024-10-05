@@ -44,6 +44,7 @@ function JsonEditor({
 }: JsonEditorProps) {
   const [jsonState, setJsonState] = useState<Record<string, any> | null>(json);
   const [editJsonState, setEditJsonState] = useState<Record<string, any> | null>(json);
+  const jsonRef = useRef(json)
   const [selectedFieldsForEditing, setSelectedFieldsForEditing] = useState<Record<string, any>>({})  
   const [validations, setValidations] = useState<Record<string, any>>({})  
   const {
@@ -59,12 +60,13 @@ function JsonEditor({
   const editableFieldsRef = useRef({})
   const nonEditableFieldsRef = useRef({})
 
-  // update jsonState when json changes
-  if (!deepEqual(json,jsonState)){ // to prevent infinite rerenders, 
+  // // update jsonState when json changes
+  if (!deepEqual(json,jsonRef.current)){ // to prevent infinite rerenders, 
     // Calculating deepEqual on every render maybe costly, but necessary to update json state on changes. 
     // In the future, we can offer users an option to enable or disable state updates on json changes.
     setJsonState(json) 
     setEditJsonState(json)
+    jsonRef.current = json
   }
 
   // only create/update regex paths trie when there is a change in editableFields or nonEditableFields
