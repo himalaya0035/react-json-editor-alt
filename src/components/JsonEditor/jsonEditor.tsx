@@ -14,6 +14,7 @@ import {
   deepCopy,
   deepEqual,
   findJsonDiff,
+  getValueByPath,
   pathToRegex,
   updateValueByPath,
 } from "../../functions/functions";
@@ -140,7 +141,7 @@ function JsonEditor({
 
   const handleInlneFieldReset = (path: string) => {
     if (jsonState){
-      const fieldOriginalValue = jsonState[path]
+      const fieldOriginalValue = getValueByPath(jsonState,path)
       const tempEditJsonState = deepCopy(editJsonState)
       updateValueByPath(tempEditJsonState,path,fieldOriginalValue)
       setEditJsonState(tempEditJsonState)
