@@ -52,7 +52,7 @@ function JsonEditor({
     allFieldsEditable = true,
     editableFields = {}, 
     nonEditableFields = {},
-    debouncing = true,
+    debouncing = false,
     enableTypeBasedRendering = true
   } = editingConfig;
   

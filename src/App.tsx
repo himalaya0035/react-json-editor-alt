@@ -104,7 +104,7 @@ function App() {
     "address.key.phone": {
       type: "number"
     },
-    "sampleData.email": {
+    "sampleData.[].email": {
       type: "string",
       validations: {
         regex: /^[^@]+@[^@]+\.[^@]+$/,
@@ -193,7 +193,6 @@ function App() {
         onChange={onChange}
         editingConfig={{
           editingMode : 'inline',
-          debouncing : true,
           editableFields : editbaleFieldsObject,
           nonEditableFields: nonEditbaleFieldObject,
         }}
