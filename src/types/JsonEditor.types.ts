@@ -126,7 +126,7 @@ export type onChangePropsType = {
   updatedJson : Record<string, any>,
   updatedKeys : DiffKeyValues,
   editorMode: EditorMode,
-  // validations: Record<string,any>
+  validations: Record<string,any>
 }
 
 export type OnSubmitPropsType = {
@@ -225,7 +225,7 @@ export type RenderObjectKeysProps = {
   searchText?: string;
 };
 
-export type HandleOnChange = (value : string | number | boolean,path : string) => void 
+export type HandleOnChange = (value : string | number | boolean,path : string, validations?: Record<string,any>) => void 
 export type HandleOnSubmit = (value : string | number | boolean,path : string) => void
 
 export type RenderValueProps = {

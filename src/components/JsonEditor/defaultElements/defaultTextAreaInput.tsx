@@ -43,7 +43,11 @@ function DefaultTextAreaElement({
   // This prevents stale closures and ensures the component uses the latest onChange.
   const debouncedOnChange = useCallback(
     debounce((value: string,validationMessage? : string) => {
-      handleOnChange(value, path);
+      const updatedValidations = {
+        ...validations,
+        [path] : validationMessage
+      }
+      handleOnChange(value, path,updatedValidations);
       if (fieldValidations){
         setValidations(prev => {
           return {

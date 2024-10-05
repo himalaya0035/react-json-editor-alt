@@ -96,7 +96,7 @@ function JsonEditor({
     isEditing = editingConfig.isEditing || false
   }
 
-  const handleOnChange : HandleOnChange = (value,path) => {
+  const handleOnChange : HandleOnChange = (value,path, updatedValidations = validations) => {
     const tempEditJsonState = deepCopy(editJsonState)
     updateValueByPath(tempEditJsonState,path,value)
     if (onChange && jsonState){
@@ -105,6 +105,7 @@ function JsonEditor({
         updatedJson : tempEditJsonState,
         updatedKeys: findJsonDiff(jsonState,tempEditJsonState),
         editorMode : editingMode,
+        validations: updatedValidations
       })
     }
     setEditJsonState(tempEditJsonState)

@@ -41,7 +41,11 @@ function DefaultNumberInput({
   // This prevents stale closures and ensures the component uses the latest onChange.
   const debouncedOnChange = useCallback(
     debounce((value: string,validationMessage? : string) => {
-      handleOnChange(Number(value), path);
+      const updatedValidations = {
+        ...validations,
+        [path] : validationMessage
+      }
+      handleOnChange(Number(value), path,updatedValidations);
       if (fieldValidations){
         setValidations(prev => {
           return {
