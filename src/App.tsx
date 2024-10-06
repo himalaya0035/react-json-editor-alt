@@ -1,207 +1,201 @@
-import { useState } from "react";
-import JsonEditor from "./components/JsonEditor/jsonEditor";
-import {
-  EditableFielsdObjectType,
-  NonEditableFieldsObjectType,
-  onChangePropsType,
-  OnSubmitPropsType,
-} from "./types/JsonEditor.types";
-import { indianStatesOptions } from "./temp";
-import { Button } from "./components/ui/button";
-import { GLOBAL_EDITING_MODE } from "./constants/constants";
+import { useState } from 'react';
+import JsonEditor from './components/JsonEditor/jsonEditor';
 
-function App() {
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
-
-  const x: Record<string, any> = {
-    name: "Himalaya",
-    surname: true,
-    age : 23,
-    testNumberField: 2292,
-    testNullField: null,
-    dob: "03/12/2000",
-    about: "Hello, I am a software developer",
-    address: {
-      city: "Bareilly",
-      state: "Uttar Pradesh",
-      key: {
-        _id: "66c3ab28dc5e92c6ea662626",
-        name: "Allen Beck",
-        gender: "male",
-        company: "HAWKSTER",
-        email: "allenbeck@hawkster.com",
-        phone: 283839389,
-        secondKey: {
-          _id: "66c3ab28dc5e92c6ea662626",
-          name: "Allen Beck",
-          gender: "female",
-          company: "HAWKSTER",
-          email: "allenbeck@hawkster.com",
-          phone: "+1 (866) 599-3761",
-        },
-      },
-    },
-    sampleData: [
-      {
-        _id: "66c3ab28dc5e92c6ea662626",
-        name: "Allen Beck",
-        gender: "male",
-        company: "HAWKSTER",
-        email: "allenbeck@hawkster.com",
-        phone: "+1 (866) 599-3761",
-        secondKey: {
-          _id: "66c3ab28dc5e92c6ea662626",
-          name: "Allen Beck",
-          gender: "male",
-          company: "HAWKSTER",
-          email: "allenbeck@hawkster.com",
-          phone: "+1 (866) 599-3761",
-          thirdKey: {
-            _id: "66c3ab28dc5e92c6ea662626",
-            name: "Allen Beck",
-            gender: "male",
-            company: "HAWKSTER",
-            email: "allenbeck@hawkster.com",
-            phone: "+1 (866) 599-3761",
-          },
-        },
-      },
-      {
-        _id: "66c3ab28cdadb9ffd1e92675",
-        name: "Walters Mullen",
-        gender: "male",
-        company: "BOILICON",
-        email: "waltersmullen@boilicon.com",
-        phone: "+1 (911) 573-2834",
-      },
-    ],
-    hobbies: ["Movies", "Music"],
-  };
-
-  const editbaleFieldsObject: EditableFielsdObjectType = {
-    dob: {
-      type: "date",
-      format: "DD/MM/YYYY",
-    },
-    age : {
-      type : "number",
-      validations : {
-        minValue:1,
-        maxValue: 50,
-      }
-    },
-    about: {
-      type: "textArea",
-      validations : {
-        minLength : 1,
-      }
-    },
-    "address.state": {
-      type: "select",
-      options: indianStatesOptions,
-    },
-    "address.key.phone": {
-      type: "number"
-    },
-    "sampleData.[].email": {
-      type: "string",
-      validations: {
-        regex: /^[^@]+@[^@]+\.[^@]+$/,
-        regexValidationMessage: "Please enter a valid email address.",
-      },
-    },
-    "address.key.gender": {
-      type: "radio",
-      options: [
-        { key: "male", value: "male" },
-        { key: "female", value: "female" },
-        { key: "others", value: "others" },
-      ],
-    },
-    "address.key.secondKey.gender": {
-      type: "radio",
-      options: [
-        { key: "male", value: "male" },
-        { key: "female", value: "female" },
-        { key: "others", value: "others" },
-      ],
-    },
-    "sampleData.[].secondKey.gender": {
-      type: "radio",
-      options: [
-        { key: "male", value: "male" },
-        { key: "female", value: "female" },
-        { key: "other", value: "other" },
-      ],
-    },
-    "sampleData.[].gender" : {
-      type : "radio",
-      options: [
-        { key: "male", value: "male" },
-        { key: "female", value: "female" },
-        { key: "other", value: "other" },
-      ],
-    },
-    "sampleData.[].name" : {
-      type : "textArea",
-      validations : {
-        maxLength : 12
-      }
-    },
-    "hobbies.[]" : {
-      type: "string",
-      validations: {
-        maxLength : 20
-      }
-    },
-    "hobbies.1" : {
-      type : "textArea",
+const App = () => {
+  const [jsonData, setJsonData] = useState({
+    name: 'John Doe',
+    id: "DOZJHAH12",
+    age: 30,
+    isActive: true,
+    bio: "Sample bio for John Doe",
+    gender: "male",
+    contact: {
+      email: "test@gmail.com",
+      country: "USA"
     }
+  });
+
+  type EditorMode = 'global' | 'individual' | 'global-individual' | 'inline'
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [editingMode, setEditingMode] = useState<EditorMode>("inline"); // or 'global', 'individual', 'global-individual'
+
+  const handleChange = (props:any) => {
+    setJsonData(props.updatedJson);
   };
 
-  const nonEditbaleFieldObject: NonEditableFieldsObjectType = {};
-
-  const onSubmit = (props : OnSubmitPropsType) => {
-    console.info(props)
-    if (props.submitType === GLOBAL_EDITING_MODE){
+  const handleSubmit = (props:any) => {
+    if (props.submitType === "global"){
       setIsEditing(false)
     }
-  }
+    console.log(props);
+  };
 
-  const onChange = (props : onChangePropsType) => {
-    console.info(props)
-  }
+  const styles = {
+    container: {
+      padding: "20px",
+      margin: "0 auto",
+      fontFamily: "'Arial', sans-serif",
+    },
+    header: {
+      fontSize: "24px",
+      fontWeight: "bold",
+      marginBottom: "15px",
+    },
+    button: {
+      background: "#ddd",
+      padding: "8px 12px",
+      borderRadius: "4px",
+      border: "none",
+      cursor: "pointer",
+      marginBottom: "15px",
+      marginRight: "10px",
+      transition: "background-color 0.3s",
+    },
+    buttonInactive: {
+      background: "#ddd",
+      color: "#333",
+      cursor: "pointer",
+    },
+    label: {
+      display: "block",
+      marginBottom: "5px",
+      fontWeight: "bold",
+    },
+    select: {
+      padding: "8px",
+      borderRadius: "4px",
+      border: "1px solid #ccc",
+      marginBottom: "15px",
+      display: "block",
+    },
+    modeInfo: {
+      fontSize: "15px",
+      marginBottom: "10px",
+    },
+    note: {
+      fontSize: "15px",
+      marginBottom:"10px"
+    }
+  };
 
   return (
-    <div className="p-4">
-      <h1 className="text-xl mb-5">Json Editor</h1>
-      <div className="flex items-center mb-4">
-        <Button onClick={() => setIsEditing(!isEditing)}>
+    <div style={styles.container}>
+      <h1 style={styles.header}>Example/Demo: editingMode</h1>
+      
+      <label htmlFor="editingMode" style={styles.label}>Toggle Editing Mode:</label>
+      <select
+        value={editingMode}
+        onChange={(e:any) => setEditingMode(e.target.value)}
+        id="editingMode"
+        style={styles.select}
+      >
+        <option value="inline">inline</option>
+        <option value="global">global</option>
+        <option value="individual">individual</option>
+        <option value="global-individual">global-individual</option>
+      </select>
+
+      {editingMode === "inline" && (
+        <p style={styles.modeInfo}>
+          <strong>Inline</strong>: Directly edit individual fields by clicking the edit icon next to them.
+        </p>
+      )}
+      
+      {editingMode === "global" && (
+        <p style={styles.modeInfo}>
+          <strong>Global</strong>: Enter a global editing state, where all fields are editable simultaneously, with a global submit button.
+        </p>
+      )}
+      
+      {editingMode === "individual" && (
+        <p style={styles.modeInfo}>
+          <strong>Individual</strong>: All fields are editable simultaneously but each field has its own submit button for individual updates.
+        </p>
+      )}
+      
+      {editingMode === "global-individual" && (
+        <p style={styles.modeInfo}>
+          <strong>Global-Individual</strong>: A hybrid mode where both global and individual submissions are allowed.
+        </p>
+      )}
+      
+      {editingMode === "inline" && (
+        <p style={styles.note}>
+          <strong>Note:</strong> In inline mode, the <code>isEditing</code> prop has no effect. It is only applicable in global, individual, and global-individual modes, where it must be used to control the editability of the entire editor or specific fields.
+        </p>
+      )}
+      
+
+      {editingMode !== "inline" && (
+        <button
+          style={styles.button}
+          onClick={() => setIsEditing(prev => !prev)}
+        >
           {isEditing ? "Read Mode" : "Edit Mode"}
-        </Button>
-        <Button className="ml-2" onClick={() => setIsExpanded(!isExpanded)}>
-          {isExpanded ? "Collapse" : "Expand"}
-        </Button>
-      </div>
+        </button>
+      )}
+
+      <button
+        style={styles.button}
+        onClick={() => setIsExpanded(prev => !prev)}
+      >
+        {isExpanded ? "Collapse" : "Expand"}
+      </button>
+      
       <JsonEditor
-        json={x}
-        isExpanded={isExpanded}
-        onSubmit={onSubmit}
-        onChange={onChange}
+        json={jsonData}
+        isExpanded = {isExpanded}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
         editingConfig={{
-          editingMode : 'inline',
-          editableFields : editbaleFieldsObject,
-          nonEditableFields: nonEditbaleFieldObject,
-        }}
-        globalSubmitButtonConfigs={{
-          variant : "secondary",
-          buttonText : "Submit JSON",
-          className : "rounded",
+          isEditing: isEditing,
+          editingMode: editingMode,
+          editableFields: {
+            "name": {
+              type: "string",
+              validations: {
+                maxLength: 30
+              }
+            },
+            "bio": {
+              type: "textArea"
+            },
+            "gender": {
+              type: "radio",
+              options: [
+                { key: "male", value: "male" },
+                { key: "female", value: "female" },
+                { key: "other", value: "other" }
+              ]
+            },
+            "contact.email": {
+              type: "string",
+              validations: {
+                regex: /^[^@]+@[^@]+\.[^@]+$/,
+                regexValidationMessage: "Please enter a valid email address."
+              }
+            },
+            "contact.country": {
+              type: "select",
+              options: [
+                { key: "USA", value: "USA" },
+                { key: "India", value: "India" }
+              ]
+            }
+          },
+          nonEditableFields: {
+            "id": true
+          }
         }}
       />
+     <strong style={{
+      display : "block",
+      marginTop : "10px"
+     }}>More examples are coming soon!</strong>
     </div>
   );
-}
+};
 
 export default App;
