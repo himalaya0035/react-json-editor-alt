@@ -175,11 +175,6 @@ function RenderValue({
           )
         }
       }
-      console.info({
-        path,
-        editableValue,
-        value
-      })
       return (
         <DefaultTextInput
           path={path}
