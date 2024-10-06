@@ -5,6 +5,7 @@ import { Button } from "../../ui/button";
 import { Tabs, TabsList, TabsTrigger } from "../../ui/tabs";
 import InlineCancelButton from "../inlineElements/inlineCancelButton";
 import { useJsonEditorContext } from "../jsonEditor";
+import ResetButton from "../inlineElements/resetButton";
 
 function DefaultBooleanInput({ value, readModeValue, path }: DefaultBooleanElementProps) {
   const {
@@ -15,7 +16,7 @@ function DefaultBooleanInput({ value, readModeValue, path }: DefaultBooleanEleme
   } = useJsonEditorContext();
 
   const booleanAsString =
-    value === true ? "true" : value === false ? "false" : "";
+  value === true ? "true" : value === false ? "false" : "";
 
   const handleBooleanInputChange = (selectedValue: string) => {
     const stringAsBoolean = selectedValue === "true" ? true : false;
@@ -39,7 +40,7 @@ function DefaultBooleanInput({ value, readModeValue, path }: DefaultBooleanEleme
   return (
     <>
       <Tabs
-        defaultValue={booleanAsString}
+        value={booleanAsString}
         onValueChange={handleBooleanInputChange}
       >
         <TabsList>
@@ -60,6 +61,7 @@ function DefaultBooleanInput({ value, readModeValue, path }: DefaultBooleanEleme
         </Button>
       )}
       {editingMode === INLINE_EDITING_MODE && <InlineCancelButton path={path} />}
+      {(editingMode !== INLINE_EDITING_MODE && !disabled) && <ResetButton path={path} />}
     </>
   );
 }

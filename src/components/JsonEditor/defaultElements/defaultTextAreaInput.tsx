@@ -7,6 +7,7 @@ import { Button } from "../../ui/button";
 import { Check } from "lucide-react";
 import { useJsonEditorContext } from "../jsonEditor";
 import InlineCancelButton from "../inlineElements/inlineCancelButton";
+import ResetButton from "../inlineElements/resetButton";
 
 function DefaultTextAreaElement({
   value,
@@ -94,6 +95,10 @@ function DefaultTextAreaElement({
         </Button>
       )}
       {editingMode === INLINE_EDITING_MODE && <InlineCancelButton path={path} />}
+      {(editingMode !== INLINE_EDITING_MODE && !disabled) && <ResetButton path={path} callBack={() => {
+        setTextAreaInputValue(readModeValue || "" as string)
+        setLocalValidationError("")
+      }} />}
       <span className="text-sm">{validationMessage}</span>
     </>
   );

@@ -160,9 +160,7 @@ function App() {
     }
   };
 
-  const nonEditbaleFieldObject: NonEditableFieldsObjectType = {
-    name: true,
-  };
+  const nonEditbaleFieldObject: NonEditableFieldsObjectType = {};
 
   const onSubmit = (props : OnSubmitPropsType) => {
     console.info(props)
@@ -195,6 +193,11 @@ function App() {
           editingMode : 'inline',
           editableFields : editbaleFieldsObject,
           nonEditableFields: nonEditbaleFieldObject,
+        }}
+        globalSubmitButtonConfigs={{
+          variant : "secondary",
+          buttonText : "Submit JSON",
+          className : "rounded",
         }}
       />
     </div>

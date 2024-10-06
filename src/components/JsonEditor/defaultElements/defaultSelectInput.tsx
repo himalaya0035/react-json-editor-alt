@@ -11,6 +11,7 @@ import {
 import { useJsonEditorContext } from "../jsonEditor";
 import InlineCancelButton from "../inlineElements/inlineCancelButton";
 import { GLOBAL_EDITING_MODE, INLINE_EDITING_MODE } from "../../../constants/constants";
+import ResetButton from "../inlineElements/resetButton";
 
 function DefaultSelectInput({
   value,
@@ -72,6 +73,7 @@ function DefaultSelectInput({
         </Button>
       )}
       {editingMode === INLINE_EDITING_MODE && <InlineCancelButton path={path} />}
+      {(editingMode !== INLINE_EDITING_MODE && !disabled) && <ResetButton path={path} />}
     </>
   );
 }

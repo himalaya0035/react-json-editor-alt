@@ -67,6 +67,9 @@ function RenderValue({
     if (editableValue === null || editableValue === undefined){
       editableValue = ''
     }
+    if (value === null || value == undefined){
+      value = ''
+    }
     if (
       isFieldPresentInEditabeLookup &&
       editableFields[resolvedPath] !== true
@@ -175,11 +178,6 @@ function RenderValue({
           )
         }
       }
-      console.info({
-        path,
-        editableValue,
-        value
-      })
       return (
         <DefaultTextInput
           path={path}
