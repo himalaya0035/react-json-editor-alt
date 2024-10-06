@@ -14,7 +14,7 @@ const InlineCancelButton = ({ path }: InlineCancelButtonProps) => {
     editingMode,
     selectedFieldsForEditing,
     setSelectedFieldsForEditing,
-    handleInlneFieldReset,
+    handleFieldReset,
   } = useJsonEditorContext();
 
   if (editingMode !== INLINE_EDITING_MODE) {
@@ -27,7 +27,7 @@ const InlineCancelButton = ({ path }: InlineCancelButtonProps) => {
         ...prev,
         [path]: false,
       }));
-      handleInlneFieldReset(path)
+      handleFieldReset(path)
     }
   };
 

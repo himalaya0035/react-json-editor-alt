@@ -160,9 +160,7 @@ function App() {
     }
   };
 
-  const nonEditbaleFieldObject: NonEditableFieldsObjectType = {
-    name: true,
-  };
+  const nonEditbaleFieldObject: NonEditableFieldsObjectType = {};
 
   const onSubmit = (props : OnSubmitPropsType) => {
     console.info(props)

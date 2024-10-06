@@ -150,8 +150,8 @@ export type JsonEditorContextType = {
   setValidations: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   debouncing: boolean;
   regexPatternsTrie: React.MutableRefObject<RegexTrie>;
-  handleInlneFieldReset : (path: string) => void;
-  enableTypeBasedRendering : boolean;
+  handleFieldReset: (path: string) => void;
+  enableTypeBasedRendering: boolean;
 }
 type InlineEditingConfig = {
   editingMode?: typeof INLINE_EDITING_MODE;

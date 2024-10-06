@@ -18,7 +18,11 @@ type DatePickerProps = {
 
 export function DatePicker({dateValue,onChange} : DatePickerProps) {
   const [date, setDate] = React.useState<Date | undefined>(dateValue)
-  
+
+  if (dateValue !== date){
+    setDate(dateValue)
+  }
+
   const handleDatePickerChange = (selectedDate : Date | undefined) => {
     onChange(selectedDate)
     setDate(selectedDate)

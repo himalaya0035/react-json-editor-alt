@@ -140,7 +140,7 @@ function JsonEditor({
     setJsonState(tempEditJsonState)
   }
 
-  const handleInlneFieldReset = (path: string) => {
+  const handleFieldReset = (path: string) => {
     if (jsonState){
       const fieldOriginalValue = getValueByPath(jsonState,path)
       const tempEditJsonState = deepCopy(editJsonState)
@@ -213,7 +213,7 @@ function JsonEditor({
         setValidations,
         debouncing,
         regexPatternsTrie,
-        handleInlneFieldReset,
+        handleFieldReset,
         enableTypeBasedRendering
       }}
     >
