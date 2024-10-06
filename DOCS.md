@@ -181,6 +181,7 @@ function IsExpandedExample() {
 }
 ```
 **Collapsed Mode**
+
 ![Collapsed](/src/assets/collapsed.png)
 
 **Expanded Mode**
