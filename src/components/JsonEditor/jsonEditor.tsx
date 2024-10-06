@@ -29,6 +29,7 @@ import {
 } from "../../constants/constants";
 import "./jsonEditor.css";
 import { RegexTrie } from "../../utils/regexTrie";
+import '../../index.css'
 
 const JsonEditorContext = createContext<JsonEditorContextType>({} as JsonEditorContextType);
 export const useJsonEditorContext = () => useContext(JsonEditorContext);

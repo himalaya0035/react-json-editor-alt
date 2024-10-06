@@ -1,7 +1,27 @@
 {
-  "name": "rje",
-  "private": true,
-  "version": "0.0.0",
+  "name": "react-json-editor-alt",
+  "private": false,
+  "description": "The React JSON Editor is a flexible and easy-to-use library for rendering and editing JavaScript objects or JSON data in React applications.",
+  "version": "0.0.3",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "style": "dist/index.css",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./styles": "./dist/index.css"
+  },
+  "files": [
+    "/dist",
+    "index.css"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -29,7 +49,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
-    "@types/node": "^22.3.0",
+    "@types/node": "^22.7.4",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
@@ -42,6 +62,8 @@
     "tailwindcss": "^3.4.10",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
-    "vite": "^5.4.1"
+    "vite": "^5.4.1",
+    "vite-plugin-dts": "^4.2.3",
+    "vite-plugin-lib-inject-css": "^2.1.1"
   }
 }
