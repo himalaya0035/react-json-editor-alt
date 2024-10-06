@@ -588,7 +588,7 @@ For `number` type fields, additional properties can be used to set minimum and m
 }
 ```
 ## Examples
-Examples are the best way to grasp the functionality of any library. A demo site for the React JSON Editor will be live soon. In the meantime, please refer to this official documentation.
+Examples are the most effective way to understand a library’s functionality. Visit [examples](https://himalaya0035.github.io/react-json-editor-alt/) to see what's available. Currently, only a few examples are provided, but we plan to add more soon. In the meantime, please refer to this official documentation. Thank you for your patience!
 
 ## Community and Support
 

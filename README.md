@@ -191,7 +191,7 @@ A configuration Object to customise global submit button in `global` and `global
 
 ## Examples/Demo
 
-Examples are the best way to grasp the functionality of any library. A demo site for the React JSON Editor will be live soon. In the meantime, please refer to the [official documentation](DOCS.md) for examples and usage guidelines to help you get started. Thank you for your patience!
+Examples are the most effective way to understand a library’s functionality. Visit [examples](https://himalaya0035.github.io/react-json-editor-alt/) to see what's available. Currently, only a few examples are provided, but we plan to add more soon. In the meantime, please refer to the [official documentation](DOCS.md) for examples and usage guidelines to help you get started. Thank you for your patience!
 
 ## Planned Features
 
