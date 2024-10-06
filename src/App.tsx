@@ -194,6 +194,11 @@ function App() {
           editableFields : editbaleFieldsObject,
           nonEditableFields: nonEditbaleFieldObject,
         }}
+        globalSubmitButtonConfigs={{
+          variant : "secondary",
+          buttonText : "Submit JSON",
+          className : "rounded",
+        }}
       />
     </div>
   );
