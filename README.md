@@ -1,6 +1,6 @@
 # REACT JSON EDITOR 
 
-The **React JSON Editor** is a flexible and easy-to-use tool for rendering and editing JavaScript objects or JSON data in React applications. It lets developers set up editable and non-editable fields, add validation, and display inputs like select, boolean, radio, textarea, etc., based on field types and editing configuarations ensuring a smooth user experience.
+The **React JSON Editor** is a flexible and easy-to-use library for rendering and editing JavaScript objects or JSON data in React applications. It lets developers  editable and non-editable fields, add validation, and display inputs like select, boolean, radio, textarea, etc., based on field types and editing configuarations ensuring a smooth user experience.
 
 ![GitHub license](https://img.shields.io/github/license/himalaya0035/chrome-extension-boilerplate-react-vite-typescript)
 ![React](https://img.shields.io/badge/react-18.x-blue)
@@ -8,13 +8,17 @@ The **React JSON Editor** is a flexible and easy-to-use tool for rendering and e
 ![Tailwind CSS](https://img.shields.io/badge/tailwindcss-3.x-blue)
 ![Vite](https://img.shields.io/badge/vite-5.x-blue)
 
+**Some Screenshots**
+
+![Inline Mode Example](src/assets/InlineModeExample.png)
+![Global Mode Example](src/assets/GlobaModeExample.png)
 
 ## Why Use This Library?
 
 - ✏️ **Dynamic JSON Editing**: Define which fields are editable or non-editable at a granular level.
-- ⚙️ **Flexible Field Rendering**: Configure editable fields to be displayed as dropdowns, radio buttons, boolean toggles, text areas, or other input types.
+- ⚙️ **Flexible Field Rendering**: Configure editable fields to be displayed as dropdowns, radio buttons, boolean toggles, datepickers, text areas, and other input types.
 - 🔧 **Advanced Validation**: Support for length-based, regex-based, and number-specific validations (min/max values) to ensure data accuracy.
-- 🔄 **Multiple Editing Modes**: Seamlessly switch between `inline`, `global`, `individual`, or `global-individual` editing modes, providing a tailored experience based on the use case.
+- 🔄 **Multiple Editing Modes**: Seamlessly switch between `inline`, `global`, `individual`, or `global-individual` editing modes, providing a tailored editing experience based on the use case.
 - 🧩 **Type-Based Rendering**: Automatically render input types for common JSON values such as booleans and numbers without explicit configuration.
 - ⚡ **Performance Optimizations**: Features like debouncing help ensure smooth and responsive interactions, even for large JSON structures.
 
@@ -22,7 +26,7 @@ Whether you're building complex forms, handling flexible data, or need a customi
 
 ## Quick Start Guide
 
-Get started with the **React JSON Editor** in just a few steps! For detailed documentation, refer to the in depth guide: [DOCS](DOCS.md).
+Get started with the **React JSON Editor** in just a few steps! For detailed documentation, refer to the in depth guide: [DOCS](https://github.com/himalaya0035/react-json-editor-alt/blob/main/DOCS.md).
 
 ### Step 1: Installation
 
@@ -42,14 +46,14 @@ yarn add react-json-editor-alt
 Import the `JsonEditor` component into your desired React component file:
 
 ```jsx
-import JsonEditor from 'react-json-editor-alt';
+import {JsonEditor} from 'react-json-editor-alt';
 ```
 
 ### Step 3: Basic Usage
 
 ```jsx
 import { useState } from 'react';
-import JsonEditor from 'react-json-editor-alt';
+import {JsonEditor} from 'react-json-editor-alt';
 
 const App = () => {
   const [jsonData, setJsonData] = useState({
@@ -83,6 +87,7 @@ const App = () => {
         onChange={handleChange}
         onSubmit={handleSubmit}
         editingConfig={{
+          //  isEditing : true, // true/false, comment out in case of modes other than inline
           editingMode: 'inline', // or 'global', 'individual', 'global-individual'
           editableFields: {
             "name" : {
@@ -92,8 +97,8 @@ const App = () => {
               }
             },
             "bio" : {
-              type : "textarea"
-            }
+              type : "textArea"
+            },
             "gender": {
                 type: "radio",
                 options: [
@@ -130,7 +135,7 @@ export default App;
 ```
 
 ### Step 4: Customizing the Editor
-You can customize the editor by adjusting the `editingConfig` prop. This allows you to define editable and non-editable fields, validation rules, and more. Refer to the [editingConfig prop docs](DOCS.md/#editingconfig) for details.
+You can customize the editor by adjusting the `editingConfig` prop. This allows you to define editable and non-editable fields, validation rules, and more. Refer to the [editingConfig prop docs](https://github.com/himalaya0035/react-json-editor-alt/blob/main/DOCS.md#editingConfig) for details.
 
 ## API Reference
 
@@ -157,7 +162,8 @@ This section provides a brief overview of the props used in the **React JSON Edi
 | `updatedJson`  | `Record<string, any>`      | The JSON object reflecting the state after changes have been applied, including all updates.              |
 | `updatedKeys`  | `DiffKeyValues`          | An object mapping the keys that were modified, with each key containing its `initial` and `updated` values. |
 | `editorMode`   | `EditorMode`           | Indicates the current editing mode, which can be one of `global`, `individual`, `global-individual`, or `inline`. |
-| `submitType`   | `Exclude<EditorMode,'global-individual'>`           | Received only in the `onSubmit` callback handler. Specifies the type of submission, which can be `global`, `individual`, or `inline`. | |
+| `validations`   | `Record<string,string>`   | Available only in the `onChange` callback handler, this object contains all current validation errors in the editor. |
+| `submitType`   | `Exclude<EditorMode,'global-individual'>`           | Available only in the `onSubmit` callback handler. Specifies the type of submission, which can be `global`, `individual`, or `inline`. | |
 
 
 ### Editing Config Props
@@ -174,6 +180,8 @@ This section provides a brief overview of the props used in the **React JSON Edi
 
 ### Global Submit Button Configs
 
+A configuration Object to customise global submit button in `global` and `global-individual` editing mode.  
+
 | Property       | Type              | Required | Description                                                                                       |
 |----------------|-------------------|----------|---------------------------------------------------------------------------------------------------|
 | `variant`      | `string`          | No       | Specifies the variant style of the button. Options include `"secondary"`, `"outline"`, `"ghost"`, `"link"`, and `"destructive"`. |
@@ -183,13 +191,13 @@ This section provides a brief overview of the props used in the **React JSON Edi
 
 ## Examples/Demo
 
-Examples are the best way to grasp the functionality of any library. A demo site for the React JSON Editor will be live soon. In the meantime, please refer to the [official documentation](DOCS.md) for examples and usage guidelines to help you get started. Thank you for your patience!
+Examples are the most effective way to understand a library’s functionality. Visit [examples](https://himalaya0035.github.io/react-json-editor-alt/) to see what's available. Currently, only a few examples are provided, but we plan to add more soon. In the meantime, please refer to the [official documentation](DOCS.md) for examples and usage guidelines to help you get started. Thank you for your patience!
 
 ## Planned Features
 
 We are currently working on some exciting features for our next release. To make our library even better, we’d love to hear your thoughts! Please specify which features you would like to see implemented next. Your feedback is invaluable in shaping the future of this library.
 
-Feel free to request features by creating an issue in our [GitHub repository](https://github.com/himalaya0035/react-json-editor-adv/issues) or participating in the discussions.
+Feel free to request features by creating an issue in our [GitHub repository](https://github.com/himalaya0035/react-json-editor-alt/issues) or participating in the discussions.
 
 **Note**: The React JSON Editor works best in projects where Tailwind CSS is already installed. In projects without Tailwind, there may be instances where global styles of other components could be affected. We are addressing this issue for future releases.
 

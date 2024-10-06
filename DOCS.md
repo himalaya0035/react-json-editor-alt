@@ -21,14 +21,14 @@ yarn add react-json-editor-alt
 Import the `JsonEditor` component into your desired React component file:
 
 ```jsx
-import JsonEditor from 'react-json-editor-alt';
+import {JsonEditor} from 'react-json-editor-alt';
 ```
 
 ### Step 3: Basic Usage
 
 ```jsx
 import { useState } from 'react';
-import JsonEditor from 'react-json-editor-alt';
+import {JsonEditor} from 'react-json-editor-alt';
 
 const App = () => {
   const [jsonData, setJsonData] = useState({
@@ -62,6 +62,7 @@ const App = () => {
         onChange={handleChange}
         onSubmit={handleSubmit}
         editingConfig={{
+          //  isEditing : true, // true/false, comment out in case of modes other than inline
           editingMode: 'inline', // or 'global', 'individual', 'global-individual'
           editableFields: {
             "name" : {
@@ -71,8 +72,8 @@ const App = () => {
               }
             },
             "bio" : {
-              type : "textarea"
-            }
+              type : "textArea"
+            },
             "gender": {
                 type: "radio",
                 options: [
@@ -107,6 +108,8 @@ const App = () => {
 
 export default App;
 ```
+
+Please refer to the [examples](#examples) at the end of the documentation. However, for the best understanding, it is recommended to go through the documentation first.
 
 ## JSON Editor Props
 
@@ -178,6 +181,7 @@ function IsExpandedExample() {
 }
 ```
 **Collapsed Mode**
+
 ![Collapsed](/src/assets/collapsed.png)
 
 **Expanded Mode**
@@ -192,7 +196,7 @@ Allows the user to apply a custom CSS class to the editor component for styling 
 
 Accepts an object of inline styles that will be applied directly to the editor component. 
 
-### `7.editingConfig`
+### `7.editingConfig` (**Important**)
 
 ---
 
@@ -207,7 +211,7 @@ The `editingConfig` prop is the core configuration for defining how the JSON Edi
   editingConfig={{
     editingMode: "inline", // defaults to inline
     allFieldsEditable: true, // default to true
-    debouncing: false, // defaults to true
+    debouncing: false, // defaults to false
     enableTypeBasedRendering: true, // defaults to true
     editableFields: editableFieldObject,
     nonEditableFields: nonEditableFieldsObject,
@@ -218,13 +222,15 @@ The `editingConfig` prop is the core configuration for defining how the JSON Edi
 **Other Modes**
 
 ```jsx
+const [isEditing, setIsEditing] = useState(false);
+
 <JsonEditor
   json={json}
   editingConfig={{
     isEditing: true, // defaults to false
     editingMode: "global", // defaults to inline
     allFieldsEditable: true, // default to true
-    debouncing: false, // defaults to true
+    debouncing: false, // defaults to false
     enableTypeBasedRendering: true, // defaults to true
     editableFields: editableFieldObject,
     nonEditableFields: nonEditableFieldsObject,
@@ -581,6 +587,8 @@ For `number` type fields, additional properties can be used to set minimum and m
   }
 }
 ```
+## Examples
+Examples are the most effective way to understand a library’s functionality. Visit [examples](https://himalaya0035.github.io/react-json-editor-alt/) to see what's available. Currently, only a few examples are provided, but we plan to add more soon. In the meantime, please refer to this official documentation. Thank you for your patience!
 
 ## Community and Support
 
