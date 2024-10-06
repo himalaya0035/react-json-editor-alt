@@ -598,11 +598,3 @@ Stay tuned for future updates, and thank you for using the React JSON Editor!
 
 If you find this library useful, consider giving it a **star** on [GitHub](https://github.com/himalaya0035/react-json-editor-alt).
 
-## Community and Support
-
-We hope this documentation has helped you get the most out of the React JSON Editor. If you have any questions, encounter issues, or want to request features, feel free to open an issue or contribute directly via GitHub. We value your feedback and are always working to improve the library.
-
-Stay tuned for future updates, and thank you for using the React JSON Editor!
-
-If you find this library useful, consider giving it a **star** on [GitHub](https://github.com/himalaya0035/react-json-editor-alt).
-
