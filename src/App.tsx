@@ -2,7 +2,7 @@ import { useState } from 'react';
 import JsonEditor from './components/JsonEditor/jsonEditor';
 
 const App = () => {
-  const [jsonData, setJsonData] = useState({
+  const [jsonData] = useState({
     name: 'John Doe',
     id: "DOZJHAH12",
     age: 30,
@@ -22,7 +22,7 @@ const App = () => {
   const [editingMode, setEditingMode] = useState<EditorMode>("inline"); // or 'global', 'individual', 'global-individual'
 
   const handleChange = (props:any) => {
-    setJsonData(props.updatedJson);
+    console.info(props)
   };
 
   const handleSubmit = (props:any) => {
@@ -126,7 +126,6 @@ const App = () => {
           <strong>Note:</strong> In inline mode, the <code>isEditing</code> prop has no effect. It is only applicable in global, individual, and global-individual modes, where it must be used to control the editability of the entire editor or specific fields.
         </p>
       )}
-      
 
       {editingMode !== "inline" && (
         <button
