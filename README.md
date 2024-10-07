@@ -8,10 +8,22 @@ The **React JSON Editor** is a flexible and easy-to-use library for rendering an
 ![Tailwind CSS](https://img.shields.io/badge/tailwindcss-3.x-blue)
 ![Vite](https://img.shields.io/badge/vite-5.x-blue)
 
-**Some Screenshots**
 
-![Inline Mode Example](src/assets/InlineModeExample.png)
-![Global Mode Example](src/assets/GlobaModeExample.png)
+## 🌐 Links
+
+- [📂 **GitHub Repository**](https://github.com/himalaya0035/react-json-editor-alt)  
+  Explore the codebase, raise issues, or contribute to the project.
+
+- [📄 **Documentation**](https://github.com/himalaya0035/react-json-editor-alt/blob/main/DOCS.md)  
+  Access the complete documentation for installation, usage, and more details.
+
+- [🖥️ **Examples/Demo**](https://himalaya0035.github.io/react-json-editor-alt/)  
+  Try out the live demo and examples to see the editor in action.
+
+## Screenshots
+![Global Mode Example](https://github.com/himalaya0035/react-json-editor-alt/blob/main/src/assets/GlobaModeExample.png)
+
+![Inline Mode Example](https://github.com/himalaya0035/react-json-editor-alt/blob/main/src/assets/InlineModeExample.png)
 
 ## Why Use This Library?
 
@@ -137,6 +149,10 @@ export default App;
 ### Step 4: Customizing the Editor
 You can customize the editor by adjusting the `editingConfig` prop. This allows you to define editable and non-editable fields, validation rules, and more. Refer to the [editingConfig prop docs](https://github.com/himalaya0035/react-json-editor-alt/blob/main/DOCS.md#editingConfig) for details.
 
+## Examples/Demo
+
+Examples are the most effective way to understand a library’s functionality. Visit [examples](https://himalaya0035.github.io/react-json-editor-alt/) to see what's available. Currently, only a few examples are provided, but we plan to add more soon. In the meantime, please refer to the [official documentation](https://github.com/himalaya0035/react-json-editor-alt/blob/main/DOCS.md) for examples and usage guidelines to help you get started. Thank you for your patience!
+
 ## API Reference
 
 This section provides a brief overview of the props used in the **React JSON Editor**. Each prop's type, purpose, and whether it is required or optional is outlined below.
@@ -188,10 +204,6 @@ A configuration Object to customise global submit button in `global` and `global
 | `className`    | `string`          | No       | Custom CSS class for styling the button. Allows for additional styling options beyond default styles. |
 | `buttonText`   | `string`          | No       | Text to be displayed on the button. This provides a straightforward way to set the button label.  |
 | `children`     | `React.ReactNode`  | No       | Allows for the inclusion of nested React components or elements within the button, enabling complex content. |
-
-## Examples/Demo
-
-Examples are the most effective way to understand a library’s functionality. Visit [examples](https://himalaya0035.github.io/react-json-editor-alt/) to see what's available. Currently, only a few examples are provided, but we plan to add more soon. In the meantime, please refer to the [official documentation](DOCS.md) for examples and usage guidelines to help you get started. Thank you for your patience!
 
 ## Planned Features
 
