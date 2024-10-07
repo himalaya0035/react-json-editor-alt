@@ -8,6 +8,8 @@ The **React JSON Editor** is a flexible and easy-to-use library for rendering an
 ![Tailwind CSS](https://img.shields.io/badge/tailwindcss-3.x-blue)
 ![Vite](https://img.shields.io/badge/vite-5.x-blue)
 
+![screenshot](https://github.com/himalaya0035/react-json-editor-alt/blob/main/src/assets/GlobaModeExample.png)
+
 
 ## 🌐 Links
 
@@ -19,11 +21,6 @@ The **React JSON Editor** is a flexible and easy-to-use library for rendering an
 
 - [🖥️ **Examples/Demo**](https://himalaya0035.github.io/react-json-editor-alt/)  
   Try out the live demo and examples to see the editor in action.
-
-**Some Screenshots**
-
-![Inline Mode Example](src/assets/InlineModeExample.png)
-![Global Mode Example](src/assets/GlobaModeExample.png)
 
 ## Why Use This Library?
 
