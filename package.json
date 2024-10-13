@@ -31,6 +31,11 @@
     "react json editor hooks",
     "best react json editor library"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/himalaya0035/react-json-editor-alt.git"
+  },
+  "homepage": "https://himalaya0035.github.io/react-json-editor-alt/",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
