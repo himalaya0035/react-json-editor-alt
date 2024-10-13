@@ -2,7 +2,7 @@
   "name": "react-json-editor-alt",
   "private": false,
   "description": "The React JSON Editor is a flexible and easy-to-use library for rendering and editing JavaScript objects or JSON data in React applications.",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "license": "MIT",
   "keywords": [
     "react",
