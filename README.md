@@ -79,10 +79,14 @@ const App = () => {
   };
 
   return (
-    <JsonEditor
-      json={jsonData}
-      onChange={handleChange}
-    />
+     <div style={{
+      padding : "20px"
+     }}>
+      <JsonEditor
+        json={jsonData}
+        onChange={handleChange}
+      />
+    </div>
   );
 };
 
