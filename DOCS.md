@@ -24,7 +24,35 @@ Import the `JsonEditor` component into your desired React component file:
 import {JsonEditor} from 'react-json-editor-alt';
 ```
 
-### Step 3: Basic Usage
+### Step 3.1: Basic Usage
+
+```jsx
+import { useState } from 'react';
+import {JsonEditor} from 'react-json-editor-alt';
+
+const App = () => {
+  const [jsonData, setJsonData] = useState({
+    name: "John Doe",
+    age: 30,
+    active: true
+  });
+
+  const handleChange = (props) => {
+    console.log(props.updatedKeys)
+  };
+
+  return (
+    <JsonEditor
+      json={jsonData}
+      onChange={handleChange}
+    />
+  );
+};
+
+export default App;
+```
+
+### Step 3.2: Advanced Usage
 
 ```jsx
 import { useState } from 'react';
@@ -45,11 +73,11 @@ const App = () => {
   });
 
   const handleChange = (props) => {
-    setJsonData(props.updatedJson);
+    console.log(props)
   };
 
   const handleSubmit = (props) => {
-    console.log(props)
+    setJsonData(props.updatedJson);
   }
 
   return (
@@ -63,7 +91,7 @@ const App = () => {
         onSubmit={handleSubmit}
         editingConfig={{
           //  isEditing : true, // true/false, comment out in case of modes other than inline
-          editingMode: 'inline', // or 'global', 'individual', 'global-individual'
+          editingMode: 'inline', // or 'global', 'individual', 'global-individual',
           editableFields: {
             "name" : {
               type : "string",
@@ -108,8 +136,6 @@ const App = () => {
 
 export default App;
 ```
-
-Please refer to the [examples](#examples) at the end of the documentation. However, for the best understanding, it is recommended to go through the documentation first.
 
 ## JSON Editor Props
 
