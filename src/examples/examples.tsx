@@ -6,12 +6,20 @@ import InlineModeExample from "./inlineModeExample";
 import { Documentation } from "./documentation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { Card, CardHeader, CardTitle, CardContent } from "../components/ui/card";
-import { Book, Code, Layers, Settings2, Github, BookOpen } from "lucide-react";
+import { Book, Code, Layers, Settings2, Github, BookOpen, Terminal, Copy, Check } from "lucide-react";
 import { Button } from "../components/ui/button";
 
 function Example() {
   const GITHUB_URL = "https://github.com/himalaya0035/react-json-editor-alt";
+  const NPM_URL = "https://www.npmjs.com/package/react-json-editor-alt";
   const [activeTab, setActiveTab] = useState("inline");
+  const [copied, setCopied] = useState(false);
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText("npm install react-json-editor-alt");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const exampleJson = {
     name: "John Doe",
@@ -123,6 +131,20 @@ function Example() {
                 A powerful, type-safe, and highly customizable JSON editor for React. 
                 Manage complex state with ease through interactive tree structures and curated input controls.
               </p>
+              
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 py-2">
+                <div 
+                  onClick={copyToClipboard}
+                  className="flex items-center gap-3 px-4 py-2 bg-slate-900 rounded-lg border border-slate-800 cursor-pointer hover:border-indigo-500/50 transition-all group shrink-0"
+                >
+                  <Terminal className="w-4 h-4 text-indigo-400" />
+                  <code className="text-sm text-slate-300 font-mono">npm i react-json-editor-alt</code>
+                  <div className="ml-2 pl-2 border-l border-slate-800 text-slate-500 group-hover:text-indigo-400 transition-colors">
+                    {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
+                  </div>
+                </div>
+              </div>
+
               <div className="flex flex-wrap gap-4 pt-4">
                 <Button 
                   className="bg-indigo-600 hover:bg-indigo-700 h-11 px-8 rounded-full shadow-lg shadow-indigo-200 transition-all"
@@ -135,11 +157,18 @@ function Example() {
                 </Button>
                 <Button 
                   variant="outline" 
-                  className="h-11 px-8 rounded-full border-slate-200 text-slate-600 hover:bg-slate-50 transition-all hover:border-slate-300"
+                  className="h-11 px-8 rounded-full border-slate-200 hover:bg-slate-50 gap-2"
                   onClick={() => window.open(GITHUB_URL, '_blank')}
                 >
-                  <Github className="w-4 h-4 mr-2 text-slate-950" />
-                  View on GitHub
+                   <Github className="w-4 h-4" /> View on GitHub
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="h-11 px-6 rounded-full border-slate-200 hover:bg-slate-50 gap-2 text-slate-600"
+                  onClick={() => window.open(NPM_URL, '_blank')}
+                >
+                   <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg"><path d="M0 7.334v8h6.666v1.332H12v-1.332h12v-8H0zm6.666 6.666H5.334v-4H4V14H1.334v-5.334h5.332v5.334zm6.668 0h-1.334v-5.334h5.334v4h-1.334v-4h-1.334v5.334zm6.666 0h-2.666v1.332h-2.668v-1.332H16V8.666h5.334v5.334zM18.666 10h1.334v2.666h-1.334V10z"/></svg>
+                   NPM
                 </Button>
               </div>
             </div>
